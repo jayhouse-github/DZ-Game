@@ -8,6 +8,9 @@ namespace DZ_Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private const int screenHeight = 768;
+        private const int screenWidth = 1024;
+        private const int starCount = 70;
 
         Texture2D star1;
         Texture2D star2;
@@ -22,8 +25,8 @@ namespace DZ_Game
 
         protected override void Initialize()
         {
-            _graphics.PreferredBackBufferWidth = 1024;
-            _graphics.PreferredBackBufferHeight = 768;
+            _graphics.PreferredBackBufferWidth = screenWidth;
+            _graphics.PreferredBackBufferHeight = screenHeight;
             _graphics.ApplyChanges();
             base.Initialize();
         }
