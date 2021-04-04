@@ -9,6 +9,10 @@ namespace DZ_Game
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        Texture2D star1;
+        Texture2D star2;
+        Texture2D star3;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -18,16 +22,18 @@ namespace DZ_Game
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
+            _graphics.PreferredBackBufferWidth = 1024;
+            _graphics.PreferredBackBufferHeight = 768;
+            _graphics.ApplyChanges();
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
+            star1 = Content.Load<Texture2D>("star1");
+            star2 = Content.Load<Texture2D>("star2");
+            star3 = Content.Load<Texture2D>("star3");
         }
 
         protected override void Update(GameTime gameTime)
@@ -42,7 +48,7 @@ namespace DZ_Game
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
 
