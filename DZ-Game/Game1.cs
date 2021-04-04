@@ -32,6 +32,7 @@ namespace DZ_Game
         {
             _graphics.PreferredBackBufferWidth = screenWidth;
             _graphics.PreferredBackBufferHeight = screenHeight;
+            _graphics.IsFullScreen = true;
             _graphics.ApplyChanges();
 
             //Populate stars
@@ -64,9 +65,29 @@ namespace DZ_Game
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
+            _spriteBatch.Begin();
 
-            // TODO: Add your drawing code here
+            //Draw starfield
+            foreach (var star in starsCollection)
+            {
+                Texture2D starToUse = null;
+                switch (star.Position_Z)
+                {
+                    case 1:
+                        starToUse = star1;
+                        break;
+                    case 2:
+                        starToUse = star2;
+                        break;
+                    case 3:
+                        starToUse = star3;
+                        break;
+                }
 
+                _spriteBatch.Draw(starToUse, new Vector2(star.Position_X, star.Position_Y), Color.White);
+            }
+
+            _spriteBatch.End();
             base.Draw(gameTime);
         }
     }
