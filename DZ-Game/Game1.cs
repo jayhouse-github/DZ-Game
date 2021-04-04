@@ -13,12 +13,13 @@ namespace DZ_Game
         private SpriteBatch _spriteBatch;
         private const int screenHeight = 768;
         private const int screenWidth = 1024;
-        private const int starCount = 70;
+        private const int starCount = 100;
 
         Texture2D star1;
         Texture2D star2;
         Texture2D star3;
         ICollection<Star> starsCollection;
+        float starSpeed = 100f;
 
         public Game1()
         {
@@ -32,7 +33,7 @@ namespace DZ_Game
         {
             _graphics.PreferredBackBufferWidth = screenWidth;
             _graphics.PreferredBackBufferHeight = screenHeight;
-            _graphics.IsFullScreen = true;
+            _graphics.IsFullScreen = false;
             _graphics.ApplyChanges();
 
             //Populate stars
@@ -58,6 +59,30 @@ namespace DZ_Game
                 Exit();
 
             // TODO: Add your update logic here
+            foreach (var star in starsCollection)
+            {
+                var starSpeedMultiplier = 0f;
+                
+                switch (star.Position_Z)
+                {
+                    case 1:
+                        starSpeedMultiplier = starSpeed;
+                        break;
+                    case 2:
+                        starSpeedMultiplier = starSpeed * 2;
+                        break;
+                    case 3:
+                        starSpeedMultiplier = starSpeed * 3;
+                        break;
+                }
+
+                star.Position_Y += (int)(starSpeedMultiplier * (float)gameTime.ElapsedGameTime.TotalSeconds);
+
+                if(star.Position_Y > screenHeight)
+                {
+                    star.Position_Y = 0;
+                }
+            }
 
             base.Update(gameTime);
         }

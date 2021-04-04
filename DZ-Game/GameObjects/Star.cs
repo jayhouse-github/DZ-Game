@@ -14,7 +14,7 @@ namespace DZGame.GameObjects
             var r = new Random();
             Position_X = r.Next(screenWidth);
             Position_Y = r.Next(screenHeight);
-            Position_Z = r.Next(1, 3);
+            Position_Z = r.Next(1, 4);
         }
     }
 }
