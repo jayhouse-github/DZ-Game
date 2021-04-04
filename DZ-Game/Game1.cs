@@ -1,6 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using DZGame.GameObjects;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace DZ_Game
 {
@@ -15,10 +18,12 @@ namespace DZ_Game
         Texture2D star1;
         Texture2D star2;
         Texture2D star3;
+        ICollection<Star> starsCollection;
 
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
+            starsCollection = new List<Star>();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
@@ -28,6 +33,13 @@ namespace DZ_Game
             _graphics.PreferredBackBufferWidth = screenWidth;
             _graphics.PreferredBackBufferHeight = screenHeight;
             _graphics.ApplyChanges();
+
+            //Populate stars
+            for (int i = 0; i < starCount; i++)
+            {
+                starsCollection.Add(new Star(screenWidth, screenHeight));   
+            }
+
             base.Initialize();
         }
 

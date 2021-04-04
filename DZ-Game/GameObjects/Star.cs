@@ -5,7 +5,6 @@ namespace DZGame.GameObjects
 {
     public class Star
     {
-        public Texture2D Texture { get; set; }
         public int Position_X { get; set; }
         public int Position_Y { get; set; }
         public int Position_Z { get; set; }
