@@ -11,8 +11,8 @@ namespace DZ_Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private const int screenHeight = 768;
         private const int screenWidth = 1024;
+        private const int screenHeight = 768;
         private const int starCount = 100;
 
         Texture2D star1;
@@ -33,7 +33,7 @@ namespace DZ_Game
         {
             _graphics.PreferredBackBufferWidth = screenWidth;
             _graphics.PreferredBackBufferHeight = screenHeight;
-            _graphics.IsFullScreen = false;
+            _graphics.IsFullScreen = true;
             _graphics.ApplyChanges();
 
             //Populate stars
@@ -81,6 +81,115 @@ namespace DZ_Game
                 if(star.Position_Y > screenHeight)
                 {
                     star.Position_Y = 0;
+                }
+            }
+
+            var kState = Keyboard.GetState();
+            var gState = GamePad.GetState(PlayerIndex.One);
+
+            //Move left
+            if (kState.IsKeyDown(Keys.Left) || gState.ThumbSticks.Left.X < 0)
+            {
+                foreach (var star in starsCollection)
+                {
+                    var starSpeedMultiplier = 0f;
+
+                    switch (star.Position_Z)
+                    {
+                        case 1:
+                            starSpeedMultiplier = starSpeed;
+                            break;
+                        case 2:
+                            starSpeedMultiplier = starSpeed * 2;
+                            break;
+                        case 3:
+                            starSpeedMultiplier = starSpeed * 3;
+                            break;
+                    }
+
+                    star.Position_X += (int)(starSpeedMultiplier * (float)gameTime.ElapsedGameTime.TotalSeconds);
+
+                    if(star.Position_X > screenWidth)
+                    {
+                        star.Position_X = 0;
+                    }
+                }
+            }
+
+            //Move right
+            if (kState.IsKeyDown(Keys.Right) || gState.ThumbSticks.Left.X > 0)
+            {
+                foreach (var star in starsCollection)
+                {
+                    var starSpeedMultiplier = 0f;
+
+                    switch (star.Position_Z)
+                    {
+                        case 1:
+                            starSpeedMultiplier = starSpeed;
+                            break;
+                        case 2:
+                            starSpeedMultiplier = starSpeed * 2;
+                            break;
+                        case 3:
+                            starSpeedMultiplier = starSpeed * 3;
+                            break;
+                    }
+
+                    star.Position_X -= (int)(starSpeedMultiplier * (float)gameTime.ElapsedGameTime.TotalSeconds);
+
+                    if (star.Position_X < 0)
+                    {
+                        star.Position_X = screenWidth;
+                    }
+                }
+            }
+
+            //Move forward
+            if (kState.IsKeyDown(Keys.Up) || gState.ThumbSticks.Left.Y > 0)
+            {
+                foreach (var star in starsCollection)
+                {
+                    var starSpeedMultiplier = 0f;
+
+                    switch (star.Position_Z)
+                    {
+                        case 1:
+                            starSpeedMultiplier = starSpeed / 2;
+                            break;
+                        case 2:
+                            starSpeedMultiplier = starSpeed;
+                            break;
+                        case 3:
+                            starSpeedMultiplier = starSpeed * 2;
+                            break;
+                    }
+
+                    star.Position_Y += (int)(starSpeedMultiplier * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                }
+            }
+
+            //Move back
+            if (kState.IsKeyDown(Keys.Down) || gState.ThumbSticks.Left.Y < 0)
+            {
+                foreach (var star in starsCollection)
+                {
+                    var starSpeedMultiplier = 0f;
+
+                    switch (star.Position_Z)
+                    {
+                        case 1:
+                            starSpeedMultiplier = starSpeed / 2;
+                            break;
+                        case 2:
+                            starSpeedMultiplier = starSpeed;
+                            break;
+                        case 3:
+                            starSpeedMultiplier = starSpeed * 2;
+                            break;
+                    }
+
+                    star.Position_Y -= (int)(starSpeedMultiplier * (float)gameTime.ElapsedGameTime.TotalSeconds);
                 }
             }
 
