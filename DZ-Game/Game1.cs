@@ -18,6 +18,7 @@ namespace DZ_Game
         Texture2D star1;
         Texture2D star2;
         Texture2D star3;
+        Texture2D player;
         ICollection<Star> starsCollection;
         float starSpeed = 100f;
 
@@ -51,6 +52,7 @@ namespace DZ_Game
             star1 = Content.Load<Texture2D>("star1");
             star2 = Content.Load<Texture2D>("star2");
             star3 = Content.Load<Texture2D>("star3");
+            player = Content.Load<Texture2D>("spaceship1");
         }
 
         protected override void Update(GameTime gameTime)
