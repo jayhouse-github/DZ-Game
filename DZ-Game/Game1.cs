@@ -93,7 +93,7 @@ namespace DZ_Game
             var gState = GamePad.GetState(PlayerIndex.One);
 
             //Move left
-            if (kState.IsKeyDown(Keys.Left) || gState.ThumbSticks.Left.X < 0)
+            if ((kState.IsKeyDown(Keys.Left) || gState.ThumbSticks.Left.X < 0) && player.Position_X > 35)
             {
                 foreach (var star in starsCollection)
                 {
@@ -120,12 +120,11 @@ namespace DZ_Game
                     }
                 }
 
-                if (player.Position_X > 35)
-                    player.Position_X -= 10;
+                player.Position_X -= 10;
             }
 
             //Move right
-            if (kState.IsKeyDown(Keys.Right) || gState.ThumbSticks.Left.X > 0)
+            if ((kState.IsKeyDown(Keys.Right) || gState.ThumbSticks.Left.X > 0) && player.Position_X < screenWidth - 105)
             {
                 foreach (var star in starsCollection)
                 {
@@ -152,8 +151,7 @@ namespace DZ_Game
                     }
                 }
 
-                if (player.Position_X < screenWidth - 105)
-                    player.Position_X += 10;
+                player.Position_X += 10;
             }
 
             //Move forward
