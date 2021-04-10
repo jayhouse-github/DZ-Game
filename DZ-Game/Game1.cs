@@ -35,7 +35,7 @@ namespace DZ_Game
         {
             _graphics.PreferredBackBufferWidth = screenWidth;
             _graphics.PreferredBackBufferHeight = screenHeight;
-            _graphics.IsFullScreen = false;
+            _graphics.IsFullScreen = true;
             _graphics.ApplyChanges();
 
             //Populate stars
@@ -152,12 +152,12 @@ namespace DZ_Game
                     }
                 }
 
-                if (player.Position_X < screenWidth - 35)
+                if (player.Position_X < screenWidth - 105)
                     player.Position_X += 10;
             }
 
             //Move forward
-            if ((kState.IsKeyDown(Keys.Up) || gState.ThumbSticks.Left.Y > 0) && player.Position_Y > screenHeight - 80)
+            if ((kState.IsKeyDown(Keys.Up) || gState.ThumbSticks.Left.Y > 0) && player.Position_Y > screenHeight - 350)
             {
                 foreach (var star in starsCollection)
                 {
@@ -183,7 +183,7 @@ namespace DZ_Game
             }
 
             //Move back
-            if ((kState.IsKeyDown(Keys.Down) || gState.ThumbSticks.Left.Y < 0) && player.Position_Y < screenHeight - 50)
+            if ((kState.IsKeyDown(Keys.Down) || gState.ThumbSticks.Left.Y < 0) && player.Position_Y < screenHeight - 70)
             {
                 foreach (var star in starsCollection)
                 {
