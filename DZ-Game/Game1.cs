@@ -18,8 +18,9 @@ namespace DZ_Game
         Texture2D star1;
         Texture2D star2;
         Texture2D star3;
-        Texture2D player;
+        Texture2D playerImage;
         ICollection<Star> starsCollection;
+        Player player;
         float starSpeed = 100f;
 
         public Game1()
@@ -34,7 +35,7 @@ namespace DZ_Game
         {
             _graphics.PreferredBackBufferWidth = screenWidth;
             _graphics.PreferredBackBufferHeight = screenHeight;
-            _graphics.IsFullScreen = true;
+            _graphics.IsFullScreen = false;
             _graphics.ApplyChanges();
 
             //Populate stars
@@ -42,6 +43,8 @@ namespace DZ_Game
             {
                 starsCollection.Add(new Star(screenWidth, screenHeight));   
             }
+
+            player = new Player(screenWidth / 2, screenHeight - 100, 1);
 
             base.Initialize();
         }
@@ -52,7 +55,7 @@ namespace DZ_Game
             star1 = Content.Load<Texture2D>("star1");
             star2 = Content.Load<Texture2D>("star2");
             star3 = Content.Load<Texture2D>("star3");
-            player = Content.Load<Texture2D>("spaceship1");
+            playerImage = Content.Load<Texture2D>("spaceship1");
         }
 
         protected override void Update(GameTime gameTime)
@@ -116,6 +119,9 @@ namespace DZ_Game
                         star.Position_X = 0;
                     }
                 }
+
+                if (player.Position_X > 35)
+                    player.Position_X -= 10;
             }
 
             //Move right
@@ -145,10 +151,13 @@ namespace DZ_Game
                         star.Position_X = screenWidth;
                     }
                 }
+
+                if (player.Position_X < screenWidth - 35)
+                    player.Position_X += 10;
             }
 
             //Move forward
-            if (kState.IsKeyDown(Keys.Up) || gState.ThumbSticks.Left.Y > 0)
+            if ((kState.IsKeyDown(Keys.Up) || gState.ThumbSticks.Left.Y > 0) && player.Position_Y > screenHeight - 80)
             {
                 foreach (var star in starsCollection)
                 {
@@ -169,10 +178,12 @@ namespace DZ_Game
 
                     star.Position_Y += (int)(starSpeedMultiplier * (float)gameTime.ElapsedGameTime.TotalSeconds);
                 }
+
+                player.Position_Y -= 10;
             }
 
             //Move back
-            if (kState.IsKeyDown(Keys.Down) || gState.ThumbSticks.Left.Y < 0)
+            if ((kState.IsKeyDown(Keys.Down) || gState.ThumbSticks.Left.Y < 0) && player.Position_Y < screenHeight - 50)
             {
                 foreach (var star in starsCollection)
                 {
@@ -193,6 +204,8 @@ namespace DZ_Game
 
                     star.Position_Y -= (int)(starSpeedMultiplier * (float)gameTime.ElapsedGameTime.TotalSeconds);
                 }
+
+                player.Position_Y += 10;
             }
 
             base.Update(gameTime);
@@ -222,6 +235,8 @@ namespace DZ_Game
 
                 _spriteBatch.Draw(starToUse, new Vector2(star.Position_X, star.Position_Y), Color.White);
             }
+
+            _spriteBatch.Draw(playerImage, new Vector2(player.Position_X, player.Position_Y), Color.White);
 
             _spriteBatch.End();
             base.Draw(gameTime);
