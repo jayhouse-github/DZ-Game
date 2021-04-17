@@ -1,5 +1,6 @@
 ﻿using System;
 using DZGame.GameInterfaces;
+using Microsoft.Xna.Framework;
 
 namespace DZGame.GameObjects
 {
@@ -23,7 +24,7 @@ namespace DZGame.GameObjects
             ScreenHeight = screenHeight;
         }
 
-        public void MoveAuto()
+        public void MoveAuto(GameTime gameTime)
         {
             var starSpeedMultiplier = 0f;
 
@@ -48,22 +49,22 @@ namespace DZGame.GameObjects
             }
         }
 
-        public void MoveLeft()
+        public void MoveLeft(GameTime gameTime)
         {
             throw new NotImplementedException();
         }
 
-        public void MoveRight()
+        public void MoveRight(GameTime gameTime)
         {
             throw new NotImplementedException();
         }
 
-        public void MoveUp()
+        public void MoveUp(GameTime gameTime)
         {
             throw new NotImplementedException();
         }
 
-        public void MoveDown()
+        public void MoveDown(GameTime gameTime)
         {
             throw new NotImplementedException();
         }

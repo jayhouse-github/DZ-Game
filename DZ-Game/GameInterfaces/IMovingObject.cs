@@ -1,4 +1,6 @@
 ﻿using System;
+using Microsoft.Xna.Framework;
+
 namespace DZGame.GameInterfaces
 {
     public interface IMovingObject
@@ -7,7 +9,7 @@ namespace DZGame.GameInterfaces
         int Position_Y { get; set; }
         int Position_Z { get; set; }
 
-        void MoveAuto();
+        void MoveAuto(GameTime gameTime);
         void MoveLeft();
         void MoveRight();
         void MoveUp();
