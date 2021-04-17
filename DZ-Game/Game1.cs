@@ -20,8 +20,10 @@ namespace DZ_Game
         Texture2D star3;
         Texture2D playerImage;
         ICollection<Star> starsCollection;
+        ICollection<Bullet> playerBullets;
         Player player;
         float starSpeed = 100f;
+        int validBullet;
 
         public Game1()
         {
@@ -35,16 +37,17 @@ namespace DZ_Game
         {
             _graphics.PreferredBackBufferWidth = screenWidth;
             _graphics.PreferredBackBufferHeight = screenHeight;
-            _graphics.IsFullScreen = true;
+            _graphics.IsFullScreen = false;
             _graphics.ApplyChanges();
 
             //Populate stars
             for (int i = 0; i < starCount; i++)
             {
-                starsCollection.Add(new Star(screenWidth, screenHeight));   
+                starsCollection.Add(new Star(screenWidth, screenHeight, starSpeed));   
             }
 
             player = new Player(screenWidth / 2, screenHeight - 100, 1);
+            validBullet = 10;
 
             base.Initialize();
         }
@@ -204,6 +207,12 @@ namespace DZ_Game
                 }
 
                 player.Position_Y += 10;
+            }
+
+            if((kState.IsKeyDown(Keys.Space) || gState.Buttons.A == ButtonState.Pressed) && validBullet > 9 && playerBullets.Count < 3)
+            {
+                validBullet = 0;
+                playerBullets.Add(new Bullet(player.Position_X, player.Position_Y));
             }
 
             base.Update(gameTime);
