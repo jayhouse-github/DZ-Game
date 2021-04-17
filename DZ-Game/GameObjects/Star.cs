@@ -9,6 +9,8 @@ namespace DZGame.GameObjects
         public int Position_Y { get; set; }
         public int Position_Z { get; set; }
         public float StarSpeed { get; set; }
+        public int ScreenWidth { get; set; }
+        public int ScreenHeight { get; set; }
 
         public Star(int screenWidth, int screenHeight, float starSpeed)
         {
@@ -17,11 +19,33 @@ namespace DZGame.GameObjects
             Position_Y = r.Next(screenHeight);
             Position_Z = r.Next(1, 4);
             StarSpeed = starSpeed;
+            ScreenWidth = screenWidth;
+            ScreenHeight = screenHeight;
         }
 
         public void MoveAuto()
         {
-            throw new NotImplementedException();
+            var starSpeedMultiplier = 0f;
+
+            switch (Position_Z)
+            {
+                case 1:
+                    starSpeedMultiplier = StarSpeed;
+                    break;
+                case 2:
+                    starSpeedMultiplier = StarSpeed * 2;
+                    break;
+                case 3:
+                    starSpeedMultiplier = StarSpeed * 3;
+                    break;
+            }
+
+            Position_Y += (int)(starSpeedMultiplier * (float)gameTime.ElapsedGameTime.TotalSeconds);
+
+            if (Position_Y > ScreenHeight)
+            {
+                Position_Y = 0;
+            }
         }
 
         public void MoveLeft()
