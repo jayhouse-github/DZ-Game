@@ -135,7 +135,7 @@ namespace DZ_Game
         {
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin();
-
+            //TODO - move sprite images to class and interface.
             //Draw starfield
             foreach (var star in movingObjects)
             {

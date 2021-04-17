@@ -16,6 +16,7 @@ namespace DZGame.GameObjects
 
         public Star(int screenWidth, int screenHeight, float starSpeed)
         {
+            //TODO - move private variables to fields.
             var r = new Random();
             Position_X = r.Next(screenWidth);
             Position_Y = r.Next(screenHeight);
