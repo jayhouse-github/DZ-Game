@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using DZGame.GameObjects;
 using System.Collections;
 using System.Collections.Generic;
+using DZGame.GameInterfaces;
 
 namespace DZ_Game
 {
@@ -21,6 +22,7 @@ namespace DZ_Game
         Texture2D playerImage;
         ICollection<Star> starsCollection;
         ICollection<Bullet> playerBullets;
+        ICollection<IMovingObject> movingObjects;
         Player player;
         float starSpeed = 100f;
         int validBullet;
@@ -29,6 +31,7 @@ namespace DZ_Game
         {
             _graphics = new GraphicsDeviceManager(this);
             starsCollection = new List<Star>();
+            movingObjects = new List<IMovingObject>();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
@@ -43,7 +46,7 @@ namespace DZ_Game
             //Populate stars
             for (int i = 0; i < starCount; i++)
             {
-                starsCollection.Add(new Star(screenWidth, screenHeight, starSpeed));   
+                movingObjects.Add(new Star(screenWidth, screenHeight, starSpeed));   
             }
 
             player = new Player(screenWidth / 2, screenHeight - 100, 1, screenWidth, screenHeight);
@@ -70,7 +73,7 @@ namespace DZ_Game
             var gState = GamePad.GetState(PlayerIndex.One);
 
             // TODO: Add your update logic here
-            foreach (var star in starsCollection)
+            foreach (var star in movingObjects)
             {
                 star.MoveAuto(gameTime);
             }
@@ -134,7 +137,7 @@ namespace DZ_Game
             _spriteBatch.Begin();
 
             //Draw starfield
-            foreach (var star in starsCollection)
+            foreach (var star in movingObjects)
             {
                 Texture2D starToUse = null;
                 switch (star.Position_Z)
