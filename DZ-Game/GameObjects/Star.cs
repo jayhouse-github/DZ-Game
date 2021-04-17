@@ -9,9 +9,10 @@ namespace DZGame.GameObjects
         public int Position_X { get; set; }
         public int Position_Y { get; set; }
         public int Position_Z { get; set; }
-        public float StarSpeed { get; set; }
         public int ScreenWidth { get; set; }
         public int ScreenHeight { get; set; }
+        private float starSpeedMultiplier { get; set; }
+        private float StarSpeed { get; set; }
 
         public Star(int screenWidth, int screenHeight, float starSpeed)
         {
@@ -22,25 +23,11 @@ namespace DZGame.GameObjects
             StarSpeed = starSpeed;
             ScreenWidth = screenWidth;
             ScreenHeight = screenHeight;
+            starSpeedMultiplier = StarSpeed * Position_Z;
         }
 
         public void MoveAuto(GameTime gameTime)
         {
-            var starSpeedMultiplier = 0f;
-
-            switch (Position_Z)
-            {
-                case 1:
-                    starSpeedMultiplier = StarSpeed;
-                    break;
-                case 2:
-                    starSpeedMultiplier = StarSpeed * 2;
-                    break;
-                case 3:
-                    starSpeedMultiplier = StarSpeed * 3;
-                    break;
-            }
-
             Position_Y += (int)(starSpeedMultiplier * (float)gameTime.ElapsedGameTime.TotalSeconds);
 
             if (Position_Y > ScreenHeight)
@@ -51,21 +38,6 @@ namespace DZGame.GameObjects
 
         public void MoveLeft(GameTime gameTime)
         {
-            var starSpeedMultiplier = 0f;
-
-            switch (Position_Z)
-            {
-                case 1:
-                    starSpeedMultiplier = StarSpeed;
-                    break;
-                case 2:
-                    starSpeedMultiplier = StarSpeed * 2;
-                    break;
-                case 3:
-                    starSpeedMultiplier = StarSpeed * 3;
-                    break;
-            }
-
             Position_X += (int)(starSpeedMultiplier * (float)gameTime.ElapsedGameTime.TotalSeconds);
 
             if (Position_X > ScreenWidth)
@@ -76,21 +48,6 @@ namespace DZGame.GameObjects
 
         public void MoveRight(GameTime gameTime)
         {
-            var starSpeedMultiplier = 0f;
-
-            switch (Position_Z)
-            {
-                case 1:
-                    starSpeedMultiplier = StarSpeed;
-                    break;
-                case 2:
-                    starSpeedMultiplier = StarSpeed * 2;
-                    break;
-                case 3:
-                    starSpeedMultiplier = StarSpeed * 3;
-                    break;
-            }
-
             Position_X -= (int)(starSpeedMultiplier * (float)gameTime.ElapsedGameTime.TotalSeconds);
 
             if (Position_X < 0)
@@ -101,41 +58,11 @@ namespace DZGame.GameObjects
 
         public void MoveUp(GameTime gameTime)
         {
-            var starSpeedMultiplier = 0f;
-
-            switch (Position_Z)
-            {
-                case 1:
-                    starSpeedMultiplier = StarSpeed / 2;
-                    break;
-                case 2:
-                    starSpeedMultiplier = StarSpeed;
-                    break;
-                case 3:
-                    starSpeedMultiplier = StarSpeed * 2;
-                    break;
-            }
-
             Position_Y += (int)(starSpeedMultiplier * (float)gameTime.ElapsedGameTime.TotalSeconds);
         }
 
         public void MoveDown(GameTime gameTime)
         {
-            var starSpeedMultiplier = 0f;
-
-            switch (Position_Z)
-            {
-                case 1:
-                    starSpeedMultiplier = StarSpeed / 2;
-                    break;
-                case 2:
-                    starSpeedMultiplier = StarSpeed;
-                    break;
-                case 3:
-                    starSpeedMultiplier = StarSpeed * 2;
-                    break;
-            }
-
             Position_Y -= (int)(starSpeedMultiplier * (float)gameTime.ElapsedGameTime.TotalSeconds);
         }
     }
