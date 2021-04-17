@@ -16,5 +16,30 @@ namespace DZGame.GameObjects
             Position_Y = r.Next(screenHeight);
             Position_Z = r.Next(1, 4);
         }
+
+        public void MoveAuto()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MoveLeft()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MoveRight()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MoveUp()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MoveDown()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

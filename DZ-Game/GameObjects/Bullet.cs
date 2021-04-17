@@ -14,5 +14,30 @@ namespace DZGame.GameObjects
             Position_X = x;
             Position_Y = y;
         }
+
+        public void MoveAuto()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MoveLeft()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MoveRight()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MoveUp()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MoveDown()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
