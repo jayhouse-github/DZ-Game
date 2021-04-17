@@ -1,8 +1,9 @@
 ﻿using System;
+using DZGame.GameInterfaces;
 
 namespace DZGame.GameObjects
 {
-    public class Star
+    public class Star : IMovingObject
     {
         public int Position_X { get; set; }
         public int Position_Y { get; set; }
