@@ -8,11 +8,13 @@ namespace DZGame.GameInterfaces
         int Position_X { get; set; }
         int Position_Y { get; set; }
         int Position_Z { get; set; }
+        int ScreenWidth { get; set; }
+        int ScreenHeight { get; set; }
 
         void MoveAuto(GameTime gameTime);
-        void MoveLeft();
-        void MoveRight();
-        void MoveUp();
-        void MoveDown();
+        void MoveLeft(GameTime gameTime);
+        void MoveRight(GameTime gameTime);
+        void MoveUp(GameTime gameTime);
+        void MoveDown(GameTime gameTime);
     }
 }

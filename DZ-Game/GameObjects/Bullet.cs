@@ -9,6 +9,8 @@ namespace DZGame.GameObjects
         public int Position_X { get; set; }
         public int Position_Y { get; set; }
         public int Position_Z { get; set; }
+        public int ScreenWidth { get; set; }
+        public int ScreenHeight { get; set; }
 
         public Bullet(int x, int y)
         {

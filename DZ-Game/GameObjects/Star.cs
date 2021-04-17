@@ -51,22 +51,92 @@ namespace DZGame.GameObjects
 
         public void MoveLeft(GameTime gameTime)
         {
-            throw new NotImplementedException();
+            var starSpeedMultiplier = 0f;
+
+            switch (Position_Z)
+            {
+                case 1:
+                    starSpeedMultiplier = StarSpeed;
+                    break;
+                case 2:
+                    starSpeedMultiplier = StarSpeed * 2;
+                    break;
+                case 3:
+                    starSpeedMultiplier = StarSpeed * 3;
+                    break;
+            }
+
+            Position_X += (int)(starSpeedMultiplier * (float)gameTime.ElapsedGameTime.TotalSeconds);
+
+            if (Position_X > ScreenWidth)
+            {
+                Position_X = 0;
+            }
         }
 
         public void MoveRight(GameTime gameTime)
         {
-            throw new NotImplementedException();
+            var starSpeedMultiplier = 0f;
+
+            switch (Position_Z)
+            {
+                case 1:
+                    starSpeedMultiplier = StarSpeed;
+                    break;
+                case 2:
+                    starSpeedMultiplier = StarSpeed * 2;
+                    break;
+                case 3:
+                    starSpeedMultiplier = StarSpeed * 3;
+                    break;
+            }
+
+            Position_X -= (int)(starSpeedMultiplier * (float)gameTime.ElapsedGameTime.TotalSeconds);
+
+            if (Position_X < 0)
+            {
+                Position_X = ScreenWidth;
+            }
         }
 
         public void MoveUp(GameTime gameTime)
         {
-            throw new NotImplementedException();
+            var starSpeedMultiplier = 0f;
+
+            switch (Position_Z)
+            {
+                case 1:
+                    starSpeedMultiplier = StarSpeed / 2;
+                    break;
+                case 2:
+                    starSpeedMultiplier = StarSpeed;
+                    break;
+                case 3:
+                    starSpeedMultiplier = StarSpeed * 2;
+                    break;
+            }
+
+            Position_Y += (int)(starSpeedMultiplier * (float)gameTime.ElapsedGameTime.TotalSeconds);
         }
 
         public void MoveDown(GameTime gameTime)
         {
-            throw new NotImplementedException();
+            var starSpeedMultiplier = 0f;
+
+            switch (Position_Z)
+            {
+                case 1:
+                    starSpeedMultiplier = StarSpeed / 2;
+                    break;
+                case 2:
+                    starSpeedMultiplier = StarSpeed;
+                    break;
+                case 3:
+                    starSpeedMultiplier = StarSpeed * 2;
+                    break;
+            }
+
+            Position_Y -= (int)(starSpeedMultiplier * (float)gameTime.ElapsedGameTime.TotalSeconds);
         }
     }
 }

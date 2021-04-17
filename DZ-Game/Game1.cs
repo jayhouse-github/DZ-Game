@@ -46,7 +46,7 @@ namespace DZ_Game
                 starsCollection.Add(new Star(screenWidth, screenHeight, starSpeed));   
             }
 
-            player = new Player(screenWidth / 2, screenHeight - 100, 1);
+            player = new Player(screenWidth / 2, screenHeight - 100, 1, screenWidth, screenHeight);
             validBullet = 10;
 
             base.Initialize();
@@ -66,147 +66,57 @@ namespace DZ_Game
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
-            foreach (var star in starsCollection)
-            {
-                var starSpeedMultiplier = 0f;
-                
-                switch (star.Position_Z)
-                {
-                    case 1:
-                        starSpeedMultiplier = starSpeed;
-                        break;
-                    case 2:
-                        starSpeedMultiplier = starSpeed * 2;
-                        break;
-                    case 3:
-                        starSpeedMultiplier = starSpeed * 3;
-                        break;
-                }
-
-                star.Position_Y += (int)(starSpeedMultiplier * (float)gameTime.ElapsedGameTime.TotalSeconds);
-
-                if(star.Position_Y > screenHeight)
-                {
-                    star.Position_Y = 0;
-                }
-            }
-
             var kState = Keyboard.GetState();
             var gState = GamePad.GetState(PlayerIndex.One);
 
+            // TODO: Add your update logic here
+            foreach (var star in starsCollection)
+            {
+                star.MoveAuto(gameTime);
+            }
+
             //Move left
-            if ((kState.IsKeyDown(Keys.Left) || gState.ThumbSticks.Left.X < 0) && player.Position_X > 35)
+            if ((kState.IsKeyDown(Keys.Left) || gState.ThumbSticks.Left.X < 0))
             {
                 foreach (var star in starsCollection)
                 {
-                    var starSpeedMultiplier = 0f;
-
-                    switch (star.Position_Z)
-                    {
-                        case 1:
-                            starSpeedMultiplier = starSpeed;
-                            break;
-                        case 2:
-                            starSpeedMultiplier = starSpeed * 2;
-                            break;
-                        case 3:
-                            starSpeedMultiplier = starSpeed * 3;
-                            break;
-                    }
-
-                    star.Position_X += (int)(starSpeedMultiplier * (float)gameTime.ElapsedGameTime.TotalSeconds);
-
-                    if(star.Position_X > screenWidth)
-                    {
-                        star.Position_X = 0;
-                    }
+                    star.MoveLeft(gameTime);
                 }
 
-                player.Position_X -= 10;
+                player.MoveLeft(gameTime);
             }
 
             //Move right
-            if ((kState.IsKeyDown(Keys.Right) || gState.ThumbSticks.Left.X > 0) && player.Position_X < screenWidth - 105)
+            if ((kState.IsKeyDown(Keys.Right) || gState.ThumbSticks.Left.X > 0))
             {
                 foreach (var star in starsCollection)
                 {
-                    var starSpeedMultiplier = 0f;
-
-                    switch (star.Position_Z)
-                    {
-                        case 1:
-                            starSpeedMultiplier = starSpeed;
-                            break;
-                        case 2:
-                            starSpeedMultiplier = starSpeed * 2;
-                            break;
-                        case 3:
-                            starSpeedMultiplier = starSpeed * 3;
-                            break;
-                    }
-
-                    star.Position_X -= (int)(starSpeedMultiplier * (float)gameTime.ElapsedGameTime.TotalSeconds);
-
-                    if (star.Position_X < 0)
-                    {
-                        star.Position_X = screenWidth;
-                    }
+                    star.MoveRight(gameTime);
                 }
 
-                player.Position_X += 10;
+                player.MoveRight(gameTime);
             }
 
             //Move forward
-            if ((kState.IsKeyDown(Keys.Up) || gState.ThumbSticks.Left.Y > 0) && player.Position_Y > screenHeight - 350)
+            if ((kState.IsKeyDown(Keys.Up) || gState.ThumbSticks.Left.Y > 0))
             {
                 foreach (var star in starsCollection)
                 {
-                    var starSpeedMultiplier = 0f;
-
-                    switch (star.Position_Z)
-                    {
-                        case 1:
-                            starSpeedMultiplier = starSpeed / 2;
-                            break;
-                        case 2:
-                            starSpeedMultiplier = starSpeed;
-                            break;
-                        case 3:
-                            starSpeedMultiplier = starSpeed * 2;
-                            break;
-                    }
-
-                    star.Position_Y += (int)(starSpeedMultiplier * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                    star.MoveUp(gameTime);
                 }
 
-                player.Position_Y -= 10;
+                player.MoveUp(gameTime);
             }
 
             //Move back
-            if ((kState.IsKeyDown(Keys.Down) || gState.ThumbSticks.Left.Y < 0) && player.Position_Y < screenHeight - 70)
+            if ((kState.IsKeyDown(Keys.Down) || gState.ThumbSticks.Left.Y < 0))
             {
                 foreach (var star in starsCollection)
                 {
-                    var starSpeedMultiplier = 0f;
-
-                    switch (star.Position_Z)
-                    {
-                        case 1:
-                            starSpeedMultiplier = starSpeed / 2;
-                            break;
-                        case 2:
-                            starSpeedMultiplier = starSpeed;
-                            break;
-                        case 3:
-                            starSpeedMultiplier = starSpeed * 2;
-                            break;
-                    }
-
-                    star.Position_Y -= (int)(starSpeedMultiplier * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                    star.MoveDown(gameTime);
                 }
 
-                player.Position_Y += 10;
+                player.MoveDown(gameTime);
             }
 
             if((kState.IsKeyDown(Keys.Space) || gState.Buttons.A == ButtonState.Pressed) && validBullet > 9 && playerBullets.Count < 3)
