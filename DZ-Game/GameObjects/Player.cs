@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DZGame.GameObjects
 {
-    public class Player :IMovingObject
+    public class Player : IMovingObject
     {
         public int Position_X { get; set; }
         public int Position_Y { get; set; }

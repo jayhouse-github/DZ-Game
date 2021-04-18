@@ -21,12 +21,11 @@ namespace DZ_Game
         Texture2D star2;
         Texture2D star3;
         Texture2D playerImage;
-        ICollection<Star> starsCollection;
         ICollection<Bullet> playerBullets;
         ICollection<IMovingObject> movingObjects;
         Player player;
         float starSpeed = 100f;
-        int validBullet;
+        int validBullet = 10;
 
         public Game1()
         {
@@ -42,32 +41,7 @@ namespace DZ_Game
             _graphics.PreferredBackBufferWidth = screenWidth;
             _graphics.PreferredBackBufferHeight = screenHeight;
             _graphics.IsFullScreen = false;
-            _graphics.ApplyChanges();
-
-            //Populate stars
-            for (int i = 0; i < starCount; i++)
-            {
-                var r = new Random();
-                Texture2D selectedStarImage = null;
-
-                switch(r.Next(1, 4)){
-                    case 1:
-                        selectedStarImage = star1;
-                        break;
-                    case 2:
-                        selectedStarImage = star2;
-                        break;
-                    case 3:
-                        selectedStarImage = star3;
-                        break;
-
-                }
-
-                movingObjects.Add(new Star(screenWidth, screenHeight, starSpeed, selectedStarImage));   
-            }
-
-            player = new Player(screenWidth / 2, screenHeight - 100, 1, screenWidth, screenHeight, playerImage);
-            validBullet = 10;
+            _graphics.ApplyChanges();       
 
             base.Initialize();
         }
@@ -79,70 +53,87 @@ namespace DZ_Game
             star2 = Content.Load<Texture2D>("star2");
             star3 = Content.Load<Texture2D>("star3");
             playerImage = Content.Load<Texture2D>("spaceship1");
+
+            //Populate stars
+            for (int i = 0; i < starCount; i++)
+            {
+                var r = new Random();
+                Texture2D selectedStarImage = null;
+
+                switch (r.Next(1, 4))
+                {
+                    case 1:
+                        selectedStarImage = star1;
+                        break;
+                    case 2:
+                        selectedStarImage = star2;
+                        break;
+                    case 3:
+                        selectedStarImage = star3;
+                        break;
+                }
+
+                movingObjects.Add(new Star(screenWidth, screenHeight, starSpeed, selectedStarImage));
+            }
+
+            player = new Player(screenWidth / 2, screenHeight - 100, 1, screenWidth, screenHeight, playerImage);
+            movingObjects.Add(player);
         }
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
             var kState = Keyboard.GetState();
             var gState = GamePad.GetState(PlayerIndex.One);
 
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                Exit();
+
             // TODO: Add your update logic here
-            foreach (var star in movingObjects)
+            foreach (var item in movingObjects)
             {
-                star.MoveAuto(gameTime);
+                item.MoveAuto(gameTime);
             }
 
             //Move left
             if ((kState.IsKeyDown(Keys.Left) || gState.ThumbSticks.Left.X < 0))
             {
-                foreach (var star in starsCollection)
+                foreach (var item in movingObjects)
                 {
-                    star.MoveLeft(gameTime);
+                    item.MoveLeft(gameTime);
                 }
-
-                player.MoveLeft(gameTime);
             }
 
             //Move right
             if ((kState.IsKeyDown(Keys.Right) || gState.ThumbSticks.Left.X > 0))
             {
-                foreach (var star in starsCollection)
+                foreach (var item in movingObjects)
                 {
-                    star.MoveRight(gameTime);
+                    item.MoveRight(gameTime);
                 }
-
-                player.MoveRight(gameTime);
             }
 
             //Move forward
             if ((kState.IsKeyDown(Keys.Up) || gState.ThumbSticks.Left.Y > 0))
             {
-                foreach (var star in starsCollection)
+                foreach (var item in movingObjects)
                 {
-                    star.MoveUp(gameTime);
+                    item.MoveUp(gameTime);
                 }
-
-                player.MoveUp(gameTime);
             }
 
             //Move back
             if ((kState.IsKeyDown(Keys.Down) || gState.ThumbSticks.Left.Y < 0))
             {
-                foreach (var star in starsCollection)
+                foreach (var item in movingObjects)
                 {
-                    star.MoveDown(gameTime);
+                    item.MoveDown(gameTime);
                 }
-
-                player.MoveDown(gameTime);
             }
 
             if((kState.IsKeyDown(Keys.Space) || gState.Buttons.A == ButtonState.Pressed) && validBullet > 9 && playerBullets.Count < 3)
             {
-                validBullet = 0;
-                playerBullets.Add(new Bullet(player.Position_X, player.Position_Y));
+                //validBullet = 0;
+                //playerBullets.Add(new Bullet(player.Position_X, player.Position_Y));
             }
 
             base.Update(gameTime);
@@ -152,28 +143,11 @@ namespace DZ_Game
         {
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin();
-            //TODO move sprite images to class and interface.
-            //Draw starfield
-            foreach (var star in movingObjects)
+
+            foreach (var item in movingObjects)
             {
-                Texture2D starToUse = null;
-                switch (star.Position_Z)
-                {
-                    case 1:
-                        starToUse = star1;
-                        break;
-                    case 2:
-                        starToUse = star2;
-                        break;
-                    case 3:
-                        starToUse = star3;
-                        break;
-                }
-
-                _spriteBatch.Draw(starToUse, new Vector2(star.Position_X, star.Position_Y), Color.White);
+                _spriteBatch.Draw(item.Image, new Vector2(item.Position_X, item.Position_Y), Color.White);
             }
-
-            _spriteBatch.Draw(playerImage, new Vector2(player.Position_X, player.Position_Y), Color.White);
 
             _spriteBatch.End();
             base.Draw(gameTime);
