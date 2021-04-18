@@ -8,24 +8,24 @@ namespace DZGame.GameObjects
 {
     public class Star : IMovingObject
     {
+        private readonly float _starSpeed;
+        private readonly int _screenWidth;
+        private readonly int _screenHeight;
+
         public int Position_X { get; set; }
         public int Position_Y { get; set; }
         public int Position_Z { get; set; }
-        public int ScreenWidth { get; set; }
-        public int ScreenHeight { get; set; }
-        private float StarSpeed { get; set; }
         public Texture2D Image { get; set; }
 
         public Star(int screenWidth, int screenHeight, float starSpeed, Texture2D image)
         {
-            //TODO - move private variables to fields.
             var r = new Random();
             Position_X = r.Next(screenWidth);
             Position_Y = r.Next(screenHeight);
             Position_Z = r.Next(1, 4);
-            StarSpeed = starSpeed;
-            ScreenWidth = screenWidth;
-            ScreenHeight = screenHeight;
+            _starSpeed = starSpeed;
+            _screenWidth = screenWidth;
+            _screenHeight = screenHeight;
             Image = image;
         }
 
@@ -35,7 +35,7 @@ namespace DZGame.GameObjects
 
             Position_Y += (int)(starSpeedMultiplier * (float)gameTime.ElapsedGameTime.TotalSeconds);
 
-            if (Position_Y > ScreenHeight)
+            if (Position_Y > _screenHeight)
             {
                 Position_Y = 0;
             }
@@ -47,7 +47,7 @@ namespace DZGame.GameObjects
 
             Position_X += (int)(starSpeedMultiplier * (float)gameTime.ElapsedGameTime.TotalSeconds);
 
-            if (Position_X > ScreenWidth)
+            if (Position_X > _screenWidth)
             {
                 Position_X = 0;
             }
@@ -61,7 +61,7 @@ namespace DZGame.GameObjects
 
             if (Position_X < 0)
             {
-                Position_X = ScreenWidth;
+                Position_X = _screenWidth;
             }
         }
 
@@ -91,13 +91,13 @@ namespace DZGame.GameObjects
                     switch (positionZ)
                     {
                         case 1:
-                            starSpeedMultiplier = StarSpeed;
+                            starSpeedMultiplier = _starSpeed;
                             break;
                         case 2:
-                            starSpeedMultiplier = StarSpeed * 2;
+                            starSpeedMultiplier = _starSpeed * 2;
                             break;
                         case 3:
-                            starSpeedMultiplier = StarSpeed * 3;
+                            starSpeedMultiplier = _starSpeed * 3;
                             break;
                     }
                     break;
@@ -106,13 +106,13 @@ namespace DZGame.GameObjects
                     switch (positionZ)
                     {
                         case 1:
-                            starSpeedMultiplier = StarSpeed / 2;
+                            starSpeedMultiplier = _starSpeed / 2;
                             break;
                         case 2:
-                            starSpeedMultiplier = StarSpeed;
+                            starSpeedMultiplier = _starSpeed;
                             break;
                         case 3:
-                            starSpeedMultiplier = StarSpeed * 2;
+                            starSpeedMultiplier = _starSpeed * 2;
                             break;
                     }
                     break;

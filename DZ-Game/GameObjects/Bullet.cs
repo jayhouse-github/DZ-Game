@@ -7,11 +7,12 @@ namespace DZGame.GameObjects
 {
     public class Bullet : IMovingObject
     {
+        private readonly int _screenWidth;
+        private readonly int _screenHeight;
+
         public int Position_X { get; set; }
         public int Position_Y { get; set; }
         public int Position_Z { get; set; }
-        public int ScreenWidth { get; set; }
-        public int ScreenHeight { get; set; }
         public Texture2D Image { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public Bullet(int x, int y)

@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using DZGame.GameObjects;
-using System.Collections;
 using System.Collections.Generic;
 using DZGame.GameInterfaces;
 using System;
@@ -21,9 +20,7 @@ namespace DZ_Game
         Texture2D star2;
         Texture2D star3;
         Texture2D playerImage;
-        ICollection<Bullet> playerBullets;
         ICollection<IMovingObject> movingObjects;
-        Player player;
         float starSpeed = 100f;
         int validBullet = 10;
 
@@ -76,8 +73,7 @@ namespace DZ_Game
             }
 
             //Initialise player
-            player = new Player(screenWidth / 2, screenHeight - 100, 1, screenWidth, screenHeight, playerImage);
-            movingObjects.Add(player);
+            movingObjects.Add(new Player(screenWidth / 2, screenHeight - 100, 1, screenWidth, screenHeight, playerImage));
         }
 
         protected override void Update(GameTime gameTime)
@@ -130,11 +126,12 @@ namespace DZ_Game
             }
 
             //Fire
-            if((kState.IsKeyDown(Keys.Space) || gState.Buttons.A == ButtonState.Pressed) && validBullet > 9 && playerBullets.Count < 3)
-            {
+            //if((kState.IsKeyDown(Keys.Space) || gState.Buttons.A == ButtonState.Pressed) && validBullet > 9 && playerBullets.Count < 3)
+            //{
+                //TODO - Player firing
                 //validBullet = 0;
                 //playerBullets.Add(new Bullet(player.Position_X, player.Position_Y));
-            }
+            //}
 
             base.Update(gameTime);
         }

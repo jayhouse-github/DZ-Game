@@ -7,11 +7,12 @@ namespace DZGame.GameObjects
 {
     public class Player : IMovingObject
     {
+        private readonly int _screenWidth;
+        private readonly int _screenHeight;
+
         public int Position_X { get; set; }
         public int Position_Y { get; set; }
         public int Position_Z { get; set; }
-        public int ScreenWidth { get; set; }
-        public int ScreenHeight { get; set; }
         public Texture2D Image { get; set; }
 
         public Player(int x, int y, int z, int screenWidth, int screenHeight, Texture2D image)
@@ -19,8 +20,8 @@ namespace DZGame.GameObjects
             Position_X = x;
             Position_Y = y;
             Position_Z = z;
-            ScreenWidth = screenWidth;
-            ScreenHeight = screenHeight;
+            _screenWidth = screenWidth;
+            _screenHeight = screenHeight;
             Image = image;
         }
 
@@ -39,7 +40,7 @@ namespace DZGame.GameObjects
 
         public void MoveRight(GameTime gameTime)
         {
-            if(Position_X < ScreenWidth - 105)
+            if(Position_X < _screenWidth - 105)
             {
                 Position_X += 10;
             }
@@ -47,7 +48,7 @@ namespace DZGame.GameObjects
 
         public void MoveUp(GameTime gameTime)
         {
-            if(Position_Y > ScreenHeight - 350)
+            if(Position_Y > _screenHeight - 350)
             {
                 Position_Y -= 10;
             }
@@ -55,7 +56,7 @@ namespace DZGame.GameObjects
 
         public void MoveDown(GameTime gameTime)
         {
-            if(Position_Y < ScreenHeight - 70)
+            if(Position_Y < _screenHeight - 70)
             {
                 Position_Y += 10;
             }
