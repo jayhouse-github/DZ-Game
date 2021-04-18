@@ -1,6 +1,7 @@
 ﻿using System;
 using DZGame.GameInterfaces;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace DZGame.GameObjects
 {
@@ -11,6 +12,7 @@ namespace DZGame.GameObjects
         public int Position_Z { get; set; }
         public int ScreenWidth { get; set; }
         public int ScreenHeight { get; set; }
+        public Texture2D Image { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public Bullet(int x, int y)
         {

@@ -5,6 +5,7 @@ using DZGame.GameObjects;
 using System.Collections;
 using System.Collections.Generic;
 using DZGame.GameInterfaces;
+using System;
 
 namespace DZ_Game
 {
@@ -46,10 +47,26 @@ namespace DZ_Game
             //Populate stars
             for (int i = 0; i < starCount; i++)
             {
-                movingObjects.Add(new Star(screenWidth, screenHeight, starSpeed));   
+                var r = new Random();
+                Texture2D selectedStarImage = null;
+
+                switch(r.Next(1, 4)){
+                    case 1:
+                        selectedStarImage = star1;
+                        break;
+                    case 2:
+                        selectedStarImage = star2;
+                        break;
+                    case 3:
+                        selectedStarImage = star3;
+                        break;
+
+                }
+
+                movingObjects.Add(new Star(screenWidth, screenHeight, starSpeed, selectedStarImage));   
             }
 
-            player = new Player(screenWidth / 2, screenHeight - 100, 1, screenWidth, screenHeight);
+            player = new Player(screenWidth / 2, screenHeight - 100, 1, screenWidth, screenHeight, playerImage);
             validBullet = 10;
 
             base.Initialize();

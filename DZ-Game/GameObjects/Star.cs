@@ -1,6 +1,7 @@
 ﻿using System;
 using DZGame.GameInterfaces;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace DZGame.GameObjects
 {
@@ -13,8 +14,9 @@ namespace DZGame.GameObjects
         public int ScreenHeight { get; set; }
         private float starSpeedMultiplier { get; set; }
         private float StarSpeed { get; set; }
+        public Texture2D Image { get; set; }
 
-        public Star(int screenWidth, int screenHeight, float starSpeed)
+        public Star(int screenWidth, int screenHeight, float starSpeed, Texture2D image)
         {
             //TODO - move private variables to fields.
             var r = new Random();
@@ -25,6 +27,7 @@ namespace DZGame.GameObjects
             ScreenWidth = screenWidth;
             ScreenHeight = screenHeight;
             starSpeedMultiplier = StarSpeed * Position_Z;
+            Image = image;
         }
 
         public void MoveAuto(GameTime gameTime)

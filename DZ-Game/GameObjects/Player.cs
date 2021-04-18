@@ -1,6 +1,7 @@
 ﻿using System;
 using DZGame.GameInterfaces;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace DZGame.GameObjects
 {
@@ -11,14 +12,16 @@ namespace DZGame.GameObjects
         public int Position_Z { get; set; }
         public int ScreenWidth { get; set; }
         public int ScreenHeight { get; set; }
+        public Texture2D Image { get; set; }
 
-        public Player(int x, int y, int z, int screenWidth, int screenHeight)
+        public Player(int x, int y, int z, int screenWidth, int screenHeight, Texture2D image)
         {
             Position_X = x;
             Position_Y = y;
             Position_Z = z;
             ScreenWidth = screenWidth;
             ScreenHeight = screenHeight;
+            Image = image;
         }
 
         public void MoveAuto(GameTime gameTime)

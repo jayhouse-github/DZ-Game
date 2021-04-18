@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace DZGame.GameInterfaces
 {
@@ -10,6 +11,7 @@ namespace DZGame.GameInterfaces
         int Position_Z { get; set; }
         int ScreenWidth { get; set; }
         int ScreenHeight { get; set; }
+        Texture2D Image { get; set; }
 
         void MoveAuto(GameTime gameTime);
         void MoveLeft(GameTime gameTime);
