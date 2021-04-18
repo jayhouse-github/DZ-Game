@@ -30,7 +30,6 @@ namespace DZ_Game
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
-            starsCollection = new List<Star>();
             movingObjects = new List<IMovingObject>();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -76,6 +75,7 @@ namespace DZ_Game
                 movingObjects.Add(new Star(screenWidth, screenHeight, starSpeed, selectedStarImage));
             }
 
+            //Initialise player
             player = new Player(screenWidth / 2, screenHeight - 100, 1, screenWidth, screenHeight, playerImage);
             movingObjects.Add(player);
         }
@@ -88,7 +88,6 @@ namespace DZ_Game
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
             foreach (var item in movingObjects)
             {
                 item.MoveAuto(gameTime);
@@ -130,6 +129,7 @@ namespace DZ_Game
                 }
             }
 
+            //Fire
             if((kState.IsKeyDown(Keys.Space) || gState.Buttons.A == ButtonState.Pressed) && validBullet > 9 && playerBullets.Count < 3)
             {
                 //validBullet = 0;
