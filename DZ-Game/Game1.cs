@@ -20,7 +20,9 @@ namespace DZ_Game
         Texture2D star2;
         Texture2D star3;
         Texture2D playerImage;
+        Texture2D playerBullet;
         ICollection<IMovingObject> movingObjects;
+        Player player;
         float starSpeed = 100f;
         int validBullet = 10;
 
@@ -49,6 +51,7 @@ namespace DZ_Game
             star2 = Content.Load<Texture2D>("star2");
             star3 = Content.Load<Texture2D>("star3");
             playerImage = Content.Load<Texture2D>("spaceship1");
+            playerBullet = Content.Load<Texture2D>("bullet");
 
             //Populate stars
             for (int i = 0; i < starCount; i++)
@@ -73,7 +76,8 @@ namespace DZ_Game
             }
 
             //Initialise player
-            movingObjects.Add(new Player(screenWidth / 2, screenHeight - 100, 1, screenWidth, screenHeight, playerImage));
+            player = new Player(screenWidth / 2, screenHeight - 100, 1, screenWidth, screenHeight, playerImage);
+            movingObjects.Add(player);
         }
 
         protected override void Update(GameTime gameTime)
@@ -126,12 +130,13 @@ namespace DZ_Game
             }
 
             //Fire
-            //if((kState.IsKeyDown(Keys.Space) || gState.Buttons.A == ButtonState.Pressed) && validBullet > 9 && playerBullets.Count < 3)
-            //{
+            if ((kState.IsKeyDown(Keys.Space) || gState.Buttons.A == ButtonState.Pressed) && validBullet > 9 )
+            {
                 //TODO - Player firing
                 //validBullet = 0;
-                //playerBullets.Add(new Bullet(player.Position_X, player.Position_Y));
-            //}
+                movingObjects.Add(new Bullet(player.Position_X, player.Position_Y, playerBullet));
+
+            }
 
             base.Update(gameTime);
         }

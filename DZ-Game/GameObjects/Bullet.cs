@@ -13,17 +13,22 @@ namespace DZGame.GameObjects
         public int Position_X { get; set; }
         public int Position_Y { get; set; }
         public int Position_Z { get; set; }
-        public Texture2D Image { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Texture2D Image { get; set; }
+        public bool Active { get; set; }
 
-        public Bullet(int x, int y)
+        public Bullet(int x, int y, Texture2D image)
         {
             Position_X = x;
             Position_Y = y;
+            Active = true;
+            Image = image;
         }
 
         public void MoveAuto(GameTime gameTime)
         {
-            throw new NotImplementedException();
+            Position_Y -= 15;
+
+            if (Position_Y < 0) Active = false;
         }
 
         public void MoveLeft(GameTime gameTime)
