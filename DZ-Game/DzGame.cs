@@ -143,14 +143,6 @@ namespace DZ_Game
             //Clean up
             movingObjects.ToList().RemoveAll(listItem => !listItem.Active);
 
-            //foreach (var item in movingObjects.ToList())
-            //{
-            //    if (!item.Active)
-            //    {
-            //        movingObjects.Remove(item);
-            //    }
-            //}
-
             base.Update(gameTime);
         }
 
