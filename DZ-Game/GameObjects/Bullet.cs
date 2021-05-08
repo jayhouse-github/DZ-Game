@@ -33,22 +33,22 @@ namespace DZGame.GameObjects
 
         public void MoveLeft(GameTime gameTime)
         {
-            throw new NotImplementedException();
+            return;
         }
 
         public void MoveRight(GameTime gameTime)
         {
-            throw new NotImplementedException();
+            return;
         }
 
         public void MoveUp(GameTime gameTime)
         {
-            throw new NotImplementedException();
+            return;
         }
 
         public void MoveDown(GameTime gameTime)
         {
-            throw new NotImplementedException();
+            return;
         }
     }
 }

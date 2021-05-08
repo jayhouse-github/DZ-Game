@@ -8,7 +8,7 @@ using System;
 
 namespace DZ_Game
 {
-    public class Game1 : Game
+    public class DzGame : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -26,7 +26,7 @@ namespace DZ_Game
         float starSpeed = 100f;
         int validBullet = 10;
 
-        public Game1()
+        public DzGame()
         {
             _graphics = new GraphicsDeviceManager(this);
             movingObjects = new List<IMovingObject>();
