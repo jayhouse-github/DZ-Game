@@ -133,11 +133,11 @@ namespace DZ_Game
             //Fire
             if ((kState.IsKeyDown(Keys.Space) || gState.Buttons.A == ButtonState.Pressed) && validBullet > 9 )
             {
-                //TODO - Player firing
                 validBullet = 0;
                 movingObjects.Add(new Bullet(player.Position_X + 29, player.Position_Y, playerBullet));
             }
 
+            //New bullet timer
             validBullet++;
 
             //Clean up
