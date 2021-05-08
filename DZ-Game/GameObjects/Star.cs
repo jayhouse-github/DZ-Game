@@ -89,6 +89,19 @@ namespace DZGame.GameObjects
             {
                 case Direction.Left:
                 case Direction.Right:
+                    switch (positionZ)
+                    {
+                        case 1:
+                            starSpeedMultiplier = _starSpeed / 2;
+                            break;
+                        case 2:
+                            starSpeedMultiplier = _starSpeed;
+                            break;
+                        case 3:
+                            starSpeedMultiplier = _starSpeed * 2;
+                            break;
+                    }
+                    break;
                 case Direction.None:
                     switch (positionZ)
                     {
