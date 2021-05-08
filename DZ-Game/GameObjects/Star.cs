@@ -16,6 +16,7 @@ namespace DZGame.GameObjects
         public int Position_Y { get; set; }
         public int Position_Z { get; set; }
         public Texture2D Image { get; set; }
+        public bool Active { get; set; }
 
         public Star(int screenWidth, int screenHeight, float starSpeed, Texture2D image)
         {
@@ -27,6 +28,7 @@ namespace DZGame.GameObjects
             _screenWidth = screenWidth;
             _screenHeight = screenHeight;
             Image = image;
+            Active = true;
         }
 
         public void MoveAuto(GameTime gameTime)

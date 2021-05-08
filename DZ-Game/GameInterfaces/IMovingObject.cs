@@ -10,6 +10,7 @@ namespace DZGame.GameInterfaces
         int Position_Y { get; set; }
         int Position_Z { get; set; }
         Texture2D Image { get; set; }
+        public bool Active { get; set; }
 
         void MoveAuto(GameTime gameTime);
         void MoveLeft(GameTime gameTime);

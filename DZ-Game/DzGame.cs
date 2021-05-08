@@ -5,6 +5,7 @@ using DZGame.GameObjects;
 using System.Collections.Generic;
 using DZGame.GameInterfaces;
 using System;
+using System.Linq;
 
 namespace DZ_Game
 {
@@ -133,10 +134,22 @@ namespace DZ_Game
             if ((kState.IsKeyDown(Keys.Space) || gState.Buttons.A == ButtonState.Pressed) && validBullet > 9 )
             {
                 //TODO - Player firing
-                //validBullet = 0;
-                movingObjects.Add(new Bullet(player.Position_X, player.Position_Y, playerBullet));
-
+                validBullet = 0;
+                movingObjects.Add(new Bullet(player.Position_X + 29, player.Position_Y, playerBullet));
             }
+
+            validBullet++;
+
+            //Clean up
+            movingObjects.ToList().RemoveAll(listItem => !listItem.Active);
+
+            //foreach (var item in movingObjects.ToList())
+            //{
+            //    if (!item.Active)
+            //    {
+            //        movingObjects.Remove(item);
+            //    }
+            //}
 
             base.Update(gameTime);
         }
