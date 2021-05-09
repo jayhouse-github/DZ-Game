@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace DZGame.GameInterfaces
+namespace DZGame.Interfaces
 {
     public interface IMovingObject
     {
