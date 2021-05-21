@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using DZGame.GameObjects;
 using System.Collections.Generic;
-using DZGame.GameInterfaces;
+using DZGame.Interfaces;
 using System;
 using System.Linq;
 
@@ -39,7 +39,7 @@ namespace DZ_Game
         {
             _graphics.PreferredBackBufferWidth = screenWidth;
             _graphics.PreferredBackBufferHeight = screenHeight;
-            _graphics.IsFullScreen = false;
+            _graphics.IsFullScreen = true;
             _graphics.ApplyChanges();       
 
             base.Initialize();

@@ -1,5 +1,5 @@
 ﻿using System;
-using DZGame.GameInterfaces;
+using DZGame.Interfaces;
 using DZGame.Enums;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
