@@ -26,6 +26,7 @@ namespace DZ_Game
         Player player;
         float starSpeed = 100f;
         int validBullet = 10;
+        int gameLevel = 1;
 
         public DzGame()
         {
@@ -39,7 +40,7 @@ namespace DZ_Game
         {
             _graphics.PreferredBackBufferWidth = screenWidth;
             _graphics.PreferredBackBufferHeight = screenHeight;
-            _graphics.IsFullScreen = true;
+            _graphics.IsFullScreen = false;
             _graphics.ApplyChanges();       
 
             base.Initialize();
@@ -158,6 +159,13 @@ namespace DZ_Game
 
             _spriteBatch.End();
             base.Draw(gameTime);
+        }
+
+        private void GetAlienData(int gameLevel)
+        {
+            //Need to return an object of starting rules and a delegate?? to run for auto move
+            //Pass the delegate for auto move to each alien.
+            //Get one or two levels working then move on to sound and collision detection
         }
     }
 }
