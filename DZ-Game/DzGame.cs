@@ -27,6 +27,7 @@ namespace DZ_Game
         float starSpeed = 100f;
         int validBullet = 10;
         int gameLevel;
+        int currentScore;
 
         public DzGame()
         {
