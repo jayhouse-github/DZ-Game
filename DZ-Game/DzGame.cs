@@ -26,7 +26,7 @@ namespace DZ_Game
         Player player;
         float starSpeed = 100f;
         int validBullet = 10;
-        int gameLevel = 1;
+        int gameLevel;
 
         public DzGame()
         {
@@ -34,6 +34,7 @@ namespace DZ_Game
             movingObjects = new List<IMovingObject>();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            gameLevel = 1;
         }
 
         protected override void Initialize()
