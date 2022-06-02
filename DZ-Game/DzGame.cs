@@ -22,6 +22,7 @@ namespace DZ_Game
         Texture2D star3;
         Texture2D playerImage;
         Texture2D playerBullet;
+        Texture2D alien1;
         ICollection<IMovingObject> movingObjects;
         Player player;
         float starSpeed = 100f;
@@ -56,6 +57,7 @@ namespace DZ_Game
             star3 = Content.Load<Texture2D>("star3");
             playerImage = Content.Load<Texture2D>("spaceship1");
             playerBullet = Content.Load<Texture2D>("bullet");
+            alien1 = Content.Load<Texture2D>("alien");
 
             //Populate stars
             for (int i = 0; i < starCount; i++)
