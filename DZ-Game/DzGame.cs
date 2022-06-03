@@ -25,6 +25,7 @@ namespace DZ_Game
         Texture2D alien1;
         ICollection<IMovingObject> movingObjects;
         Player player;
+        GameLevel gameLevelInfo;
         float starSpeed = 100f;
         int validBullet = 10;
         int gameLevel;
@@ -84,6 +85,11 @@ namespace DZ_Game
             //Initialise player
             player = new Player(screenWidth / 2, screenHeight - 100, 1, screenWidth, screenHeight, playerImage);
             movingObjects.Add(player);
+
+            //TODO - move to game logic check on update
+            var alienImages = new List<Texture2D>();
+            alienImages.Add(alien1);
+            gameLevelInfo = new GameLevel(gameLevel, screenWidth, screenHeight, alienImages);
         }
 
         protected override void Update(GameTime gameTime)
@@ -156,9 +162,16 @@ namespace DZ_Game
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin();
 
+            //Player, bullets, stars
             foreach (var item in movingObjects)
             {
                 _spriteBatch.Draw(item.Image, new Vector2(item.Position_X, item.Position_Y), Color.White);
+            }
+
+            //Aliens
+            foreach (var alien in gameLevelInfo.Aliens)
+            {
+                _spriteBatch.Draw(alien.Image, new Vector2(alien.Position_X, alien.Position_Y), Color.White);
             }
 
             _spriteBatch.End();

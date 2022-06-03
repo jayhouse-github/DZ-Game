@@ -12,6 +12,7 @@
   <ItemGroup>
     <None Remove="Icon.ico" />
     <None Remove="Icon.bmp" />
+    <None Remove="GameObjects\Aliens\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Icon.ico" />
@@ -31,5 +32,6 @@
     <Folder Include="GameObjects\" />
     <Folder Include="Interfaces\" />
     <Folder Include="Enums\" />
+    <Folder Include="GameObjects\Aliens\" />
   </ItemGroup>
 </Project>
