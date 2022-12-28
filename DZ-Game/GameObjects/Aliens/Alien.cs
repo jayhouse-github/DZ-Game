@@ -7,6 +7,8 @@ namespace DZGame.GameObjects.Aliens
 {
     public abstract class Alien : IMovingObject, IAlien
     {
+        public int _screenWidth;
+        public int _screenHeight;
         public int Position_X { get; set; }
         public int Position_Y { get; set; }
         public int Position_Z { get; set; }
@@ -21,22 +23,34 @@ namespace DZGame.GameObjects.Aliens
         
         public void MoveDown(GameTime gameTime)
         {
-            return;
+            Position_Y -= 2;
+
+            if (Position_Y < 40)
+                Position_Y = 40;
         }
 
         public void MoveLeft(GameTime gameTime)
         {
-            return;
+            Position_X += 3;
+
+            if (Position_X > _screenWidth - 35)
+                Position_X = _screenWidth - 35;
         }
 
         public void MoveRight(GameTime gameTime)
         {
-            return;
+            Position_X -= 3;
+
+            if (Position_X < 35)
+                Position_X = 35;
         }
 
         public void MoveUp(GameTime gameTime)
         {
-            return;
+            Position_Y += 2;
+
+            if (Position_Y > _screenHeight - 150)
+                Position_Y = _screenHeight - 150;
         }
     }
 }

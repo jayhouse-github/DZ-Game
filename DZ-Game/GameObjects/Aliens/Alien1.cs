@@ -7,9 +7,6 @@ namespace DZGame.GameObjects.Aliens
 {
     public class Alien1 : Alien
     {
-        private readonly int _screenWidth;
-        private readonly int _screenHeight;
-
         public Alien1(int screenWidth, int screenHeight, Texture2D image)
         {
             _screenWidth = screenWidth;
