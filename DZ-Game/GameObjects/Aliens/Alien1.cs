@@ -20,7 +20,21 @@ namespace DZGame.GameObjects.Aliens
 
         public override void MoveAuto(GameTime gameTime)
         {
-            throw new NotImplementedException();
+            var r = new Random();
+            Position_X += r.Next(-12, 12);
+            Position_Y += r.Next(-12, 12);
+
+            if (Position_X > _screenWidth - 35)
+                Position_X = _screenWidth - 35;
+
+            if (Position_X < 35)
+                Position_X = 35;
+
+            if (Position_Y > _screenHeight - 150)
+                Position_Y = _screenHeight - 150;
+
+            if (Position_Y < 40)
+                Position_Y = 40;
         }
     }
 }

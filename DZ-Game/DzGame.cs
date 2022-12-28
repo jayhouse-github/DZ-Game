@@ -90,6 +90,11 @@ namespace DZ_Game
             var alienImages = new List<Texture2D>();
             alienImages.Add(alien1);
             gameLevelInfo = new GameLevel(gameLevel, screenWidth, screenHeight, alienImages);
+
+            foreach(var alien in gameLevelInfo.Aliens)
+            {
+                movingObjects.Add(alien);
+            }
         }
 
         protected override void Update(GameTime gameTime)
@@ -169,10 +174,10 @@ namespace DZ_Game
             }
 
             //Aliens
-            foreach (var alien in gameLevelInfo.Aliens)
-            {
-                _spriteBatch.Draw(alien.Image, new Vector2(alien.Position_X, alien.Position_Y), Color.White);
-            }
+            //foreach (var alien in gameLevelInfo.Aliens)
+            //{
+            //    _spriteBatch.Draw(alien.Image, new Vector2(alien.Position_X, alien.Position_Y), Color.White);
+            //}
 
             _spriteBatch.End();
             base.Draw(gameTime);
