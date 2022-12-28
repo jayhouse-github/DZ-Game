@@ -185,8 +185,8 @@ namespace DZ_Game
 
         private void GetAlienData(int gameLevel)
         {
-            //Need to return an object of starting rules and a delegate?? to run for auto move
-            //Pass the delegate for auto move to each alien.
+            //Need to return an object of starting rules and aliens etc.
+            //The alien obect defines it's auto move rules, any alien graphic can be used for any alien type
             //Get one or two levels working then move on to sound and collision detection
         }
     }
