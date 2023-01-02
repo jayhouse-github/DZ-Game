@@ -86,15 +86,8 @@ namespace DZ_Game
             player = new Player(screenWidth / 2, screenHeight - 100, 1, screenWidth, screenHeight, playerImage);
             movingObjects.Add(player);
 
-            //TODO - move to game logic check on update
-            var alienImages = new List<Texture2D>();
-            alienImages.Add(alien1);
-            gameLevelInfo = new GameLevel(gameLevel, screenWidth, screenHeight, alienImages);
-
-            foreach(var alien in gameLevelInfo.Aliens)
-            {
-                movingObjects.Add(alien);
-            }
+            //Initiase level 1
+            GetAlienData(gameLevel);
         }
 
         protected override void Update(GameTime gameTime)
@@ -188,6 +181,21 @@ namespace DZ_Game
             //Need to return an object of starting rules and aliens etc.
             //The alien obect defines it's auto move rules, any alien graphic can be used for any alien type
             //Get one or two levels working then move on to sound and collision detection
+            var alienImages = new List<Texture2D>();
+
+            switch (gameLevel)
+            {
+                case 1:
+                    alienImages.Add(alien1);
+                    break;
+            }
+
+            gameLevelInfo = new GameLevel(gameLevel, screenWidth, screenHeight, alienImages);
+
+            foreach (var alien in gameLevelInfo.Aliens)
+            {
+                movingObjects.Add(alien);
+            }
         }
     }
 }
