@@ -166,12 +166,6 @@ namespace DZ_Game
                 _spriteBatch.Draw(item.Image, new Vector2(item.Position_X, item.Position_Y), Color.White);
             }
 
-            //Aliens
-            //foreach (var alien in gameLevelInfo.Aliens)
-            //{
-            //    _spriteBatch.Draw(alien.Image, new Vector2(alien.Position_X, alien.Position_Y), Color.White);
-            //}
-
             _spriteBatch.End();
             base.Draw(gameTime);
         }
