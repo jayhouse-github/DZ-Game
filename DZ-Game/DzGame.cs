@@ -37,7 +37,7 @@ namespace DZ_Game
             movingObjects = new List<IMovingObject>();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            gameLevel = 1;
+            gameLevel = 2;
         }
 
         protected override void Initialize()
@@ -180,6 +180,7 @@ namespace DZ_Game
             switch (gameLevel)
             {
                 case 1:
+                case 2:
                     alienImages.Add(alien1);
                     break;
             }
