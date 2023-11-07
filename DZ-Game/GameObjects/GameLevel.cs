@@ -72,6 +72,7 @@ namespace DZGame.GameObjects
                     }
                     break;
                 case 2:
+                    //TODO - this is only temporary, define actual level 2.
                     x = 200;
 
                     for (int i = 1; i <= NoOfAliensAtStart; i++)

@@ -87,7 +87,7 @@ namespace DZ_Game
             movingObjects.Add(player);
 
             //Initiase level 1
-            GetAlienData(gameLevel);
+            var gameLevelInfo = GetGameLevel(gameLevel);
         }
 
         protected override void Update(GameTime gameTime)
@@ -170,7 +170,7 @@ namespace DZ_Game
             base.Draw(gameTime);
         }
 
-        private void GetAlienData(int gameLevel)
+        private GameLevel GetGameLevel(int gameLevel)
         {
             //Need to return an object of starting rules and aliens etc.
             //The alien obect defines it's auto move rules, any alien graphic can be used for any alien type
@@ -191,6 +191,8 @@ namespace DZ_Game
             {
                 movingObjects.Add(alien);
             }
+
+            return gameLevelInfo;
         }
     }
 }
