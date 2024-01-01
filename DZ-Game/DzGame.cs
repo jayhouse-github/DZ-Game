@@ -23,9 +23,10 @@ namespace DZ_Game
         Texture2D playerImage;
         Texture2D playerBullet;
         Texture2D alien1;
-        ICollection<IMovingObject> movingObjects;
+        List<IMovingObject> movingObjects;
         Player player;
-        GameLevel gameLevelInfo;
+        //TODO - Don't think I need this
+        //GameLevel gameLevelInfo;
         float starSpeed = 100f;
         int validBullet = 10;
         int gameLevel;
@@ -86,8 +87,9 @@ namespace DZ_Game
             player = new Player(screenWidth / 2, screenHeight - 100, 1, screenWidth, screenHeight, playerImage);
             movingObjects.Add(player);
 
-            //Initiase level 1
+            //Initialise level
             var gameLevelInfo = GetGameLevel(gameLevel);
+            movingObjects.AddRange(gameLevelInfo.Aliens);
         }
 
         protected override void Update(GameTime gameTime)
@@ -172,9 +174,6 @@ namespace DZ_Game
 
         private GameLevel GetGameLevel(int gameLevel)
         {
-            //Need to return an object of starting rules and aliens etc.
-            //The alien obect defines it's auto move rules, any alien graphic can be used for any alien type
-            //Get one or two levels working then move on to sound and collision detection
             var alienImages = new List<Texture2D>();
 
             switch (gameLevel)
@@ -185,14 +184,7 @@ namespace DZ_Game
                     break;
             }
 
-            gameLevelInfo = new GameLevel(gameLevel, screenWidth, screenHeight, alienImages);
-
-            foreach (var alien in gameLevelInfo.Aliens)
-            {
-                movingObjects.Add(alien);
-            }
-
-            return gameLevelInfo;
+            return new GameLevel(gameLevel, screenWidth, screenHeight, alienImages);
         }
     }
 }
