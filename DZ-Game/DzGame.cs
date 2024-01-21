@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using DZGame.Interfaces;
 using System;
 using System.Linq;
+using Microsoft.Xna.Framework.Audio;
 
 namespace DZ_Game
 {
@@ -17,14 +18,15 @@ namespace DZ_Game
         private const int screenHeight = 768;
         private const int starCount = 100;
 
-        Texture2D star1;
-        Texture2D star2;
-        Texture2D star3;
-        Texture2D playerImage;
-        Texture2D playerBullet;
-        Texture2D alien1;
-        List<IMovingObject> movingObjects;
-        Player player;
+        private Texture2D star1;
+        private Texture2D star2;
+        private Texture2D star3;
+        private Texture2D playerImage;
+        private Texture2D playerBullet;
+        private Texture2D alien1;
+        private SoundEffect firingSound;
+        private List<IMovingObject> movingObjects;
+        private Player player;
         //TODO - Don't think I need this
         //GameLevel gameLevelInfo;
         float starSpeed = 100f;
@@ -60,6 +62,7 @@ namespace DZ_Game
             playerImage = Content.Load<Texture2D>("spaceship1");
             playerBullet = Content.Load<Texture2D>("bullet");
             alien1 = Content.Load<Texture2D>("alien");
+            firingSound = Content.Load<SoundEffect>("laser_sound");
 
             //Populate stars
             for (int i = 0; i < starCount; i++)
@@ -146,6 +149,7 @@ namespace DZ_Game
             {
                 validBullet = 0;
                 movingObjects.Add(new Bullet(player.Position_X + 29, player.Position_Y, playerBullet));
+                firingSound.Play();
             }
 
             //New bullet timer
