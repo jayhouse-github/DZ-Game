@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DZGame.Enums
+﻿namespace DZGame.Enums
 {
     public enum Direction
     {

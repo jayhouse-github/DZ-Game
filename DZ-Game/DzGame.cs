@@ -12,41 +12,41 @@ namespace DZ_Game
 {
     public class DzGame : Game
     {
-        private GraphicsDeviceManager _graphics;
+        private readonly GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private const int screenWidth = 1024;
-        private const int screenHeight = 768;
-        private const int starCount = 100;
+        private const int ScreenWidth = 1024;
+        private const int ScreenHeight = 768;
+        private const int StarCount = 100;
 
-        private Texture2D star1;
-        private Texture2D star2;
-        private Texture2D star3;
-        private Texture2D playerImage;
-        private Texture2D playerBullet;
-        private Texture2D alien1;
-        private SoundEffect firingSound;
-        private List<IMovingObject> movingObjects;
-        private Player player;
+        private Texture2D _star1;
+        private Texture2D _star2;
+        private Texture2D _star3;
+        private Texture2D _playerImage;
+        private Texture2D _playerBullet;
+        private Texture2D _alien1;
+        private SoundEffect _firingSound;
+        private List<IMovingObject> _movingObjects;
+        private Player _player;
         //TODO - Don't think I need this
         //GameLevel gameLevelInfo;
-        float starSpeed = 100f;
-        int validBullet = 10;
-        int gameLevel;
-        int currentScore;
+        float _starSpeed = 100f;
+        int _validBullet = 10;
+        int _gameLevel;
+        int _currentScore;
 
         public DzGame()
         {
             _graphics = new GraphicsDeviceManager(this);
-            movingObjects = new List<IMovingObject>();
+            _movingObjects = new List<IMovingObject>();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            gameLevel = 2;
+            _gameLevel = 2;
         }
 
         protected override void Initialize()
         {
-            _graphics.PreferredBackBufferWidth = screenWidth;
-            _graphics.PreferredBackBufferHeight = screenHeight;
+            _graphics.PreferredBackBufferWidth = ScreenWidth;
+            _graphics.PreferredBackBufferHeight = ScreenHeight;
             _graphics.IsFullScreen = false;
             _graphics.ApplyChanges();       
 
@@ -56,43 +56,46 @@ namespace DZ_Game
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            star1 = Content.Load<Texture2D>("star1");
-            star2 = Content.Load<Texture2D>("star2");
-            star3 = Content.Load<Texture2D>("star3");
-            playerImage = Content.Load<Texture2D>("spaceship1");
-            playerBullet = Content.Load<Texture2D>("bullet");
-            alien1 = Content.Load<Texture2D>("alien");
-            firingSound = Content.Load<SoundEffect>("laser_sound");
+            _star1 = Content.Load<Texture2D>("star1");
+            _star2 = Content.Load<Texture2D>("star2");
+            _star3 = Content.Load<Texture2D>("star3");
+            _playerImage = Content.Load<Texture2D>("spaceship1");
+            _playerBullet = Content.Load<Texture2D>("bullet");
+            _alien1 = Content.Load<Texture2D>("alien");
+            _firingSound = Content.Load<SoundEffect>("laser_sound");
 
             //Populate stars
-            for (int i = 0; i < starCount; i++)
+            for (int i = 0; i < StarCount; i++)
             {
                 var r = new Random();
+                var x = r.Next(ScreenWidth);
+                var y = r.Next(ScreenHeight);
+                var z = r.Next(1, 4);
                 Texture2D selectedStarImage = null;
 
                 switch (r.Next(1, 4))
                 {
                     case 1:
-                        selectedStarImage = star1;
+                        selectedStarImage = _star1;
                         break;
                     case 2:
-                        selectedStarImage = star2;
+                        selectedStarImage = _star2;
                         break;
                     case 3:
-                        selectedStarImage = star3;
+                        selectedStarImage = _star3;
                         break;
                 }
 
-                movingObjects.Add(new Star(screenWidth, screenHeight, starSpeed, selectedStarImage));
+                _movingObjects.Add(new Star(x, y, z, _starSpeed, selectedStarImage, ScreenWidth, ScreenHeight));
             }
 
             //Initialise player
-            player = new Player(screenWidth / 2, screenHeight - 100, 1, screenWidth, screenHeight, playerImage);
-            movingObjects.Add(player);
+            _player = new Player(ScreenWidth / 2, ScreenHeight - 100, 1, ScreenWidth, ScreenHeight, _playerImage);
+            _movingObjects.Add(_player);
 
             //Initialise level
-            var gameLevelInfo = GetGameLevel(gameLevel);
-            movingObjects.AddRange(gameLevelInfo.Aliens);
+            var gameLevelInfo = GetGameLevel(_gameLevel);
+            _movingObjects.AddRange(gameLevelInfo.Aliens);
         }
 
         protected override void Update(GameTime gameTime)
@@ -103,7 +106,7 @@ namespace DZ_Game
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            foreach (var item in movingObjects)
+            foreach (var item in _movingObjects)
             {
                 item.MoveAuto(gameTime);
             }
@@ -111,7 +114,7 @@ namespace DZ_Game
             //Move left
             if ((kState.IsKeyDown(Keys.Left) || gState.ThumbSticks.Left.X < 0))
             {
-                foreach (var item in movingObjects)
+                foreach (var item in _movingObjects)
                 {
                     item.MoveLeft(gameTime);
                 }
@@ -120,7 +123,7 @@ namespace DZ_Game
             //Move right
             if ((kState.IsKeyDown(Keys.Right) || gState.ThumbSticks.Left.X > 0))
             {
-                foreach (var item in movingObjects)
+                foreach (var item in _movingObjects)
                 {
                     item.MoveRight(gameTime);
                 }
@@ -129,7 +132,7 @@ namespace DZ_Game
             //Move forward
             if ((kState.IsKeyDown(Keys.Up) || gState.ThumbSticks.Left.Y > 0))
             {
-                foreach (var item in movingObjects)
+                foreach (var item in _movingObjects)
                 {
                     item.MoveUp(gameTime);
                 }
@@ -138,25 +141,25 @@ namespace DZ_Game
             //Move back
             if ((kState.IsKeyDown(Keys.Down) || gState.ThumbSticks.Left.Y < 0))
             {
-                foreach (var item in movingObjects)
+                foreach (var item in _movingObjects)
                 {
                     item.MoveDown(gameTime);
                 }
             }
 
             //Fire
-            if ((kState.IsKeyDown(Keys.Space) || gState.Buttons.A == ButtonState.Pressed) && validBullet > 9 )
+            if ((kState.IsKeyDown(Keys.Space) || gState.Buttons.A == ButtonState.Pressed) && _validBullet > 9 )
             {
-                validBullet = 0;
-                movingObjects.Add(new Bullet(player.Position_X + 29, player.Position_Y, playerBullet));
-                firingSound.Play();
+                _validBullet = 0;
+                _movingObjects.Add(new Bullet(_player.PositionX + 29, _player.PositionY, 1, _playerBullet));
+                _firingSound.Play();
             }
 
             //New bullet timer
-            validBullet++;
+            _validBullet++;
 
             //Clean up
-            movingObjects.ToList().RemoveAll(listItem => !listItem.Active);
+            _movingObjects.ToList().RemoveAll(listItem => !listItem.Active);
 
             base.Update(gameTime);
         }
@@ -167,9 +170,9 @@ namespace DZ_Game
             _spriteBatch.Begin();
 
             //Player, bullets, stars
-            foreach (var item in movingObjects)
+            foreach (var item in _movingObjects)
             {
-                _spriteBatch.Draw(item.Image, new Vector2(item.Position_X, item.Position_Y), Color.White);
+                _spriteBatch.Draw(item.Image, new Vector2(item.PositionX, item.PositionY), Color.White);
             }
 
             _spriteBatch.End();
@@ -184,11 +187,11 @@ namespace DZ_Game
             {
                 case 1:
                 case 2:
-                    alienImages.Add(alien1);
+                    alienImages.Add(_alien1);
                     break;
             }
 
-            return new GameLevel(gameLevel, screenWidth, screenHeight, alienImages);
+            return new GameLevel(gameLevel, ScreenWidth, ScreenHeight, alienImages);
         }
     }
 }

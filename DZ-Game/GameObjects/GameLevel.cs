@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using DZGame.GameObjects.Aliens;
+﻿using System.Collections.Generic;
 using DZGame.Interfaces;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -63,10 +61,7 @@ namespace DZGame.GameObjects
 
                     for (int i = 1; i <= NoOfAliensAtStart; i++)
                     {
-                        var alien = new Alien1(_screenWidth, _screenHeight, AlienImages[0]);
-                        alien.Position_X = x;
-                        alien.Position_Y = 300;
-                        alien.Position_Z = 1;
+                        var alien = new Alien1(x, 300, 1, _screenWidth, _screenHeight, AlienImages[0]);
                         Aliens.Add(alien);
                         x += 50;
                     }
@@ -77,10 +72,7 @@ namespace DZGame.GameObjects
 
                     for (int i = 1; i <= NoOfAliensAtStart; i++)
                     {
-                        var alien = new Alien1(_screenWidth, _screenHeight, AlienImages[0]);
-                        alien.Position_X = x;
-                        alien.Position_Y = 40;
-                        alien.Position_Z = 1;
+                        var alien = new Alien1(x, 40, 1, _screenWidth, _screenHeight, AlienImages[0]);
                         Aliens.Add(alien);
                         x += 50;
                         if (x > 1000) x = 50;

@@ -1,5 +1,4 @@
-﻿using System;
-namespace DZGame.Interfaces
+﻿namespace DZGame.Interfaces
 {
     public interface IAlien
     {

@@ -1,84 +1,68 @@
-﻿using System;
-using DZGame.Interfaces;
-using DZGame.Enums;
+﻿using DZGame.Enums;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace DZGame.GameObjects
 {
-    public class Star : IMovingObject
+    public class Star : BaseMovingObject
     {
         private readonly float _starSpeed;
-        private readonly int _screenWidth;
-        private readonly int _screenHeight;
-
-        public int Position_X { get; set; }
-        public int Position_Y { get; set; }
-        public int Position_Z { get; set; }
-        public Texture2D Image { get; set; }
-        public bool Active { get; set; }
-
-        public Star(int screenWidth, int screenHeight, float starSpeed, Texture2D image)
+        
+        public Star(int x, int y, int z, float starSpeed, Texture2D image, int screenWidth, int screenHeight) 
+            : base(x, y, z, image, screenWidth, screenHeight)
         {
-            var r = new Random();
-            Position_X = r.Next(screenWidth);
-            Position_Y = r.Next(screenHeight);
-            Position_Z = r.Next(1, 4);
             _starSpeed = starSpeed;
-            _screenWidth = screenWidth;
-            _screenHeight = screenHeight;
-            Image = image;
             Active = true;
         }
 
-        public void MoveAuto(GameTime gameTime)
+        public override void MoveAuto(GameTime gameTime)
         {
-            var starSpeedMultiplier = GetStarSpeedMultiplier(Position_Z, Direction.None);
+            var starSpeedMultiplier = GetStarSpeedMultiplier(PositionZ, Direction.None);
 
-            Position_Y += (int)(starSpeedMultiplier * (float)gameTime.ElapsedGameTime.TotalSeconds);
+            PositionY += (int)(starSpeedMultiplier * (float)gameTime.ElapsedGameTime.TotalSeconds);
 
-            if (Position_Y > _screenHeight)
+            if (PositionY > ScreenHeight)
             {
-                Position_Y = 0;
+                PositionY = 0;
             }
         }
 
-        public void MoveLeft(GameTime gameTime)
+        public override void MoveLeft(GameTime gameTime)
         {
-            var starSpeedMultiplier = GetStarSpeedMultiplier(Position_Z, Direction.Left);
+            var starSpeedMultiplier = GetStarSpeedMultiplier(PositionZ, Direction.Left);
 
-            Position_X += (int)(starSpeedMultiplier * (float)gameTime.ElapsedGameTime.TotalSeconds);
+            PositionX += (int)(starSpeedMultiplier * (float)gameTime.ElapsedGameTime.TotalSeconds);
 
-            if (Position_X > _screenWidth)
+            if (PositionX > ScreenWidth)
             {
-                Position_X = 0;
+                PositionX = 0;
             }
         }
 
-        public void MoveRight(GameTime gameTime)
+        public override void MoveRight(GameTime gameTime)
         {
-            var starSpeedMultiplier = GetStarSpeedMultiplier(Position_Z, Direction.Right);
+            var starSpeedMultiplier = GetStarSpeedMultiplier(PositionZ, Direction.Right);
 
-            Position_X -= (int)(starSpeedMultiplier * (float)gameTime.ElapsedGameTime.TotalSeconds);
+            PositionX -= (int)(starSpeedMultiplier * (float)gameTime.ElapsedGameTime.TotalSeconds);
 
-            if (Position_X < 0)
+            if (PositionX < 0)
             {
-                Position_X = _screenWidth;
+                PositionX = ScreenWidth;
             }
         }
 
-        public void MoveUp(GameTime gameTime)
+        public override void MoveUp(GameTime gameTime)
         {
-            var starSpeedMultiplier = GetStarSpeedMultiplier(Position_Z, Direction.Up);
+            var starSpeedMultiplier = GetStarSpeedMultiplier(PositionZ, Direction.Up);
 
-            Position_Y += (int)(starSpeedMultiplier * (float)gameTime.ElapsedGameTime.TotalSeconds);
+            PositionY += (int)(starSpeedMultiplier * (float)gameTime.ElapsedGameTime.TotalSeconds);
         }
 
-        public void MoveDown(GameTime gameTime)
+        public override void MoveDown(GameTime gameTime)
         {
-            var starSpeedMultiplier = GetStarSpeedMultiplier(Position_Z, Direction.Down);
+            var starSpeedMultiplier = GetStarSpeedMultiplier(PositionZ, Direction.Down);
 
-            Position_Y -= (int)(starSpeedMultiplier * (float)gameTime.ElapsedGameTime.TotalSeconds);
+            PositionY -= (int)(starSpeedMultiplier * (float)gameTime.ElapsedGameTime.TotalSeconds);
         }
 
         private float GetStarSpeedMultiplier(int positionZ, Direction direction)

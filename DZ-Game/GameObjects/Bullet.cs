@@ -1,54 +1,29 @@
-﻿using System;
-using DZGame.Interfaces;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace DZGame.GameObjects
 {
-    public class Bullet : IMovingObject
+    public class Bullet : CollisionObject
     {
-        private readonly int _screenWidth;
-        private readonly int _screenHeight;
-
-        public int Position_X { get; set; }
-        public int Position_Y { get; set; }
-        public int Position_Z { get; set; }
-        public Texture2D Image { get; set; }
-        public bool Active { get; set; }
-
-        public Bullet(int x, int y, Texture2D image)
+        public Bullet(int x, int y, int z, Texture2D image) 
+            : base(x, y, z, image, 0, 0)
         {
-            Position_X = x;
-            Position_Y = y;
             Active = true;
-            Image = image;
         }
 
-        public void MoveAuto(GameTime gameTime)
+        public override  void MoveAuto(GameTime gameTime)
         {
-            Position_Y -= 15;
+            PositionY -= 15;
 
-            if (Position_Y < 0) Active = false;
+            if (PositionY < 0) Active = false;
         }
 
-        public void MoveLeft(GameTime gameTime)
-        {
-            return;
-        }
+        public override void MoveLeft(GameTime gameTime) { }
 
-        public void MoveRight(GameTime gameTime)
-        {
-            return;
-        }
+        public override void MoveRight(GameTime gameTime) { }
 
-        public void MoveUp(GameTime gameTime)
-        {
-            return;
-        }
+        public override  void MoveUp(GameTime gameTime) { }
 
-        public void MoveDown(GameTime gameTime)
-        {
-            return;
-        }
+        public override  void MoveDown(GameTime gameTime) { }
     }
 }
