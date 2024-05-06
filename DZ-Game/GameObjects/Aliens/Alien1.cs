@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Rectangle = System.Drawing.Rectangle;
 
 namespace DZGame.GameObjects
 {
@@ -29,6 +30,8 @@ namespace DZGame.GameObjects
 
             if (PositionY < 40)
                 PositionY = 40;
+
+            CollisionRectangle = new Rectangle(PositionX, PositionY, Image.Width, Image.Height);
         }
     }
 }

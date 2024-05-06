@@ -1,6 +1,7 @@
 ﻿using DZGame.Enums;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Rectangle = System.Drawing.Rectangle;
 
 namespace DZGame.GameObjects
 {
@@ -15,6 +16,7 @@ namespace DZGame.GameObjects
         public override  void MoveAuto(GameTime gameTime)
         {
             PositionY -= 15;
+            CollisionRectangle = new Rectangle(PositionX, PositionY, Image.Width, Image.Height);
 
             if (PositionY < 0) Active = false;
         }

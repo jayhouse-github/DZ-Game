@@ -6,12 +6,14 @@ using System.Collections.Generic;
 using DZGame.Interfaces;
 using System;
 using System.Linq;
+using DZGame.Enums;
 using Microsoft.Xna.Framework.Audio;
 
 namespace DZ_Game
 {
     public class DzGame : Game
     {
+        //TODO - consider the use of GameScreen to switch between title, level intro and game level modes
         private readonly GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private const int ScreenWidth = 1024;
@@ -160,6 +162,30 @@ namespace DZ_Game
 
             //Clean up
             _movingObjects.ToList().RemoveAll(listItem => !listItem.Active);
+
+            //Check for collisions
+            var liveBullets = _movingObjects.Where(
+                o
+                    => o.MoveType == MovingObjectType.PlayerBullet
+                       && o.Active).ToList();
+            var alienObjects = _movingObjects.Where(
+                o 
+                    => o.MoveType == MovingObjectType.Alien
+                    && o.Active).ToList();
+            
+            if (liveBullets.Any())
+            {
+                foreach (var bullet in liveBullets.Cast<Bullet>())
+                {
+                    foreach (var alien in alienObjects.Cast<Alien>())
+                    {
+                        if (bullet.CollisionRectangle.IntersectsWith(alien.CollisionRectangle))
+                        {
+                            //TODO deal with bullet hitting alien
+                        }
+                    }
+                }
+            }
 
             base.Update(gameTime);
         }
