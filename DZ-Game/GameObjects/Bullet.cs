@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using DZGame.Enums;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace DZGame.GameObjects
@@ -6,7 +7,7 @@ namespace DZGame.GameObjects
     public class Bullet : CollisionObject
     {
         public Bullet(int x, int y, int z, Texture2D image) 
-            : base(x, y, z, image, 0, 0)
+            : base(x, y, z, image, 0, 0, MovingObjectType.PlayerBullet)
         {
             Active = true;
         }

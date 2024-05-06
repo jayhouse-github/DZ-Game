@@ -9,7 +9,7 @@ namespace DZGame.GameObjects
         private readonly float _starSpeed;
         
         public Star(int x, int y, int z, float starSpeed, Texture2D image, int screenWidth, int screenHeight) 
-            : base(x, y, z, image, screenWidth, screenHeight)
+            : base(x, y, z, image, screenWidth, screenHeight, MovingObjectType.Background)
         {
             _starSpeed = starSpeed;
             Active = true;

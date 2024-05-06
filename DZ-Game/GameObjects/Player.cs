@@ -1,4 +1,5 @@
-﻿using DZGame.Interfaces;
+﻿using DZGame.Enums;
+using DZGame.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -6,7 +7,8 @@ namespace DZGame.GameObjects
 {
     public class Player : CollisionObject, IMovingObject
     {
-        public Player(int x, int y, int z, int screenWidth, int screenHeight, Texture2D image) : base(x, y, z, image, screenWidth, screenHeight)
+        public Player(int x, int y, int z, int screenWidth, int screenHeight, Texture2D image) 
+            : base(x, y, z, image, screenWidth, screenHeight, MovingObjectType.Player)
         {
             Active = true;
         }

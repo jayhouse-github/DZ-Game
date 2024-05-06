@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using DZGame.Enums;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace DZGame.Interfaces
@@ -15,5 +16,6 @@ namespace DZGame.Interfaces
         void MoveRight(GameTime gameTime);
         void MoveUp(GameTime gameTime);
         void MoveDown(GameTime gameTime);
+        MovingObjectType MoveType { get; set; }
     }
 }

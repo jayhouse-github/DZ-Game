@@ -1,4 +1,5 @@
-﻿using DZGame.Interfaces;
+﻿using DZGame.Enums;
+using DZGame.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -7,12 +8,11 @@ namespace DZGame.GameObjects
     public abstract class Alien : CollisionObject, IAlien
     {
         public int ExplodeFrame { get; set; }
-        public int Type { get; set; }
         public int Strength { get; set; }
         public int Velocity { get; set; }
 
         protected Alien(int x, int y, int z, int screenWidth, int screenHeight, Texture2D image) 
-            : base(x, y, z, image, screenWidth, screenHeight) { }
+            : base(x, y, z, image, screenWidth, screenHeight, MovingObjectType.Alien) { }
 
         public abstract override void MoveAuto(GameTime gameTime);
         

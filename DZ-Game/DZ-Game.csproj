@@ -30,7 +30,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\" />
-    <Folder Include="Enums\" />
     <Folder Include="GameObjects\Aliens\" />
   </ItemGroup>
    <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
