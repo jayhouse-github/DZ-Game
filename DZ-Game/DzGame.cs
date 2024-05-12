@@ -161,31 +161,10 @@ namespace DZ_Game
             _validBullet++;
 
             //Clean up
-            _movingObjects.ToList().RemoveAll(listItem => !listItem.Active);
+            _movingObjects.RemoveAll(listItem => !listItem.Active);
 
             //Check for collisions
-            var liveBullets = _movingObjects.Where(
-                o
-                    => o.MoveType == MovingObjectType.PlayerBullet
-                       && o.Active).ToList();
-            var alienObjects = _movingObjects.Where(
-                o 
-                    => o.MoveType == MovingObjectType.Alien
-                    && o.Active).ToList();
-            
-            if (liveBullets.Any())
-            {
-                foreach (var bullet in liveBullets.Cast<Bullet>())
-                {
-                    foreach (var alien in alienObjects.Cast<Alien>())
-                    {
-                        if (bullet.CollisionRectangle.IntersectsWith(alien.CollisionRectangle))
-                        {
-                            //TODO deal with bullet hitting alien
-                        }
-                    }
-                }
-            }
+            CheckForCollisions();
 
             base.Update(gameTime);
         }
@@ -218,6 +197,36 @@ namespace DZ_Game
             }
 
             return new GameLevel(gameLevel, ScreenWidth, ScreenHeight, alienImages);
+        }
+
+        private void CheckForCollisions()
+        {
+            var liveBullets = _movingObjects.Where(
+                o
+                    => o.MoveType == MovingObjectType.PlayerBullet
+                       && o.Active).ToList();
+            var alienObjects = _movingObjects.Where(
+                o 
+                    => o.MoveType == MovingObjectType.Alien
+                       && o.Active).ToList();
+            
+            if (liveBullets.Any())
+            {
+                foreach (var bullet in liveBullets.Cast<Bullet>())
+                {
+                    foreach (var alien in alienObjects.Cast<Alien>())
+                    {
+                        if (bullet.CollisionRectangle.IntersectsWith(alien.CollisionRectangle))
+                        {
+                            //Mark alien and bullet as inactive
+                            alien.Active = false;
+                            bullet.Active = false;
+                            
+                            //Explosion, sound and set off pixel shatter at location
+                        }
+                    }
+                }
+            }
         }
     }
 }
