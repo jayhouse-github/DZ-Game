@@ -37,6 +37,12 @@
 /processorParam:TextureFormat=Color
 /build:bullet.bmp
 
+#begin explode.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:explode.wav
+
 #begin kev.bmp
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -54,6 +60,18 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:laser_sound.wav
+
+#begin pixel_shatter.bmp
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:pixel_shatter.bmp
 
 #begin smirnoff.bmp
 /importer:TextureImporter

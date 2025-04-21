@@ -6,5 +6,6 @@ public enum MovingObjectType
     AlienBullet,
     PlayerBullet,
     Player,
-    Background
+    Background,
+    PixelShatter
 }

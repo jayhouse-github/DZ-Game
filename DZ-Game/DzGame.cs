@@ -26,7 +26,9 @@ namespace DZ_Game
         private Texture2D _playerImage;
         private Texture2D _playerBullet;
         private Texture2D _alien1;
+        private Texture2D _pixelShatter;
         private SoundEffect _firingSound;
+        private SoundEffect _explodeSound;
         private List<IMovingObject> _movingObjects;
         private Player _player;
         //TODO - Don't think I need this
@@ -65,6 +67,8 @@ namespace DZ_Game
             _playerBullet = Content.Load<Texture2D>("bullet");
             _alien1 = Content.Load<Texture2D>("alien");
             _firingSound = Content.Load<SoundEffect>("laser_sound");
+            _pixelShatter = Content.Load<Texture2D>("pixel_shatter");
+            _explodeSound = Content.Load<SoundEffect>("explode");
 
             //Populate stars
             for (int i = 0; i < StarCount; i++)
@@ -223,9 +227,27 @@ namespace DZ_Game
                             bullet.Active = false;
                             
                             //Explosion, sound and set off pixel shatter at location
+                            CreatePixelCircle(bullet.PositionX, bullet.PositionY);
+                            _explodeSound.Play();
                         }
                     }
                 }
+            }
+        }
+
+        private void CreatePixelCircle(int alienX, int alienY)
+        {
+            var angle = 1;
+            var x = 0;
+            var y = 0;
+
+            for (int i = 1; i <= 36; i++)
+            {
+                x = alienX + (int)(10 * Math.Cos(angle));
+                y = alienY + (int)(10 * Math.Sin(angle));
+                
+                _movingObjects.Add(new PixelShatter(x, y, 1, _pixelShatter, ScreenWidth, ScreenHeight, MovingObjectType.PixelShatter, 100, angle, alienX, alienY));
+                angle += 10;
             }
         }
     }

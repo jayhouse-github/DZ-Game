@@ -16,10 +16,26 @@ namespace DZGame.GameObjects
         public Texture2D Image { get; set; }
 
         public abstract void MoveAuto(GameTime gameTime);
-        public abstract void MoveLeft(GameTime gameTime);
-        public abstract void MoveRight(GameTime gameTime);
-        public abstract void MoveUp(GameTime gameTime);
-        public abstract void MoveDown(GameTime gameTime);
+        
+        public virtual void MoveLeft(GameTime gameTime)
+        {
+            PositionX += 3;
+        }
+
+        public virtual void MoveRight(GameTime gameTime)
+        {
+            PositionX -= 3;
+        }
+
+        public virtual void MoveUp(GameTime gameTime)
+        {
+            PositionY += 2;
+        }
+
+        public virtual void MoveDown(GameTime gameTime)
+        {
+            PositionY -= 2;
+        }
         public MovingObjectType MoveType { get; set; }
 
         public BaseMovingObject(int x, int y, int z, Texture2D image, int screenWidth, int screenHeight, MovingObjectType type)
