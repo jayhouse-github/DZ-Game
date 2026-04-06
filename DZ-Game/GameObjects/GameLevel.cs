@@ -10,12 +10,13 @@ namespace DZGame.GameObjects
         private readonly int _screenHeight;
 
         public int NoOfAliensAtStart { get; set; }
-        public int NoOfAliens { get; set; }
+        public int NoOfAliens { get; set; } // Active aliens counter
         public int KillThreshold { get; set; }
         public int AlienTypes { get; set; }
         public int AlienDamage { get; set; }
         public int NoOfAliensFiring { get; set; }
         public int Waves { get; set; }
+        public int CurrentLevel { get; set; }
         public ICollection<IMovingObject> Aliens { get; set; }
         private IList<Texture2D> AlienImages { get; set; }
 
@@ -25,6 +26,7 @@ namespace DZGame.GameObjects
             _screenHeight = screenHeight;
             Aliens = new List<IMovingObject>();
             AlienImages = aliens;
+            CurrentLevel = levelNumber;
             InitialiseLevel(levelNumber);
         }
 
@@ -34,21 +36,47 @@ namespace DZGame.GameObjects
             {
                 case 1:
                     NoOfAliensAtStart = 20;
-                    NoOfAliens = 20;
+                    NoOfAliens = NoOfAliensAtStart; // Initialize with the starting number of aliens
                     Waves = 3;
 
                     PopulateAliens(levelNumber);
                     break;
                 case 2:
                     NoOfAliensAtStart = 15;
-                    NoOfAliens = 40;
+                    NoOfAliens = NoOfAliensAtStart; // Initialize with the starting number of aliens
                     KillThreshold = 15;
                     AlienTypes = 2;
                     NoOfAliensFiring = 0;
                     AlienDamage = 0;
+                    Waves = 2;
 
                     PopulateAliens(levelNumber);
                     break;
+                 case 3:                                                                                                                                               
+                    NoOfAliensAtStart = 20;                                                                                                                           
+                    Waves = 3;                                                                                                                                        
+                    PopulateAliens(levelNumber);                                                                                                                      
+                    break;                                                                                                                                            
+                case 4:                                                                                                                                               
+                    NoOfAliensAtStart = 18;                                                                                                                           
+                    Waves = 4;                                                                                                                                        
+                    PopulateAliens(levelNumber);                                                                                                                      
+                    break;                                                                                                                                            
+                case 5:                                                                                                                                               
+                    NoOfAliensAtStart = 16;                                                                                                                           
+                    Waves = 4;                                                                                                                                        
+                    PopulateAliens(levelNumber);                                                                                                                      
+                    break;                                                                                                                                            
+                case 6:                                                                                                                                               
+                    NoOfAliensAtStart = 25;                                                                                                                           
+                    Waves = 5;                                                                                                                                        
+                    PopulateAliens(levelNumber);                                                                                                                   
+                    break;                                                                                                                                        
+                case 7:                                                                                                                                             
+                    NoOfAliensAtStart = 30;                                                                                                                         
+                    Waves = 5;                                                                                                                                        
+                    PopulateAliens(levelNumber);                                                                                                                      
+                    break;  
             }
         }
 
@@ -78,7 +106,34 @@ namespace DZGame.GameObjects
                         if (x > 1000) x = 50;
                     }
                     break;
+                        case 3:                                                                                                                                               
+                case 4:                                                                                                                                               
+                case 5:                                                                                                                                               
+                case 6:                                                                                                                                               
+                case 7:                                                                                                                                               
+                    x = 50; // Initial position                                                                                                                   
+                    for (int i = 1; i <= NoOfAliensAtStart; i++)                                                                                                      
+                    {                                                                                                                                                 
+                        var alien = new Alien1(x, 300, 1, _screenWidth,                                                                                               
+                        _screenHeight, AlienImages[0]);                                                                                                                                  
+                        Aliens.Add(alien);                                                                                                                            
+                        x += 50;   
+                        if (x > 1000) x = 50;
+                    }                                                                                                                                                 
+                    break;  
             }
+        }
+
+        public void RemoveAlien()
+        {
+            NoOfAliens--;
+        }
+
+        public void ResetAliens()
+        {
+            Aliens.Clear();
+            NoOfAliens = NoOfAliensAtStart;
+            PopulateAliens(CurrentLevel);
         }
     }
 }

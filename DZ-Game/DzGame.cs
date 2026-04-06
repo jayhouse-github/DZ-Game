@@ -19,7 +19,8 @@ namespace DZ_Game
         private const int ScreenWidth = 1024;
         private const int ScreenHeight = 768;
         private const int StarCount = 100;
-
+        private GameLevel gameLevelInfo;
+        
         private Texture2D _star1;
         private Texture2D _star2;
         private Texture2D _star3;
@@ -44,7 +45,7 @@ namespace DZ_Game
             _movingObjects = new List<IMovingObject>();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            _gameLevel = 2;
+            _gameLevel = 4;
         }
 
         protected override void Initialize()
@@ -100,7 +101,7 @@ namespace DZ_Game
             _movingObjects.Add(_player);
 
             //Initialise level
-            var gameLevelInfo = GetGameLevel(_gameLevel);
+            gameLevelInfo = GetGameLevel(_gameLevel);
             _movingObjects.AddRange(gameLevelInfo.Aliens);
         }
 
@@ -168,8 +169,16 @@ namespace DZ_Game
             _movingObjects.RemoveAll(listItem => !listItem.Active);
 
             //Check for collisions
+            //gameLevelInfo = GetGameLevel(_gameLevel);
             CheckForCollisions();
-
+            
+            if (gameLevelInfo.NoOfAliens == 0 && gameLevelInfo.Waves > 0)
+            {
+                gameLevelInfo.ResetAliens();
+                _movingObjects.AddRange(gameLevelInfo.Aliens);
+                gameLevelInfo.Waves--;
+            }
+            
             base.Update(gameTime);
         }
 
@@ -190,12 +199,18 @@ namespace DZ_Game
 
         private GameLevel GetGameLevel(int gameLevel)
         {
+            //This populates the alien images for the level
             var alienImages = new List<Texture2D>();
 
             switch (gameLevel)
             {
                 case 1:
                 case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                case 7:
                     alienImages.Add(_alien1);
                     break;
             }
@@ -223,6 +238,7 @@ namespace DZ_Game
                         if (bullet.CollisionRectangle.IntersectsWith(alien.CollisionRectangle))
                         {
                             //Mark alien and bullet as inactive
+                            gameLevelInfo.RemoveAlien(); 
                             alien.Active = false;
                             bullet.Active = false;
                             
