@@ -20,7 +20,9 @@ namespace DZ_Game
         private const int ScreenHeight = 768;
         private const int StarCount = 100;
         private GameLevel gameLevelInfo;
-        
+        private GameState _gameState;
+        private TitleScreen _titleScreen;
+
         private Texture2D _star1;
         private Texture2D _star2;
         private Texture2D _star3;
@@ -45,7 +47,8 @@ namespace DZ_Game
             _movingObjects = new List<IMovingObject>();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            _gameLevel = 4;
+            _gameLevel = 1;
+            _gameState = GameState.TitleScreen;
         }
 
         protected override void Initialize()
@@ -71,6 +74,9 @@ namespace DZ_Game
             _pixelShatter = Content.Load<Texture2D>("pixel_shatter");
             _explodeSound = Content.Load<SoundEffect>("explode");
 
+            //Initialise title screen - use existing pixel texture
+            _titleScreen = new TitleScreen(_pixelShatter, ScreenWidth, ScreenHeight);
+
             //Populate stars
             for (int i = 0; i < StarCount; i++)
             {
@@ -95,14 +101,6 @@ namespace DZ_Game
 
                 _movingObjects.Add(new Star(x, y, z, _starSpeed, selectedStarImage, ScreenWidth, ScreenHeight));
             }
-
-            //Initialise player
-            _player = new Player(ScreenWidth / 2, ScreenHeight - 100, 1, ScreenWidth, ScreenHeight, _playerImage);
-            _movingObjects.Add(_player);
-
-            //Initialise level
-            gameLevelInfo = GetGameLevel(_gameLevel);
-            _movingObjects.AddRange(gameLevelInfo.Aliens);
         }
 
         protected override void Update(GameTime gameTime)
@@ -113,72 +111,89 @@ namespace DZ_Game
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            foreach (var item in _movingObjects)
+            if (_gameState == GameState.TitleScreen)
             {
-                item.MoveAuto(gameTime);
-            }
+                // Only animate stars on title screen
+                foreach (var item in _movingObjects)
+                {
+                    item.MoveAuto(gameTime);
+                }
 
-            //Move left
-            if ((kState.IsKeyDown(Keys.Left) || gState.ThumbSticks.Left.X < 0))
+                // Check for fire button to start game
+                if (kState.IsKeyDown(Keys.Space) || gState.Buttons.A == ButtonState.Pressed)
+                {
+                    _gameState = GameState.Playing;
+                    StartGame();
+                }
+            }
+            else if (_gameState == GameState.Playing)
             {
                 foreach (var item in _movingObjects)
                 {
-                    item.MoveLeft(gameTime);
+                    item.MoveAuto(gameTime);
                 }
-            }
 
-            //Move right
-            if ((kState.IsKeyDown(Keys.Right) || gState.ThumbSticks.Left.X > 0))
-            {
-                foreach (var item in _movingObjects)
+                //Move left
+                if ((kState.IsKeyDown(Keys.Left) || gState.ThumbSticks.Left.X < 0))
                 {
-                    item.MoveRight(gameTime);
+                    foreach (var item in _movingObjects)
+                    {
+                        item.MoveLeft(gameTime);
+                    }
                 }
-            }
 
-            //Move forward
-            if ((kState.IsKeyDown(Keys.Up) || gState.ThumbSticks.Left.Y > 0))
-            {
-                foreach (var item in _movingObjects)
+                //Move right
+                if ((kState.IsKeyDown(Keys.Right) || gState.ThumbSticks.Left.X > 0))
                 {
-                    item.MoveUp(gameTime);
+                    foreach (var item in _movingObjects)
+                    {
+                        item.MoveRight(gameTime);
+                    }
                 }
-            }
 
-            //Move back
-            if ((kState.IsKeyDown(Keys.Down) || gState.ThumbSticks.Left.Y < 0))
-            {
-                foreach (var item in _movingObjects)
+                //Move forward
+                if ((kState.IsKeyDown(Keys.Up) || gState.ThumbSticks.Left.Y > 0))
                 {
-                    item.MoveDown(gameTime);
+                    foreach (var item in _movingObjects)
+                    {
+                        item.MoveUp(gameTime);
+                    }
+                }
+
+                //Move back
+                if ((kState.IsKeyDown(Keys.Down) || gState.ThumbSticks.Left.Y < 0))
+                {
+                    foreach (var item in _movingObjects)
+                    {
+                        item.MoveDown(gameTime);
+                    }
+                }
+
+                //Fire
+                if ((kState.IsKeyDown(Keys.Space) || gState.Buttons.A == ButtonState.Pressed) && _validBullet > 9 )
+                {
+                    _validBullet = 0;
+                    _movingObjects.Add(new Bullet(_player.PositionX + 29, _player.PositionY, 1, _playerBullet));
+                    _firingSound.Play();
+                }
+
+                //New bullet timer
+                _validBullet++;
+
+                //Clean up
+                _movingObjects.RemoveAll(listItem => !listItem.Active);
+
+                //Check for collisions
+                CheckForCollisions();
+
+                if (gameLevelInfo.NoOfAliens == 0 && gameLevelInfo.Waves > 0)
+                {
+                    gameLevelInfo.ResetAliens();
+                    _movingObjects.AddRange(gameLevelInfo.Aliens);
+                    gameLevelInfo.Waves--;
                 }
             }
 
-            //Fire
-            if ((kState.IsKeyDown(Keys.Space) || gState.Buttons.A == ButtonState.Pressed) && _validBullet > 9 )
-            {
-                _validBullet = 0;
-                _movingObjects.Add(new Bullet(_player.PositionX + 29, _player.PositionY, 1, _playerBullet));
-                _firingSound.Play();
-            }
-
-            //New bullet timer
-            _validBullet++;
-
-            //Clean up
-            _movingObjects.RemoveAll(listItem => !listItem.Active);
-
-            //Check for collisions
-            //gameLevelInfo = GetGameLevel(_gameLevel);
-            CheckForCollisions();
-            
-            if (gameLevelInfo.NoOfAliens == 0 && gameLevelInfo.Waves > 0)
-            {
-                gameLevelInfo.ResetAliens();
-                _movingObjects.AddRange(gameLevelInfo.Aliens);
-                gameLevelInfo.Waves--;
-            }
-            
             base.Update(gameTime);
         }
 
@@ -187,10 +202,15 @@ namespace DZ_Game
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin();
 
-            //Player, bullets, stars
+            //Draw stars (always visible)
             foreach (var item in _movingObjects)
             {
                 _spriteBatch.Draw(item.Image, new Vector2(item.PositionX, item.PositionY), Color.White);
+            }
+
+            if (_gameState == GameState.TitleScreen)
+            {
+                _titleScreen.Draw(_spriteBatch);
             }
 
             _spriteBatch.End();
@@ -261,10 +281,21 @@ namespace DZ_Game
             {
                 x = alienX + (int)(10 * Math.Cos(angle));
                 y = alienY + (int)(10 * Math.Sin(angle));
-                
+
                 _movingObjects.Add(new PixelShatter(x, y, 1, _pixelShatter, ScreenWidth, ScreenHeight, MovingObjectType.PixelShatter, 100, angle, alienX, alienY));
                 angle += 10;
             }
+        }
+
+        private void StartGame()
+        {
+            //Initialise player
+            _player = new Player(ScreenWidth / 2, ScreenHeight - 100, 1, ScreenWidth, ScreenHeight, _playerImage);
+            _movingObjects.Add(_player);
+
+            //Initialise level
+            gameLevelInfo = GetGameLevel(_gameLevel);
+            _movingObjects.AddRange(gameLevelInfo.Aliens);
         }
     }
 }
