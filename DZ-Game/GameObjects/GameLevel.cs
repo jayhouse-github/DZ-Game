@@ -53,27 +53,32 @@ namespace DZGame.GameObjects
                     PopulateAliens(levelNumber);
                     break;
                  case 3:                                                                                                                                               
-                    NoOfAliensAtStart = 20;                                                                                                                           
+                    NoOfAliensAtStart = 20;
+                    NoOfAliens = NoOfAliensAtStart; // Initialize with the starting number of aliens
                     Waves = 3;                                                                                                                                        
                     PopulateAliens(levelNumber);                                                                                                                      
                     break;                                                                                                                                            
                 case 4:                                                                                                                                               
-                    NoOfAliensAtStart = 18;                                                                                                                           
+                    NoOfAliensAtStart = 18;
+                    NoOfAliens = NoOfAliensAtStart; // Initialize with the starting number of aliens
                     Waves = 4;                                                                                                                                        
                     PopulateAliens(levelNumber);                                                                                                                      
                     break;                                                                                                                                            
                 case 5:                                                                                                                                               
-                    NoOfAliensAtStart = 16;                                                                                                                           
+                    NoOfAliensAtStart = 16;
+                    NoOfAliens = NoOfAliensAtStart; // Initialize with the starting number of aliens
                     Waves = 4;                                                                                                                                        
                     PopulateAliens(levelNumber);                                                                                                                      
                     break;                                                                                                                                            
                 case 6:                                                                                                                                               
-                    NoOfAliensAtStart = 25;                                                                                                                           
+                    NoOfAliensAtStart = 25; 
+                    NoOfAliens = NoOfAliensAtStart; // Initialize with the starting number of aliens
                     Waves = 5;                                                                                                                                        
                     PopulateAliens(levelNumber);                                                                                                                   
                     break;                                                                                                                                        
                 case 7:                                                                                                                                             
-                    NoOfAliensAtStart = 30;                                                                                                                         
+                    NoOfAliensAtStart = 30; 
+                    NoOfAliens = NoOfAliensAtStart; // Initialize with the starting number of aliens
                     Waves = 5;                                                                                                                                        
                     PopulateAliens(levelNumber);                                                                                                                      
                     break;  
