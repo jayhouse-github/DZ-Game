@@ -1,5 +1,13 @@
 # AGENTS.md
 
+## Junie Agent (JetBrains AI)
+Junie is a supported JetBrains AI agent for this repository.
+- Guidance: [JUNIE.md](JUNIE.md)
+
+## Claude Code Agent
+Claude Code is also supported in this repository.
+- Guidance: [CLAUDE.md](CLAUDE.md)
+
 ## Repository Structure
 - `DZ-Game/`: The main directory containing the project.
   - Configuration files and build artifacts are located in `.config/` and `obj/`.
