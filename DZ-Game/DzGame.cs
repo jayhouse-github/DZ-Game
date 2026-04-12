@@ -29,6 +29,9 @@ namespace DZ_Game
         private Texture2D _playerImage;
         private Texture2D _playerBullet;
         private Texture2D _alien1;
+        private Texture2D _alien2;
+        private Texture2D _alien3;
+        private Texture2D _alien4;
         private Texture2D _pixelShatter;
         private SoundEffect _firingSound;
         private SoundEffect _explodeSound;
@@ -67,12 +70,16 @@ namespace DZ_Game
             _star1 = Content.Load<Texture2D>("star1");
             _star2 = Content.Load<Texture2D>("star2");
             _star3 = Content.Load<Texture2D>("star3");
-            _playerImage = Content.Load<Texture2D>("spaceship1");
+            _playerImage = Content.Load<Texture2D>("player-1");
             _playerBullet = Content.Load<Texture2D>("bullet");
-            _alien1 = Content.Load<Texture2D>("alien");
+            //_alien1 = Content.Load<Texture2D>("alien");
             _firingSound = Content.Load<SoundEffect>("laser_sound");
             _pixelShatter = Content.Load<Texture2D>("pixel_shatter");
             _explodeSound = Content.Load<SoundEffect>("explode");
+            _alien1 = Content.Load<Texture2D>("alien-1");
+            _alien2 = Content.Load<Texture2D>("alien-2");
+            _alien3 = Content.Load<Texture2D>("alien-3");
+            _alien4 = Content.Load<Texture2D>("alien-4");
 
             //Initialise title screen - use existing pixel texture
             _titleScreen = new TitleScreen(_pixelShatter, ScreenWidth, ScreenHeight);
@@ -231,7 +238,7 @@ namespace DZ_Game
                 case 5:
                 case 6:
                 case 7:
-                    alienImages.Add(_alien1);
+                    alienImages.Add(_alien3);
                     break;
             }
 
