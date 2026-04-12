@@ -20,7 +20,7 @@ namespace DZGame.GameObjects
         {
             // Draw title text using simple rectangles
             DrawText(spriteBatch, "DEATH ZONE", 200, 150, 6, Color.Red);
-            DrawText(spriteBatch, "[Placeholder text - to be filled in later]", 150, 350, 2, Color.Gray);
+            DrawText(spriteBatch, "By Jamie Houseman", 150, 350, 2, Color.Gray);
             DrawText(spriteBatch, "PRESS FIRE TO START", 250, 550, 3, Color.White);
         }
 
@@ -98,6 +98,46 @@ namespace DZGame.GameObjects
                     DrawRect(spriteBatch, x + pixelSize * 5, y + pixelSize * 4, pixelSize, pixelSize * 3, color); // Right bottom vertical
                     break;
                 case 'S':
+                    DrawRect(spriteBatch, x, y + pixelSize * 2, pixelSize, pixelSize * 5, color); // Left vertical
+                    DrawRect(spriteBatch, x + pixelSize, y, pixelSize * 4, pixelSize, color); // Top horizontal
+                    DrawRect(spriteBatch, x + pixelSize, y + pixelSize * 3, pixelSize * 4, pixelSize, color); // Middle horizontal
+                    DrawRect(spriteBatch, x + pixelSize * 5, y, pixelSize, pixelSize * 2, color); // Right top vertical
+                    DrawRect(spriteBatch, x + pixelSize * 5, y + pixelSize * 4, pixelSize, pixelSize * 3, color); // Right bottom vertical
+                    break;
+                case 'B':
+                    DrawRect(spriteBatch, x, y, pixelSize, pixelSize * 7, color); // Left vertical
+                    DrawRect(spriteBatch, x + pixelSize, y, pixelSize * 4, pixelSize, color); // Top horizontal
+                    DrawRect(spriteBatch, x + pixelSize, y + pixelSize * 3, pixelSize * 4, pixelSize, color); // Middle horizontal
+                    DrawRect(spriteBatch, x + pixelSize * 5, y, pixelSize, pixelSize * 3, color); // Right top vertical
+                    DrawRect(spriteBatch, x + pixelSize * 5, y + pixelSize * 4, pixelSize, pixelSize * 3, color); // Right bottom vertical
+                    break;
+                case 'Y':
+                    DrawRect(spriteBatch, x, y, pixelSize, pixelSize * 2, color); // Left top vertical
+                    DrawRect(spriteBatch, x + pixelSize, y, pixelSize * 4, pixelSize, color); // Top horizontal
+                    DrawRect(spriteBatch, x + pixelSize * 5, y, pixelSize, pixelSize * 2, color); // Right top vertical
+                    DrawRect(spriteBatch, x + pixelSize * 2, y + pixelSize * 5, pixelSize * 4, pixelSize, color); // Bottom horizontal
+                    break;
+                case 'J':
+                    DrawRect(spriteBatch, x, y + pixelSize * 2, pixelSize, pixelSize * 5, color); // Left vertical
+                    DrawRect(spriteBatch, x + pixelSize, y, pixelSize * 4, pixelSize, color); // Top horizontal
+                    DrawRect(spriteBatch, x + pixelSize, y + pixelSize * 5, pixelSize * 4, pixelSize, color); // Bottom horizontal
+                    break;
+
+                case 'M':
+                    DrawRect(spriteBatch, x, y, pixelSize, pixelSize * 7, color); // Left vertical
+                    DrawRect(spriteBatch, x + pixelSize, y + pixelSize * 2, pixelSize * 3, pixelSize, color); // Middle diagonal
+                    DrawRect(spriteBatch, x + pixelSize * 5, y, pixelSize, pixelSize * 7, color); // Right vertical
+                    break;
+                case 'C':
+                    DrawRect(spriteBatch, x, y + pixelSize, pixelSize, pixelSize * 6, color); // Left vertical
+                    DrawRect(spriteBatch, x + pixelSize, y, pixelSize * 4, pixelSize, color); // Top horizontal
+                    DrawRect(spriteBatch, x + pixelSize, y + pixelSize * 6, pixelSize * 4, pixelSize, color); // Bottom horizontal
+                    break;
+                case 'U':
+                    DrawRect(spriteBatch, x, y + pixelSize, pixelSize, pixelSize * 6, color); // Left vertical
+                    DrawRect(spriteBatch, x + pixelSize, y + pixelSize * 6, pixelSize * 4, pixelSize, color); // Bottom horizontal
+                    DrawRect(spriteBatch, x + pixelSize * 5, y + pixelSize, pixelSize, pixelSize * 6, color); // Right vertical
+                    break;
                     DrawRect(spriteBatch, x + pixelSize, y, pixelSize * 4, pixelSize, color); // Top horizontal
                     DrawRect(spriteBatch, x, y + pixelSize, pixelSize, pixelSize * 2, color); // Top left vertical
                     DrawRect(spriteBatch, x + pixelSize, y + pixelSize * 3, pixelSize * 4, pixelSize, color); // Middle horizontal
