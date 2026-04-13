@@ -252,10 +252,10 @@ namespace DZ_Game
                     => o.MoveType == MovingObjectType.PlayerBullet
                        && o.Active).ToList();
             var alienObjects = _movingObjects.Where(
-                o 
+                o
                     => o.MoveType == MovingObjectType.Alien
                        && o.Active).ToList();
-            
+
             if (liveBullets.Any())
             {
                 foreach (var bullet in liveBullets.Cast<Bullet>())
@@ -265,14 +265,29 @@ namespace DZ_Game
                         if (bullet.CollisionRectangle.IntersectsWith(alien.CollisionRectangle))
                         {
                             //Mark alien and bullet as inactive
-                            gameLevelInfo.RemoveAlien(); 
+                            gameLevelInfo.RemoveAlien();
                             alien.Active = false;
                             bullet.Active = false;
-                            
+
                             //Explosion, sound and set off pixel shatter at location
                             CreatePixelCircle(bullet.PositionX, bullet.PositionY);
                             _explodeSound.Play();
                         }
+                    }
+                }
+            }
+
+            // Check if any alien has collided with the player
+            foreach (var alien in alienObjects.Cast<Alien>())
+            {
+                if (alien.CollisionRectangle.IntersectsWith(_player.CollisionRectangle))
+                {
+                    _player.ShieldStrength--;
+
+                    if (_player.ShieldStrength <= 0)
+                    {
+                        // TODO: Handle player death (e.g. game over screen, respawn, etc.)
+                        var temp = "hello";
                     }
                 }
             }

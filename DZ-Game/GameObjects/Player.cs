@@ -7,10 +7,13 @@ namespace DZGame.GameObjects
 {
     public class Player : CollisionObject, IMovingObject
     {
+        public int ShieldStrength { get; set; }
+        
         public Player(int x, int y, int z, int screenWidth, int screenHeight, Texture2D image) 
             : base(x, y, z, image, screenWidth, screenHeight, MovingObjectType.Player)
         {
             Active = true;
+            ShieldStrength = 10;
         }
 
         public override void MoveAuto(GameTime gameTime) { }
@@ -20,6 +23,7 @@ namespace DZGame.GameObjects
             if (PositionX > 35)
             {
                 PositionX -= 10;
+                CollisionRectangle = new System.Drawing.Rectangle(PositionX, PositionY, Image.Width, Image.Height);
             }
         }
 
@@ -28,6 +32,7 @@ namespace DZGame.GameObjects
             if(PositionX < ScreenWidth - 105)
             {
                 PositionX += 10;
+                CollisionRectangle = new System.Drawing.Rectangle(PositionX, PositionY, Image.Width, Image.Height);
             }
         }
 
@@ -36,6 +41,7 @@ namespace DZGame.GameObjects
             if(PositionY > ScreenHeight - 350)
             {
                 PositionY -= 10;
+                CollisionRectangle = new System.Drawing.Rectangle(PositionX, PositionY, Image.Width, Image.Height);
             }
         }
 
@@ -44,6 +50,7 @@ namespace DZGame.GameObjects
             if(PositionY < ScreenHeight - 70)
             {
                 PositionY += 10;
+                CollisionRectangle = new System.Drawing.Rectangle(PositionX, PositionY, Image.Width, Image.Height);
             }
         }
     }
