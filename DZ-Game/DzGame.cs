@@ -43,6 +43,7 @@ namespace DZ_Game
         int _validBullet = 10;
         int _gameLevel;
         int _currentScore;
+        double _lastPlayerCollisionTime = -2.0;
 
         public DzGame()
         {
@@ -191,7 +192,7 @@ namespace DZ_Game
                 _movingObjects.RemoveAll(listItem => !listItem.Active);
 
                 //Check for collisions
-                CheckForCollisions();
+                CheckForCollisions(gameTime);
 
                 if (gameLevelInfo.NoOfAliens == 0 && gameLevelInfo.Waves > 0)
                 {
@@ -245,7 +246,7 @@ namespace DZ_Game
             return new GameLevel(gameLevel, ScreenWidth, ScreenHeight, alienImages);
         }
 
-        private void CheckForCollisions()
+        private void CheckForCollisions(GameTime gameTime)
         {
             var liveBullets = _movingObjects.Where(
                 o
@@ -277,17 +278,24 @@ namespace DZ_Game
                 }
             }
 
-            // Check if any alien has collided with the player
-            foreach (var alien in alienObjects.Cast<Alien>())
+            // Check if any alien has collided with the player (2-second cooldown between hits)
+            var totalSeconds = gameTime.TotalGameTime.TotalSeconds;
+            if (totalSeconds - _lastPlayerCollisionTime >= 2.0)
             {
-                if (alien.CollisionRectangle.IntersectsWith(_player.CollisionRectangle))
+                foreach (var alien in alienObjects.Cast<Alien>())
                 {
-                    _player.ShieldStrength--;
-
-                    if (_player.ShieldStrength <= 0)
+                    if (alien.CollisionRectangle.IntersectsWith(_player.CollisionRectangle))
                     {
-                        // TODO: Handle player death (e.g. game over screen, respawn, etc.)
-                        var temp = "hello";
+                        _lastPlayerCollisionTime = totalSeconds;
+                        _player.ShieldStrength--;
+
+                        if (_player.ShieldStrength <= 0)
+                        {
+                            // TODO: Handle player death (e.g. game over screen, respawn, etc.)
+                            var temp = "hello";
+                        }
+
+                        break;
                     }
                 }
             }
