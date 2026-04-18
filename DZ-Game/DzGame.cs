@@ -225,6 +225,9 @@ namespace DZ_Game
             else if (_gameState == GameState.Playing)
             {
                 _spriteBatch.DrawString(_gamefont14, $"SCORE {_currentScore}", new Vector2(10, 10), Color.Red);
+                var livesText = $"LIVES {_player.Lives}";
+                var livesTextSize = _gamefont14.MeasureString(livesText);
+                _spriteBatch.DrawString(_gamefont14, livesText, new Vector2(ScreenWidth - livesTextSize.X - 10, 10), Color.Red);
             }
 
             _spriteBatch.End();
@@ -295,6 +298,7 @@ namespace DZ_Game
                     {
                         _lastPlayerCollisionTime = totalSeconds;
                         _player.ShieldStrength--;
+                        _player.Lives--;
 
                         if (_player.ShieldStrength <= 0)
                         {
@@ -328,6 +332,7 @@ namespace DZ_Game
         {
             //Initialise player
             _player = new Player(ScreenWidth / 2, ScreenHeight - 100, 1, ScreenWidth, ScreenHeight, _playerImage);
+            _player.Lives = 3;
             _movingObjects.Add(_player);
 
             //Initialise level
