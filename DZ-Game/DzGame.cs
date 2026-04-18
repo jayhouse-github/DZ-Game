@@ -228,6 +228,9 @@ namespace DZ_Game
                 var livesText = $"LIVES {_player.Lives}";
                 var livesTextSize = _gamefont14.MeasureString(livesText);
                 _spriteBatch.DrawString(_gamefont14, livesText, new Vector2(ScreenWidth - livesTextSize.X - 10, 10), Color.Red);
+                var wavesText = $"WAVES {gameLevelInfo.Waves}";
+                var wavesTextSize = _gamefont14.MeasureString(wavesText);
+                _spriteBatch.DrawString(_gamefont14, wavesText, new Vector2((ScreenWidth - wavesTextSize.X) / 2, 10), Color.Red);
             }
 
             _spriteBatch.End();
