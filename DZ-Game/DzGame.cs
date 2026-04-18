@@ -35,6 +35,7 @@ namespace DZ_Game
         private Texture2D _pixelShatter;
         private SoundEffect _firingSound;
         private SoundEffect _explodeSound;
+        private SpriteFont _gamefont14;
         private List<IMovingObject> _movingObjects;
         private Player _player;
         //TODO - Don't think I need this
@@ -81,6 +82,7 @@ namespace DZ_Game
             _alien2 = Content.Load<Texture2D>("alien-2");
             _alien3 = Content.Load<Texture2D>("alien-3");
             _alien4 = Content.Load<Texture2D>("alien-4");
+            _gamefont14 = Content.Load<SpriteFont>("GameFont1-14");
 
             //Initialise title screen - use existing pixel texture
             _titleScreen = new TitleScreen(_pixelShatter, ScreenWidth, ScreenHeight);
@@ -219,6 +221,10 @@ namespace DZ_Game
             if (_gameState == GameState.TitleScreen)
             {
                 _titleScreen.Draw(_spriteBatch);
+            }
+            else if (_gameState == GameState.Playing)
+            {
+                _spriteBatch.DrawString(_gamefont14, "SCORE", new Vector2(10, 10), Color.Red);
             }
 
             _spriteBatch.End();

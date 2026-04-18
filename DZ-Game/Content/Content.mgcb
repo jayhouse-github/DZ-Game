@@ -91,6 +91,13 @@
 /processorParam:Quality=Best
 /build:explode.wav
 
+#begin GameFont1-14.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:GameFont1-14.spritefont
+
 #begin kev.bmp
 /importer:TextureImporter
 /processor:TextureProcessor
