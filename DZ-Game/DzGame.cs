@@ -224,7 +224,7 @@ namespace DZ_Game
             }
             else if (_gameState == GameState.Playing)
             {
-                _spriteBatch.DrawString(_gamefont14, "SCORE", new Vector2(10, 10), Color.Red);
+                _spriteBatch.DrawString(_gamefont14, $"SCORE {_currentScore}", new Vector2(10, 10), Color.Red);
             }
 
             _spriteBatch.End();
@@ -273,6 +273,7 @@ namespace DZ_Game
                         {
                             //Mark alien and bullet as inactive
                             gameLevelInfo.RemoveAlien();
+                            _currentScore += alien.ScoreValue;
                             alien.Active = false;
                             bullet.Active = false;
 

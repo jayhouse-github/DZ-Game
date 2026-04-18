@@ -11,6 +11,7 @@ namespace DZGame.GameObjects
             : base (x, y, z, screenWidth, screenHeight, image)
         {
             Active = true;
+            ScoreValue = 10;
         }
 
         public override void MoveAuto(GameTime gameTime)
