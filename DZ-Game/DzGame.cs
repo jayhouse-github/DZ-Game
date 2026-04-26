@@ -33,6 +33,7 @@ namespace DZ_Game
         private Texture2D _alien3;
         private Texture2D _alien4;
         private Texture2D _pixelShatter;
+        private Texture2D _pixelTexture;
         private SoundEffect _firingSound;
         private SoundEffect _explodeSound;
         private SpriteFont _gamefont14;
@@ -69,6 +70,8 @@ namespace DZ_Game
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            _pixelTexture = new Texture2D(GraphicsDevice, 1, 1);
+            _pixelTexture.SetData(new[] { Color.White });
             _star1 = Content.Load<Texture2D>("star1");
             _star2 = Content.Load<Texture2D>("star2");
             _star3 = Content.Load<Texture2D>("star3");
@@ -227,7 +230,13 @@ namespace DZ_Game
                 _spriteBatch.DrawString(_gamefont14, $"SCORE {_currentScore}", new Vector2(10, 10), Color.Red);
                 var livesText = $"LIVES {_player.Lives}";
                 var livesTextSize = _gamefont14.MeasureString(livesText);
-                _spriteBatch.DrawString(_gamefont14, livesText, new Vector2(ScreenWidth - livesTextSize.X - 10, 10), Color.Red);
+                var livesX = ScreenWidth - livesTextSize.X - 10;
+                _spriteBatch.DrawString(_gamefont14, livesText, new Vector2(livesX, 10), Color.Red);
+                if (_player.ShieldStrength > 0)
+                {
+                    var shieldBarWidth = (int)(livesTextSize.X * _player.ShieldStrength / 10f);
+                    _spriteBatch.Draw(_pixelTexture, new Microsoft.Xna.Framework.Rectangle((int)livesX, 10 + (int)livesTextSize.Y + 2, shieldBarWidth, 4), Color.Red);
+                }
                 var wavesText = $"WAVES {gameLevelInfo.Waves}";
                 var wavesTextSize = _gamefont14.MeasureString(wavesText);
                 _spriteBatch.DrawString(_gamefont14, wavesText, new Vector2((ScreenWidth - wavesTextSize.X) / 2, 10), Color.Red);
@@ -301,7 +310,6 @@ namespace DZ_Game
                     {
                         _lastPlayerCollisionTime = totalSeconds;
                         _player.ShieldStrength--;
-                        _player.Lives--;
 
                         if (_player.ShieldStrength <= 0)
                         {
