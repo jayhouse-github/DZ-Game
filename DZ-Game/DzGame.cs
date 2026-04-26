@@ -334,7 +334,7 @@ namespace DZ_Game
         private void StartGame()
         {
             //Initialise player
-            _player = new Player(ScreenWidth / 2, ScreenHeight - 100, 1, ScreenWidth, ScreenHeight, _playerImage);
+            _player = new Player(ScreenWidth / 2, ScreenHeight - 110, 1, ScreenWidth, ScreenHeight, _playerImage);
             _player.Lives = 3;
             _movingObjects.Add(_player);
 

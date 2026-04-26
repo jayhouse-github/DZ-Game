@@ -21,7 +21,7 @@ namespace DZGame.GameObjects
 
         public override void MoveLeft(GameTime gameTime)
         {
-            if (PositionX > 35)
+            if (PositionX > 5)
             {
                 PositionX -= 10;
                 CollisionRectangle = new System.Drawing.Rectangle(PositionX, PositionY, Image.Width, Image.Height);
@@ -30,7 +30,7 @@ namespace DZGame.GameObjects
 
         public override void MoveRight(GameTime gameTime)
         {
-            if(PositionX < ScreenWidth - 105)
+            if(PositionX < ScreenWidth - 75)
             {
                 PositionX += 10;
                 CollisionRectangle = new System.Drawing.Rectangle(PositionX, PositionY, Image.Width, Image.Height);
@@ -48,7 +48,7 @@ namespace DZGame.GameObjects
 
         public override void MoveDown(GameTime gameTime)
         {
-            if(PositionY < ScreenHeight - 70)
+            if(PositionY < ScreenHeight - 110)
             {
                 PositionY += 10;
                 CollisionRectangle = new System.Drawing.Rectangle(PositionX, PositionY, Image.Width, Image.Height);
