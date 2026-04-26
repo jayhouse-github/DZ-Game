@@ -36,6 +36,8 @@ namespace DZ_Game
         private Texture2D _pixelTexture;
         private SoundEffect _firingSound;
         private SoundEffect _explodeSound;
+        private SoundEffect _hitHurtSound;
+        private SoundEffect _powerUpSound;
         private SpriteFont _gamefont14;
         private List<IMovingObject> _movingObjects;
         private Player _player;
@@ -77,10 +79,13 @@ namespace DZ_Game
             _star3 = Content.Load<Texture2D>("star3");
             _playerImage = Content.Load<Texture2D>("player-1");
             _playerBullet = Content.Load<Texture2D>("bullet");
-            //_alien1 = Content.Load<Texture2D>("alien");
-            _firingSound = Content.Load<SoundEffect>("laser_sound");
+            _alien1 = Content.Load<Texture2D>("alien");
+            //_firingSound = Content.Load<SoundEffect>("laser_sound");
+            _firingSound = Content.Load<SoundEffect>("laserShoot");
             _pixelShatter = Content.Load<Texture2D>("pixel_shatter");
             _explodeSound = Content.Load<SoundEffect>("explode");
+            _hitHurtSound = Content.Load<SoundEffect>("hitHurt");
+            _powerUpSound = Content.Load<SoundEffect>("powerUp");
             _alien1 = Content.Load<Texture2D>("alien-1");
             _alien2 = Content.Load<Texture2D>("alien-2");
             _alien3 = Content.Load<Texture2D>("alien-3");
@@ -203,6 +208,8 @@ namespace DZ_Game
                 {
                     gameLevelInfo.ResetAliens();
                     _movingObjects.AddRange(gameLevelInfo.Aliens);
+                    if (gameLevelInfo.Waves > 1)
+                        _powerUpSound.Play();
                     gameLevelInfo.Waves--;
                 }
             }
@@ -302,19 +309,23 @@ namespace DZ_Game
 
             // Check if any alien has collided with the player (2-second cooldown between hits)
             var totalSeconds = gameTime.TotalGameTime.TotalSeconds;
-            if (totalSeconds - _lastPlayerCollisionTime >= 2.0)
+            if (totalSeconds - _lastPlayerCollisionTime >= 1.0)
             {
                 foreach (var alien in alienObjects.Cast<Alien>())
                 {
                     if (alien.CollisionRectangle.IntersectsWith(_player.CollisionRectangle))
                     {
                         _lastPlayerCollisionTime = totalSeconds;
-                        _player.ShieldStrength--;
+                        _player.ShieldStrength -= alien.Strength;
 
                         if (_player.ShieldStrength <= 0)
                         {
                             // TODO: Handle player death (e.g. game over screen, respawn, etc.)
                             var temp = "hello";
+                        }
+                        else
+                        {
+                            _hitHurtSound.Play();
                         }
 
                         break;

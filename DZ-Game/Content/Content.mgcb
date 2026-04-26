@@ -98,6 +98,12 @@
 /processorParam:TextureFormat=Compressed
 /build:GameFont1-14.spritefont
 
+#begin hitHurt.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:hitHurt.wav
+
 #begin kev.bmp
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -115,6 +121,12 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:laser_sound.wav
+
+#begin laserShoot.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:laserShoot.wav
 
 #begin pixel_shatter.bmp
 /importer:TextureImporter
@@ -139,6 +151,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:player-1.png
+
+#begin powerUp.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:powerUp.wav
 
 #begin smirnoff.bmp
 /importer:TextureImporter

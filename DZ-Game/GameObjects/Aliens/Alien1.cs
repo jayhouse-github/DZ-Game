@@ -12,6 +12,7 @@ namespace DZGame.GameObjects
         {
             Active = true;
             ScoreValue = 10;
+            Strength = 1;
         }
 
         public override void MoveAuto(GameTime gameTime)
