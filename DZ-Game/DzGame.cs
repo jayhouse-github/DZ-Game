@@ -34,6 +34,7 @@ namespace DZ_Game
         private Texture2D _alien4;
         private Texture2D _pixelShatter;
         private Texture2D _pixelTexture;
+        private Texture2D _alienBullet1;
         private SoundEffect _firingSound;
         private SoundEffect _explodeSound;
         private SoundEffect _hitHurtSound;
@@ -83,13 +84,14 @@ namespace DZ_Game
             //_firingSound = Content.Load<SoundEffect>("laser_sound");
             _firingSound = Content.Load<SoundEffect>("laserShoot");
             _pixelShatter = Content.Load<Texture2D>("pixel_shatter");
-            _explodeSound = Content.Load<SoundEffect>("explode");
+            _explodeSound = Content.Load<SoundEffect>("explosion");
             _hitHurtSound = Content.Load<SoundEffect>("hitHurt");
             _powerUpSound = Content.Load<SoundEffect>("powerUp");
             _alien1 = Content.Load<Texture2D>("alien-1");
             _alien2 = Content.Load<Texture2D>("alien-2");
             _alien3 = Content.Load<Texture2D>("alien-3");
             _alien4 = Content.Load<Texture2D>("alien-4");
+            _alienBullet1 = Content.Load<Texture2D>("alienBullet");
             _gamefont14 = Content.Load<SpriteFont>("GameFont1-14");
 
             //Initialise title screen - use existing pixel texture
@@ -206,11 +208,13 @@ namespace DZ_Game
 
                 if (gameLevelInfo.NoOfAliens == 0 && gameLevelInfo.Waves > 0)
                 {
-                    gameLevelInfo.ResetAliens();
-                    _movingObjects.AddRange(gameLevelInfo.Aliens);
-                    if (gameLevelInfo.Waves > 1)
-                        _powerUpSound.Play();
                     gameLevelInfo.Waves--;
+                    if (gameLevelInfo.Waves > 0)
+                    {
+                        gameLevelInfo.ResetAliens();
+                        _movingObjects.AddRange(gameLevelInfo.Aliens);
+                        _powerUpSound.Play();
+                    }
                 }
             }
 

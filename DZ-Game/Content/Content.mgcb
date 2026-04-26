@@ -73,6 +73,18 @@
 /processorParam:TextureFormat=Color
 /build:alien.bmp
 
+#begin alienBullet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:alienBullet.png
+
 #begin bullet.bmp
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -90,6 +102,12 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:explode.wav
+
+#begin explosion.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:explosion.wav
 
 #begin GameFont1-14.spritefont
 /importer:FontDescriptionImporter
