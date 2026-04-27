@@ -107,6 +107,12 @@
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
+/build:explosion.wav;explosion1.wav
+
+#begin explosion.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
 /build:explosion.wav
 
 #begin GameFont1-14.spritefont
