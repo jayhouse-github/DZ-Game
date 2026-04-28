@@ -11,6 +11,7 @@ namespace DZGame.GameObjects
         public int Strength { get; set; }
         public int Velocity { get; set; }
         public int ScoreValue { get; protected set; }
+        public bool BulletsDestroyable { get; set; }
 
         protected Alien(int x, int y, int z, int screenWidth, int screenHeight, Texture2D image) 
             : base(x, y, z, image, screenWidth, screenHeight, MovingObjectType.Alien) { }

@@ -49,6 +49,7 @@ namespace DZ_Game
         int _gameLevel;
         int _currentScore;
         double _lastPlayerCollisionTime = -2.0;
+        readonly Random _random = new Random();
 
         public DzGame()
         {
@@ -203,6 +204,17 @@ namespace DZ_Game
                 //Clean up
                 _movingObjects.RemoveAll(listItem => !listItem.Active);
 
+                //Alien firing
+                if (_random.Next(1, gameLevelInfo.AlienFiringThreshold + 1) == 2)
+                {
+                    var activeAliens = _movingObjects.Where(o => o.MoveType == MovingObjectType.Alien && o.Active).ToList();
+                    if (activeAliens.Any())
+                    {
+                        var firingAlien = (Alien)activeAliens[_random.Next(activeAliens.Count)];
+                        _movingObjects.Add(new AlienBullet(firingAlien.PositionX, firingAlien.PositionY, 1, ScreenWidth, ScreenHeight, _alienBullet1, firingAlien.BulletsDestroyable, gameLevelInfo.AlienBulletDamage));
+                    }
+                }
+
                 //Check for collisions
                 CheckForCollisions(gameTime);
 
@@ -307,6 +319,28 @@ namespace DZ_Game
                             CreatePixelCircle(bullet.PositionX, bullet.PositionY);
                             _explodeSound.Play();
                         }
+                    }
+                }
+            }
+
+            // Check if any alien bullet has hit the player
+            var alienBullets = _movingObjects.Where(
+                o => o.MoveType == MovingObjectType.AlienBullet && o.Active).ToList();
+            foreach (var ab in alienBullets.Cast<AlienBullet>())
+            {
+                if (ab.CollisionRectangle.IntersectsWith(_player.CollisionRectangle))
+                {
+                    ab.Active = false;
+                    _player.ShieldStrength -= ab.Damage;
+
+                    if (_player.ShieldStrength <= 0)
+                    {
+                        // TODO: Handle player death (e.g. game over screen, respawn, etc.)
+                        var temp = "hello";
+                    }
+                    else
+                    {
+                        _hitHurtSound.Play();
                     }
                 }
             }

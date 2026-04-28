@@ -16,6 +16,8 @@ namespace DZGame.GameObjects
         public int AlienDamage { get; set; }
         public int NoOfAliensFiring { get; set; }
         public int Waves { get; set; }
+        public int AlienFiringThreshold { get; set; }
+        public int AlienBulletDamage { get; set; }
         public int CurrentLevel { get; set; }
         public ICollection<IMovingObject> Aliens { get; set; }
         private IList<Texture2D> AlienImages { get; set; }
@@ -36,8 +38,10 @@ namespace DZGame.GameObjects
             {
                 case 1:
                     NoOfAliensAtStart = 20;
-                    NoOfAliens = NoOfAliensAtStart; // Initialize with the starting number of aliens
+                    NoOfAliens = NoOfAliensAtStart;
                     Waves = 3;
+                    AlienFiringThreshold = 50;
+                    AlienBulletDamage = 5;
 
                     PopulateAliens(levelNumber);
                     break;
