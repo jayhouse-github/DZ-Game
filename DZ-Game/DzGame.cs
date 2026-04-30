@@ -51,6 +51,10 @@ namespace DZ_Game
         double _lastPlayerCollisionTime = -2.0;
         readonly Random _random = new Random();
 
+        private bool _playerDying = false;
+        private double _deathTimer = 0;
+        private int _deathExplosionCount = 0;
+
         public DzGame()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -218,6 +222,23 @@ namespace DZ_Game
                 //Check for collisions
                 CheckForCollisions(gameTime);
 
+                if (_playerDying)
+                {
+                    _deathTimer += gameTime.ElapsedGameTime.TotalSeconds;
+                    if (_deathTimer >= 0.5 && _deathExplosionCount < 3)
+                    {
+                        CreatePixelCircle(_player.PositionX, _player.PositionY);
+                        _explodeSound.Play();
+                        _deathExplosionCount++;
+                        _deathTimer = 0;
+                    }
+                    if (_deathExplosionCount >= 3)
+                    {
+                        _playerDying = false;
+                        // TODO: handle game over
+                    }
+                }
+
                 if (gameLevelInfo.NoOfAliens == 0 && gameLevelInfo.Waves > 0)
                 {
                     gameLevelInfo.Waves--;
@@ -333,10 +354,9 @@ namespace DZ_Game
                     ab.Active = false;
                     _player.ShieldStrength -= ab.Damage;
 
-                    if (_player.ShieldStrength <= 0)
+                    if (_player.ShieldStrength <= 0 && !_playerDying)
                     {
-                        // TODO: Handle player death (e.g. game over screen, respawn, etc.)
-                        var temp = "hello";
+                        StartPlayerDeath();
                     }
                     else
                     {
@@ -358,8 +378,7 @@ namespace DZ_Game
 
                         if (_player.ShieldStrength <= 0)
                         {
-                            // TODO: Handle player death (e.g. game over screen, respawn, etc.)
-                            var temp = "hello";
+                            StartPlayerDeath();
                         }
                         else
                         {
@@ -398,6 +417,20 @@ namespace DZ_Game
             //Initialise level
             gameLevelInfo = GetGameLevel(_gameLevel);
             _movingObjects.AddRange(gameLevelInfo.Aliens);
+        }
+
+        private void StartPlayerDeath()
+        {
+            _playerDying = true;
+            _deathTimer = 0;
+            _deathExplosionCount = 0;
+            CreatePixelCircle(_player.PositionX, _player.PositionY);
+            _explodeSound.Play();
+            _deathExplosionCount++;
+            _player.Lives--;
+            _player.Active = false;
+            // Remove all aliens, alien bullets, player bullets
+            _movingObjects.RemoveAll(o => o.MoveType == MovingObjectType.Alien || o.MoveType == MovingObjectType.AlienBullet || o.MoveType == MovingObjectType.PlayerBullet);
         }
     }
 }
