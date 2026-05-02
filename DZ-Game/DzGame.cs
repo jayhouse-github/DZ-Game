@@ -51,9 +51,15 @@ namespace DZ_Game
         double _lastPlayerCollisionTime = -2.0;
         readonly Random _random = new Random();
 
+        private Texture2D _explosionAnimation;
+        private SpriteStripAnimation _playerDeathAnimation;
         private bool _playerDying = false;
         private double _deathTimer = 0;
         private int _deathExplosionCount = 0;
+        private const int ExplosionFrameWidth = 153;
+        private const int ExplosionFrameHeight = 128;
+        private const int ExplosionTotalFrames = 5;
+        private const double ExplosionDuration = 2.0;
 
         public DzGame()
         {
@@ -98,6 +104,7 @@ namespace DZ_Game
             _alien4 = Content.Load<Texture2D>("alien-4");
             _alienBullet1 = Content.Load<Texture2D>("alienBullet");
             _gamefont14 = Content.Load<SpriteFont>("GameFont1-14");
+            _explosionAnimation = Content.Load<Texture2D>("explosion_animation");
 
             //Initialise title screen - use existing pixel texture
             _titleScreen = new TitleScreen(_pixelShatter, ScreenWidth, ScreenHeight);
@@ -232,10 +239,21 @@ namespace DZ_Game
                         _deathExplosionCount++;
                         _deathTimer = 0;
                     }
-                    if (_deathExplosionCount >= 3)
+                    if (_deathExplosionCount >= 3 && (_playerDeathAnimation == null || !_playerDeathAnimation.Active))
                     {
                         _playerDying = false;
-                        // TODO: handle game over
+                        if (_player.Lives > 0)
+                        {
+                            _player.PositionX = ScreenWidth / 2;
+                            _player.PositionY = ScreenHeight - 110;
+                            _player.ShieldStrength = 10;
+                            _player.Active = true;
+                        }
+                    }
+
+                    if (_playerDeathAnimation != null)
+                    {
+                        _playerDeathAnimation.Update(gameTime);
                     }
                 }
 
@@ -284,6 +302,11 @@ namespace DZ_Game
                 var wavesText = $"WAVES {gameLevelInfo.Waves}";
                 var wavesTextSize = _gamefont14.MeasureString(wavesText);
                 _spriteBatch.DrawString(_gamefont14, wavesText, new Vector2((ScreenWidth - wavesTextSize.X) / 2, 10), Color.Red);
+
+                if (_playerDying && _playerDeathAnimation != null)
+                {
+                    _playerDeathAnimation.Draw(_spriteBatch);
+                }
             }
 
             _spriteBatch.End();
@@ -429,7 +452,16 @@ namespace DZ_Game
             _deathExplosionCount++;
             _player.Lives--;
             _player.Active = false;
-            // Remove all aliens, alien bullets, player bullets
+
+            var animationX = (int)_player.PositionX - ExplosionFrameWidth / 2;
+            var animationY = (int)_player.PositionY - ExplosionFrameHeight / 2;
+            _playerDeathAnimation = new SpriteStripAnimation(
+                animationX, animationY,
+                ExplosionFrameWidth, ExplosionFrameHeight,
+                ExplosionTotalFrames,
+                ExplosionDuration / ExplosionTotalFrames,
+                _explosionAnimation);
+
             _movingObjects.RemoveAll(o => o.MoveType == MovingObjectType.Alien || o.MoveType == MovingObjectType.AlienBullet || o.MoveType == MovingObjectType.PlayerBullet);
         }
     }
