@@ -103,18 +103,6 @@
 /processorParam:Quality=Best
 /build:explode.wav
 
-#begin explosion_animation.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:explosion_animation.png
-
 #begin explosion.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -169,6 +157,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:pixel_shatter.bmp
+
+#begin player_explosion2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:player_explosion2.png
 
 #begin player-1.png
 /importer:TextureImporter
