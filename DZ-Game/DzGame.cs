@@ -55,6 +55,7 @@ namespace DZ_Game
         private bool _playerDying = false;
         private double _deathTimer = 0;
         private int _deathExplosionCount = 0;
+        private int _livesAtDeath = 0;
         // Explosion animation constants removed
 
         public DzGame()
@@ -235,16 +236,18 @@ namespace DZ_Game
                         _deathExplosionCount++;
                         _deathTimer = 0;
                     }
-                    if (_deathExplosionCount >= 3)
+                    if (_deathExplosionCount >= 3 && _deathTimer >= 0.5 && _livesAtDeath > 0)
                     {
                         _playerDying = false;
-                        if (_player.Lives > 0)
-                        {
-                            _player.PositionX = ScreenWidth / 2;
-                            _player.PositionY = ScreenHeight - 110;
-                            _player.ShieldStrength = 10;
-                            _player.Active = true;
-                        }
+                        ResetLevel();
+                        _player = new Player(ScreenWidth / 2, ScreenHeight - 110, 1, ScreenWidth, ScreenHeight, _playerImage);
+                        _player.Lives = _livesAtDeath - 1;
+                        _player.ShieldStrength = 10;
+                        _movingObjects.Add(_player);
+                    }
+                    else if (_deathExplosionCount >= 3 && _deathTimer >= 0.5 && _livesAtDeath <= 0)
+                    {
+                        _playerDying = false;
                     }
 
                     // no sprite animation to update for player death; only pixel circles
@@ -430,6 +433,17 @@ namespace DZ_Game
             //Initialise level
             gameLevelInfo = GetGameLevel(_gameLevel);
             _movingObjects.AddRange(gameLevelInfo.Aliens);
+
+            _powerUpSound.Play();
+        }
+
+        private void ResetLevel()
+        {
+            _movingObjects.RemoveAll(o => o.MoveType == MovingObjectType.Alien || o.MoveType == MovingObjectType.AlienBullet || o.MoveType == MovingObjectType.PlayerBullet);
+            gameLevelInfo = GetGameLevel(_gameLevel);
+            _movingObjects.AddRange(gameLevelInfo.Aliens);
+
+            _powerUpSound.Play();
         }
 
         private void StartPlayerDeath()
@@ -437,10 +451,10 @@ namespace DZ_Game
             _playerDying = true;
             _deathTimer = 0;
             _deathExplosionCount = 0;
+            _livesAtDeath = _player.Lives;
             CreatePixelCircle(_player.PositionX, _player.PositionY);
             _explodeSound.Play();
             _deathExplosionCount++;
-            _player.Lives--;
             _player.Active = false;
 
             // no sprite animation created here - only the pixel circles are used for the death effect
