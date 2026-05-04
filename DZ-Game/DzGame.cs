@@ -103,8 +103,8 @@ namespace DZ_Game
             _gamefont14 = Content.Load<SpriteFont>("GameFont1-14");
             // player explosion spritesheet not loaded - using pixel circle effects only
 
-            //Initialise title screen - use existing pixel texture
-            _titleScreen = new TitleScreen(_pixelShatter, ScreenWidth, ScreenHeight);
+            //Initialise title screen - use game font
+            _titleScreen = new TitleScreen(_gamefont14, ScreenWidth, ScreenHeight);
 
             //Populate stars
             for (int i = 0; i < StarCount; i++)
