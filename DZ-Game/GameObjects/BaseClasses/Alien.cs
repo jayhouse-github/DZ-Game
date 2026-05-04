@@ -13,8 +13,14 @@ namespace DZGame.GameObjects
         public int ScoreValue { get; protected set; }
         public bool BulletsDestroyable { get; set; }
 
-        protected Alien(int x, int y, int z, int screenWidth, int screenHeight, Texture2D image) 
-            : base(x, y, z, image, screenWidth, screenHeight, MovingObjectType.Alien) { }
+        protected Alien(int x, int y, int z, int screenWidth, int screenHeight, Texture2D image, int strength,
+            int scoreValue, bool bulletsDestroyable)
+            : base(x, y, z, image, screenWidth, screenHeight, MovingObjectType.Alien)
+        {
+            Strength = strength;
+            ScoreValue = scoreValue;
+            BulletsDestroyable = bulletsDestroyable;
+        }
 
         public abstract override void MoveAuto(GameTime gameTime);
         

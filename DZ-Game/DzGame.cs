@@ -381,6 +381,24 @@ namespace DZ_Game
                 }
             }
 
+            // Check if player bullets destroy alien bullets (only destroyable ones)
+            var destroyableAlienBullets = _movingObjects.Where(
+                o => o.MoveType == MovingObjectType.AlienBullet && o.Active).Cast<AlienBullet>().ToList();
+
+            foreach (var ab in destroyableAlienBullets.Where(b => b.Destroyable))
+            {
+                foreach (var bullet in liveBullets.Cast<Bullet>())
+                {
+                    if (ab.CollisionRectangle.IntersectsWith(bullet.CollisionRectangle))
+                    {
+                        ab.Active = false;
+                        bullet.Active = false;
+
+                        // TODO: Add animation here for alien bullet destruction
+                    }
+                }
+            }
+
             // Check if any alien has collided with the player (2-second cooldown between hits)
             var totalSeconds = gameTime.TotalGameTime.TotalSeconds;
             if (totalSeconds - _lastPlayerCollisionTime >= 1.0)

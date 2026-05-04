@@ -19,6 +19,10 @@ namespace DZGame.GameObjects
         public int AlienFiringThreshold { get; set; }
         public int AlienBulletDamage { get; set; }
         public int CurrentLevel { get; set; }
+
+        public int AlienScoreValue { get; set; }
+        public int AlienStrength { get; set; }
+        public bool AlienBulletsDestroyable { get; set; }
         public ICollection<IMovingObject> Aliens { get; set; }
         private IList<Texture2D> AlienImages { get; set; }
 
@@ -42,6 +46,9 @@ namespace DZGame.GameObjects
                     Waves = 3;
                     AlienFiringThreshold = 50;
                     AlienBulletDamage = 5;
+                    AlienScoreValue = 10;
+                    AlienStrength = 1;
+                    AlienBulletsDestroyable = true;
 
                     PopulateAliens(levelNumber);
                     break;
@@ -98,38 +105,38 @@ namespace DZGame.GameObjects
 
                     for (int i = 1; i <= NoOfAliensAtStart; i++)
                     {
-                        var alien = new Alien1(x, 300, 1, _screenWidth, _screenHeight, AlienImages[0]);
+                        var alien = new Alien1(x, 300, 1, _screenWidth, _screenHeight, AlienImages[0], this.AlienStrength, this.AlienScoreValue, this.AlienBulletsDestroyable);
                         Aliens.Add(alien);
                         x += 50;
                     }
                     break;
-                case 2:
+                //case 2:
                     //TODO - this is only temporary, define actual level 2.
-                    x = 200;
-
-                    for (int i = 1; i <= NoOfAliensAtStart; i++)
-                    {
-                        var alien = new Alien1(x, 40, 1, _screenWidth, _screenHeight, AlienImages[0]);
-                        Aliens.Add(alien);
-                        x += 50;
-                        if (x > 1000) x = 50;
-                    }
-                    break;
-                        case 3:                                                                                                                                               
-                case 4:                                                                                                                                               
-                case 5:                                                                                                                                               
-                case 6:                                                                                                                                               
-                case 7:                                                                                                                                               
-                    x = 50; // Initial position                                                                                                                   
-                    for (int i = 1; i <= NoOfAliensAtStart; i++)                                                                                                      
-                    {                                                                                                                                                 
-                        var alien = new Alien1(x, 300, 1, _screenWidth,                                                                                               
-                        _screenHeight, AlienImages[0]);                                                                                                                                  
-                        Aliens.Add(alien);                                                                                                                            
-                        x += 50;   
-                        if (x > 1000) x = 50;
-                    }                                                                                                                                                 
-                    break;  
+                    // x = 200;
+                    //
+                    // for (int i = 1; i <= NoOfAliensAtStart; i++)
+                    // {
+                    //     var alien = new Alien1(x, 40, 1, _screenWidth, _screenHeight, AlienImages[0]);
+                    //     Aliens.Add(alien);
+                    //     x += 50;
+                    //     if (x > 1000) x = 50;
+                    // }
+                    // break;
+                // case 3:                                                                                                                                               
+                // case 4:                                                                                                                                               
+                // case 5:                                                                                                                                               
+                // case 6:                                                                                                                                               
+                // case 7:                                                                                                                                               
+                    // x = 50; // Initial position                                                                                                                   
+                    // for (int i = 1; i <= NoOfAliensAtStart; i++)                                                                                                      
+                    // {                                                                                                                                                 
+                    //     var alien = new Alien1(x, 300, 1, _screenWidth,                                                                                               
+                    //     _screenHeight, AlienImages[0]);                                                                                                                                  
+                    //     Aliens.Add(alien);                                                                                                                            
+                    //     x += 50;   
+                    //     if (x > 1000) x = 50;
+                    // }                                                                                                                                                 
+                    // break;  
             }
         }
 
