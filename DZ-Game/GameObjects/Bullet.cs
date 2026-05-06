@@ -20,13 +20,6 @@ namespace DZGame.GameObjects
 
             if (PositionY < 0) Active = false;
         }
-
-        public override void MoveLeft(GameTime gameTime) { }
-
-        public override void MoveRight(GameTime gameTime) { }
-
-        public override  void MoveUp(GameTime gameTime) { }
-
-        public override  void MoveDown(GameTime gameTime) { }
+        
     }
 }

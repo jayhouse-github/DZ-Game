@@ -12,14 +12,6 @@
             </PendingDiffInfo>
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/DZ-Game/GameObjects/PowerUp.cs">
-          <value>
-            <PendingDiffInfo>
-              <option name="filePath" value="$PROJECT_DIR$/DZ-Game/GameObjects/PowerUp.cs" />
-              <option name="updatedContent" value="using DZGame.Enums;&#10;using Microsoft.Xna.Framework;&#10;using Microsoft.Xna.Framework.Graphics;&#10;using Rectangle = System.Drawing.Rectangle;&#10;&#10;namespace DZGame.GameObjects&#10;{&#10;    public class PowerUp : CollisionObject&#10;    {&#10;        public int RegenValue { get; set; }&#10;&#10;        public PowerUp(int x, int y, int z, int screenWidth, int screenHeight, Texture2D image, int regenValue)&#10;            : base(x, y, z, image, screenWidth, screenHeight, MovingObjectType.PowerUp)&#10;        {&#10;            Active = true;&#10;            RegenValue = regenValue;&#10;        }&#10;&#10;        public override void MoveAuto(GameTime gameTime)&#10;        {&#10;            PositionY += 5;&#10;            CollisionRectangle = new Rectangle(PositionX, PositionY, Image.Width, Image.Height);&#10;&#10;            if (PositionY &gt; ScreenHeight) Active = false;&#10;        }&#10;&#10;        public override void MoveLeft(GameTime gameTime) { }&#10;&#10;        public override void MoveRight(GameTime gameTime) { }&#10;&#10;        public override void MoveUp(GameTime gameTime) { }&#10;&#10;        public override void MoveDown(GameTime gameTime) { }&#10;    }&#10;}" />
-            </PendingDiffInfo>
-          </value>
-        </entry>
       </map>
     </option>
   </component>
