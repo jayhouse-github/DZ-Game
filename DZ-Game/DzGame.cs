@@ -35,6 +35,7 @@ namespace DZ_Game
         private Texture2D _pixelShatter;
         private Texture2D _pixelTexture;
         private Texture2D _alienBullet1;
+        private Texture2D _powerUp1;
         private SoundEffect _firingSound;
         private SoundEffect _explodeSound;
         private SoundEffect _hitHurtSound;
@@ -100,6 +101,7 @@ namespace DZ_Game
             _alien3 = Content.Load<Texture2D>("alien-3");
             _alien4 = Content.Load<Texture2D>("alien-4");
             _alienBullet1 = Content.Load<Texture2D>("alienBullet");
+            _powerUp1 = Content.Load<Texture2D>("power-up1");
             _gamefont14 = Content.Load<SpriteFont>("GameFont1-14");
             // player explosion spritesheet not loaded - using pixel circle effects only
 
@@ -220,6 +222,17 @@ namespace DZ_Game
                     {
                         var firingAlien = (Alien)activeAliens[_random.Next(activeAliens.Count)];
                         _movingObjects.Add(new AlienBullet(firingAlien.PositionX, firingAlien.PositionY, 1, ScreenWidth, ScreenHeight, _alienBullet1, firingAlien.BulletsDestroyable, gameLevelInfo.AlienBulletDamage));
+                    }
+                }
+
+                //Alien power-up firing
+                if (gameLevelInfo.AlienFirePowerUpThreshold > 0 && _random.Next(1, gameLevelInfo.AlienFirePowerUpThreshold + 1) == 2)
+                {
+                    var activeAliens = _movingObjects.Where(o => o.MoveType == MovingObjectType.Alien && o.Active).ToList();
+                    if (activeAliens.Any())
+                    {
+                        var firingAlien = (Alien)activeAliens[_random.Next(activeAliens.Count)];
+                        _movingObjects.Add(new PowerUp(firingAlien.PositionX, firingAlien.PositionY, 1, ScreenWidth, ScreenHeight, _powerUp1, gameLevelInfo.ShieldPowerUpValue));
                     }
                 }
 
@@ -423,6 +436,19 @@ namespace DZ_Game
                     }
                 }
             }
+
+            // Check if any power-up has collided with the player
+            var powerUps = _movingObjects.Where(o => o.MoveType == MovingObjectType.PowerUp && o.Active).ToList();
+            foreach (var pu in powerUps.Cast<PowerUp>())
+            {
+                if (pu.CollisionRectangle.IntersectsWith(_player.CollisionRectangle))
+                {
+                    pu.Active = false;
+                    _player.ShieldStrength += pu.RegenValue;
+                    if (_player.ShieldStrength > 10) _player.ShieldStrength = 10;
+                    _powerUpSound.Play();
+                }
+            }
         }
 
         private void CreatePixelCircle(int alienX, int alienY)
@@ -457,7 +483,7 @@ namespace DZ_Game
 
         private void ResetLevel()
         {
-            _movingObjects.RemoveAll(o => o.MoveType == MovingObjectType.Alien || o.MoveType == MovingObjectType.AlienBullet || o.MoveType == MovingObjectType.PlayerBullet);
+            _movingObjects.RemoveAll(o => o.MoveType == MovingObjectType.Alien || o.MoveType == MovingObjectType.AlienBullet || o.MoveType == MovingObjectType.PlayerBullet || o.MoveType == MovingObjectType.PowerUp);
             gameLevelInfo = GetGameLevel(_gameLevel);
             _movingObjects.AddRange(gameLevelInfo.Aliens);
 
@@ -477,7 +503,7 @@ namespace DZ_Game
 
             // no sprite animation created here - only the pixel circles are used for the death effect
 
-            _movingObjects.RemoveAll(o => o.MoveType == MovingObjectType.Alien || o.MoveType == MovingObjectType.AlienBullet || o.MoveType == MovingObjectType.PlayerBullet);
+            _movingObjects.RemoveAll(o => o.MoveType == MovingObjectType.Alien || o.MoveType == MovingObjectType.AlienBullet || o.MoveType == MovingObjectType.PlayerBullet || o.MoveType == MovingObjectType.PowerUp);
         }
     }
 }

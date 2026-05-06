@@ -8,5 +8,6 @@ public enum MovingObjectType
     Player,
     Background,
     PixelShatter,
-    Explosion
+    Explosion,
+    PowerUp
 }

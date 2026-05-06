@@ -23,6 +23,8 @@ namespace DZGame.GameObjects
         public int AlienScoreValue { get; set; }
         public int AlienStrength { get; set; }
         public bool AlienBulletsDestroyable { get; set; }
+        public int AlienFirePowerUpThreshold { get; set; }
+        public int ShieldPowerUpValue { get; set; }
         public ICollection<IMovingObject> Aliens { get; set; }
         private IList<Texture2D> AlienImages { get; set; }
 
@@ -49,6 +51,8 @@ namespace DZGame.GameObjects
                     AlienScoreValue = 10;
                     AlienStrength = 1;
                     AlienBulletsDestroyable = true;
+                    AlienFirePowerUpThreshold = 100;
+                    ShieldPowerUpValue = 2;
 
                     PopulateAliens(levelNumber);
                     break;
