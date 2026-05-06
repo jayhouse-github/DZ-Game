@@ -199,7 +199,7 @@ namespace DZ_Game
                 }
 
                 //Fire
-                if ((kState.IsKeyDown(Keys.Space) || gState.Buttons.A == ButtonState.Pressed) && _validBullet > 9 )
+                if ((kState.IsKeyDown(Keys.Space) || gState.Buttons.A == ButtonState.Pressed) && _validBullet > 9 && !_playerDying)
                 {
                     _validBullet = 0;
                     _movingObjects.Add(new Bullet(_player.PositionX + 29, _player.PositionY, 1, _playerBullet));
