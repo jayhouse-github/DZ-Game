@@ -182,6 +182,18 @@
 /processorParam:TextureFormat=Color
 /build:player-1.png
 
+#begin power-up1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:power-up1.png
+
 #begin powerUp.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
