@@ -18,7 +18,7 @@ namespace DZGame.GameObjects
 
         public override void MoveAuto(GameTime gameTime)
         {
-            PositionY += 5;
+            PositionY += 3;
             CollisionRectangle = new Rectangle(PositionX, PositionY, Image.Width, Image.Height);
 
             if (PositionY > ScreenHeight) Active = false;
