@@ -405,19 +405,26 @@ namespace DZ_Game
             }
 
             // Check if player bullets destroy alien bullets (only destroyable ones)
-            var destroyableAlienBullets = _movingObjects.Where(
+            var liveAlienBullets = _movingObjects.Where(
                 o => o.MoveType == MovingObjectType.AlienBullet && o.Active).Cast<AlienBullet>().ToList();
 
-            foreach (var ab in destroyableAlienBullets.Where(b => b.Destroyable))
+            foreach (var ab in liveAlienBullets)
             {
                 foreach (var bullet in liveBullets.Cast<Bullet>())
                 {
                     if (ab.CollisionRectangle.IntersectsWith(bullet.CollisionRectangle))
                     {
-                        ab.Active = false;
-                        bullet.Active = false;
+                        if (ab.Destroyable)
+                        {
+                            ab.Active = false;
+                            bullet.Active = false;
 
-                        // TODO: Add animation here for alien bullet destruction
+                            // TODO: Add animation here for alien bullet destruction
+                        }
+                        else
+                        {
+                            //TODO: Play sound of player bullet hitting indestructable alien bullet.
+                        }
                     }
                 }
             }
