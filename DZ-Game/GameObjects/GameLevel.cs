@@ -19,10 +19,12 @@ namespace DZGame.GameObjects
         public int AlienFiringThreshold { get; set; }
         public int AlienBulletDamage { get; set; }
         public int CurrentLevel { get; set; }
+        public int ShieldStrengthPerAlien { get; set; }
 
         public int AlienScoreValue { get; set; }
         public int AlienStrength { get; set; }
         public bool AlienBulletsDestroyable { get; set; }
+
         public int AlienFirePowerUpThreshold { get; set; }
         public int ShieldPowerUpValue { get; set; }
         public ICollection<IMovingObject> Aliens { get; set; }
@@ -50,6 +52,7 @@ namespace DZGame.GameObjects
                     AlienBulletDamage = 5;
                     AlienScoreValue = 10;
                     AlienStrength = 1;
+                    ShieldStrengthPerAlien = 1;
                     AlienBulletsDestroyable = true;
                     AlienFirePowerUpThreshold = 100;
                     ShieldPowerUpValue = 2;
@@ -109,7 +112,7 @@ namespace DZGame.GameObjects
 
                     for (int i = 1; i <= NoOfAliensAtStart; i++)
                     {
-                        var alien = new Alien1(x, 300, 1, _screenWidth, _screenHeight, AlienImages[0], this.AlienStrength, this.AlienScoreValue, this.AlienBulletsDestroyable);
+                        var alien = new Alien1(x, 300, 1, _screenWidth, _screenHeight, AlienImages[0], this.AlienStrength, this.AlienScoreValue, this.AlienBulletsDestroyable, this.ShieldStrengthPerAlien);
                         Aliens.Add(alien);
                         x += 50;
                     }

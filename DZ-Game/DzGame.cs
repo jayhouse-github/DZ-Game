@@ -365,17 +365,19 @@ namespace DZ_Game
                 {
                     foreach (var alien in alienObjects.Cast<Alien>())
                     {
-                        if (bullet.CollisionRectangle.IntersectsWith(alien.CollisionRectangle))
+                         if (bullet.CollisionRectangle.IntersectsWith(alien.CollisionRectangle))
                         {
-                            //Mark alien and bullet as inactive
-                            gameLevelInfo.RemoveAlien();
-                            _currentScore += alien.ScoreValue;
-                            alien.Active = false;
+                            alien.ShieldStrength--;
                             bullet.Active = false;
 
-                            //Explosion, sound and set off pixel shatter at location
-                            CreatePixelCircle(bullet.PositionX, bullet.PositionY);
-                            _explodeSound.Play();
+                            if (alien.ShieldStrength <= 0)
+                            {
+                                gameLevelInfo.RemoveAlien();
+                                _currentScore += alien.ScoreValue;
+                                alien.Active = false;
+                                CreatePixelCircle(bullet.PositionX, bullet.PositionY);
+                                _explodeSound.Play();
+                            }
                         }
                     }
                 }

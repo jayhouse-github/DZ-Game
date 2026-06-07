@@ -8,8 +8,8 @@ namespace DZGame.GameObjects
     public class Alien1 : Alien
     {
         public Alien1(int x, int y, int z, int screenWidth, int screenHeight, Texture2D image, int strength,
-            int scoreValue, bool bulletsDestroyable) 
-            : base (x, y, z, screenWidth, screenHeight, image, strength, scoreValue, bulletsDestroyable)
+            int scoreValue, bool bulletsDestroyable, int shieldStrength) 
+            : base (x, y, z, screenWidth, screenHeight, image, strength, scoreValue, bulletsDestroyable, shieldStrength)
         {
             Active = true;
         }

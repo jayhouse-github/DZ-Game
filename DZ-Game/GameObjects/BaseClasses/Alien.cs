@@ -7,19 +7,21 @@ namespace DZGame.GameObjects
 {
     public abstract class Alien : CollisionObject, IAlien
     {
-        public int ExplodeFrame { get; set; }
+        public int ShieldStrength { get; set; }
         public int Strength { get; set; }
         public int Velocity { get; set; }
         public int ScoreValue { get; protected set; }
         public bool BulletsDestroyable { get; set; }
+        public int ExplodeFrame { get; set; }
 
         protected Alien(int x, int y, int z, int screenWidth, int screenHeight, Texture2D image, int strength,
-            int scoreValue, bool bulletsDestroyable)
+            int scoreValue, bool bulletsDestroyable, int shieldStrength)
             : base(x, y, z, image, screenWidth, screenHeight, MovingObjectType.Alien)
         {
             Strength = strength;
             ScoreValue = scoreValue;
             BulletsDestroyable = bulletsDestroyable;
+            ShieldStrength = shieldStrength;
         }
 
         public abstract override void MoveAuto(GameTime gameTime);
