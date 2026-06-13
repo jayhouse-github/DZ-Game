@@ -65,7 +65,7 @@ namespace DZ_Game
             _movingObjects = new List<IMovingObject>();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            _gameLevel = 1;
+            _gameLevel = 2;
             _gameState = GameState.TitleScreen;
         }
 
@@ -215,34 +215,36 @@ namespace DZ_Game
                 _movingObjects.RemoveAll(listItem => !listItem.Active);
 
                 //Alien firing - probability scales with remaining alien count
-                if (gameLevelInfo.NoOfAliens > 0)
-                {
-                    var alienFiringProbabilityThreshold = (int)Math.Max(1, gameLevelInfo.AlienFiringThreshold * gameLevelInfo.NoOfAliensAtStart / (float)gameLevelInfo.NoOfAliens);
-                    if (_random.Next(1, alienFiringProbabilityThreshold + 1) == 1)
+                    if (gameLevelInfo.NoOfAliens > 0 && gameLevelInfo.AlienFiringThreshold != -1)
                     {
-                        var activeAliens = _movingObjects.Where(o => o.MoveType == MovingObjectType.Alien && o.Active).ToList();
-                        if (activeAliens.Any())
+                        var alienFiringProbabilityThreshold = (int)Math.Max(1, gameLevelInfo.AlienFiringThreshold * gameLevelInfo.NoOfAliensAtStart / (float)gameLevelInfo.NoOfAliens);
+                        if (_random.Next(1, alienFiringProbabilityThreshold + 1) == 1)
                         {
-                            var firingAlien = (Alien)activeAliens[_random.Next(activeAliens.Count)];
-                            _movingObjects.Add(new AlienBullet(firingAlien.PositionX, firingAlien.PositionY, 1, ScreenWidth, ScreenHeight, _alienBullet1, firingAlien.BulletsDestroyable, gameLevelInfo.AlienBulletDamage));
+                            var activeAliens = _movingObjects.Where(o => o.MoveType == MovingObjectType.Alien && o.Active).ToList();
+                            if (activeAliens.Any())
+                            {
+                                var firingAlien = (Alien)activeAliens[_random.Next(activeAliens.Count)];
+                                _movingObjects.Add(new AlienBullet(firingAlien.PositionX, firingAlien.PositionY, 1, ScreenWidth, ScreenHeight, _alienBullet1, firingAlien.BulletsDestroyable, gameLevelInfo.AlienBulletDamage));
+                            }
                         }
                     }
-                }
+
 
                 //Alien power-up firing - probability scales with remaining alien count
-                if (gameLevelInfo.AlienFirePowerUpThreshold > 0 && gameLevelInfo.NoOfAliens > 0)
-                {
-                    var powerUpProbabilityThreshold = (int)Math.Max(1, gameLevelInfo.AlienFirePowerUpThreshold * gameLevelInfo.NoOfAliensAtStart / (float)gameLevelInfo.NoOfAliens);
-                    if (_random.Next(1, powerUpProbabilityThreshold + 1) == 1)
+                    if (gameLevelInfo.AlienFirePowerUpThreshold != -1 && gameLevelInfo.NoOfAliens > 0)
                     {
-                        var activeAliens = _movingObjects.Where(o => o.MoveType == MovingObjectType.Alien && o.Active).ToList();
-                        if (activeAliens.Any())
+                        var powerUpProbabilityThreshold = (int)Math.Max(1, gameLevelInfo.AlienFirePowerUpThreshold * gameLevelInfo.NoOfAliensAtStart / (float)gameLevelInfo.NoOfAliens);
+                        if (_random.Next(1, powerUpProbabilityThreshold + 1) == 1)
                         {
-                            var firingAlien = (Alien)activeAliens[_random.Next(activeAliens.Count)];
-                            _movingObjects.Add(new PowerUp(firingAlien.PositionX, firingAlien.PositionY, 1, ScreenWidth, ScreenHeight, _powerUp1, gameLevelInfo.ShieldPowerUpValue));
+                            var activeAliens = _movingObjects.Where(o => o.MoveType == MovingObjectType.Alien && o.Active).ToList();
+                            if (activeAliens.Any())
+                            {
+                                var firingAlien = (Alien)activeAliens[_random.Next(activeAliens.Count)];
+                                _movingObjects.Add(new PowerUp(firingAlien.PositionX, firingAlien.PositionY, 1, ScreenWidth, ScreenHeight, _powerUp1, gameLevelInfo.ShieldPowerUpValue));
+                            }
                         }
                     }
-                }
+
 
                 //Check for collisions
                 CheckForCollisions(gameTime);
@@ -335,7 +337,11 @@ namespace DZ_Game
             switch (gameLevel)
             {
                 case 1:
+                    alienImages.Add(_alien1);
+                    break;
                 case 2:
+                    alienImages.Add(_alien4);
+                    break;
                 case 3:
                 case 4:
                 case 5:
@@ -343,6 +349,7 @@ namespace DZ_Game
                 case 7:
                     alienImages.Add(_alien3);
                     break;
+                
             }
 
             return new GameLevel(gameLevel, ScreenWidth, ScreenHeight, alienImages);
