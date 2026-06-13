@@ -65,7 +65,7 @@ namespace DZ_Game
             _movingObjects = new List<IMovingObject>();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            _gameLevel = 2;
+            _gameLevel = 1;
             _gameState = GameState.TitleScreen;
         }
 
@@ -337,7 +337,7 @@ namespace DZ_Game
             switch (gameLevel)
             {
                 case 1:
-                    alienImages.Add(_alien1);
+                    alienImages.Add(_alien3);
                     break;
                 case 2:
                     alienImages.Add(_alien4);
