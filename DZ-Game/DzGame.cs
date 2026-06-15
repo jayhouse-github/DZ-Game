@@ -22,6 +22,11 @@ namespace DZ_Game
         private GameLevel gameLevelInfo;
         private GameState _gameState;
         private TitleScreen _titleScreen;
+        private LevelCompleteScreen _levelCompleteScreen;
+        
+        // CHANGEABLE: Level complete screen display time (in seconds)
+        private const double LEVEL_COMPLETE_DISPLAY_TIME = 7.0;
+        private double _levelCompleteTimer = 0;
 
         private Texture2D _star1;
         private Texture2D _star2;
@@ -107,6 +112,9 @@ namespace DZ_Game
 
             //Initialise title screen - use game font
             _titleScreen = new TitleScreen(_gamefont14, ScreenWidth, ScreenHeight);
+            
+            //Initialise level complete screen
+            _levelCompleteScreen = new LevelCompleteScreen(_gamefont14, ScreenWidth, ScreenHeight);
 
             //Populate stars
             for (int i = 0; i < StarCount; i++)
@@ -285,6 +293,39 @@ namespace DZ_Game
                         _movingObjects.AddRange(gameLevelInfo.Aliens);
                         _powerUpSound.Play();
                     }
+                    else if (gameLevelInfo.Waves == 0)
+                    {
+                        // All waves complete - transition to level complete screen
+                        _gameState = GameState.LevelComplete;
+                        _levelCompleteTimer = 0;
+                        // Clear all remaining aliens, bullets, and power-ups from the screen
+                        _movingObjects.RemoveAll(o => o.MoveType == MovingObjectType.Alien || o.MoveType == MovingObjectType.AlienBullet || o.MoveType == MovingObjectType.PlayerBullet || o.MoveType == MovingObjectType.PowerUp);
+                        // TODO: Add sound effect for level complete (e.g., victory music or fanfare)
+                    }
+                }
+            }
+            else if (_gameState == GameState.LevelComplete)
+            {
+                // Update timer for level complete screen
+                _levelCompleteTimer += gameTime.ElapsedGameTime.TotalSeconds;
+                
+                // Continue animating stars during level complete
+                foreach (var item in _movingObjects)
+                {
+                    item.MoveAuto(gameTime);
+                }
+                
+                // Check if time to display level complete is finished
+                if (_levelCompleteTimer >= LEVEL_COMPLETE_DISPLAY_TIME)
+                {
+                    // Move to next level and resume gameplay
+                    _gameLevel++;
+                    _gameState = GameState.Playing;
+                    _levelCompleteTimer = 0;
+                    // TODO: Add sound effect for level start transition
+                    
+                    // Setup next level
+                    ResetLevelAndStartNext();
                 }
             }
 
@@ -323,6 +364,10 @@ namespace DZ_Game
                 _spriteBatch.DrawString(_gamefont14, wavesText, new Vector2((ScreenWidth - wavesTextSize.X) / 2, 10), Color.Red);
 
                 // player death has no sprite animation to draw; pixel circles are visible via _movingObjects
+            }
+            else if (_gameState == GameState.LevelComplete)
+            {
+                _levelCompleteScreen.Draw(_spriteBatch);
             }
 
             _spriteBatch.End();
@@ -510,6 +555,21 @@ namespace DZ_Game
             _movingObjects.RemoveAll(o => o.MoveType == MovingObjectType.Alien || o.MoveType == MovingObjectType.AlienBullet || o.MoveType == MovingObjectType.PlayerBullet || o.MoveType == MovingObjectType.PowerUp);
             gameLevelInfo = GetGameLevel(_gameLevel);
             _movingObjects.AddRange(gameLevelInfo.Aliens);
+
+            _powerUpSound.Play();
+        }
+
+        private void ResetLevelAndStartNext()
+        {
+            // Clear all game objects except stars and player
+            _movingObjects.RemoveAll(o => o.MoveType == MovingObjectType.Alien || o.MoveType == MovingObjectType.AlienBullet || o.MoveType == MovingObjectType.PlayerBullet || o.MoveType == MovingObjectType.PowerUp);
+            
+            // Initialize next level
+            gameLevelInfo = GetGameLevel(_gameLevel);
+            _movingObjects.AddRange(gameLevelInfo.Aliens);
+            
+            // Reset player for new level (keep current stats)
+            _player.ShieldStrength = 10;
 
             _powerUpSound.Play();
         }
