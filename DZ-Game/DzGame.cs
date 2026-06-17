@@ -365,10 +365,26 @@ namespace DZ_Game
 
                 // player death has no sprite animation to draw; pixel circles are visible via _movingObjects
             }
-            else if (_gameState == GameState.LevelComplete)
-            {
-                _levelCompleteScreen.Draw(_spriteBatch);
-            }
+             else if (_gameState == GameState.LevelComplete)
+             {
+                 // Draw HUD elements (score, lives, waves)
+                 _spriteBatch.DrawString(_gamefont14, $"SCORE {_currentScore}", new Vector2(10, 10), Color.Red);
+                 var livesText = $"LIVES {_player.Lives}";
+                 var livesTextSize = _gamefont14.MeasureString(livesText);
+                 var livesX = ScreenWidth - livesTextSize.X - 10;
+                 _spriteBatch.DrawString(_gamefont14, livesText, new Vector2(livesX, 10), Color.Red);
+                 if (_player.ShieldStrength > 0)
+                 {
+                     var shieldBarWidth = (int)(livesTextSize.X * _player.ShieldStrength / 10f);
+                     _spriteBatch.Draw(_pixelTexture, new Microsoft.Xna.Framework.Rectangle((int)livesX, 10 + (int)livesTextSize.Y + 2, shieldBarWidth, 4), Color.Red);
+                 }
+                 var wavesText = $"WAVES {gameLevelInfo.Waves}";
+                 var wavesTextSize = _gamefont14.MeasureString(wavesText);
+                 _spriteBatch.DrawString(_gamefont14, wavesText, new Vector2((ScreenWidth - wavesTextSize.X) / 2, 10), Color.Red);
+                 
+                 // Draw level complete message
+                 _levelCompleteScreen.Draw(_spriteBatch);
+             }
 
             _spriteBatch.End();
             base.Draw(gameTime);
