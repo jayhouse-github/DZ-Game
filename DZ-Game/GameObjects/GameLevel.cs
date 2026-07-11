@@ -61,30 +61,43 @@ namespace DZGame.GameObjects
                     PopulateAliens(levelNumber);
                     break;
                 case 2:
-NoOfAliensAtStart = 20;
-NoOfAliens = NoOfAliensAtStart; // Initialize with the starting number of aliens
-KillThreshold = 15;
-AlienTypes = 2;
-NoOfAliensFiring = 0;
-AlienDamage = 0;
-Waves = 2;
-AlienFiringThreshold = -1;
-AlienBulletDamage = 5;
-AlienScoreValue = 10;
-AlienStrength = 1;
-ShieldStrengthPerAlien = 1;
-AlienBulletsDestroyable = true;
-AlienFirePowerUpThreshold = -1;
-ShieldPowerUpValue = 2;
-
-PopulateAliens(levelNumber);
-                    break;
-                 case 3:                                                                                                                                               
                     NoOfAliensAtStart = 20;
                     NoOfAliens = NoOfAliensAtStart; // Initialize with the starting number of aliens
-                    Waves = 3;                                                                                                                                        
-                    PopulateAliens(levelNumber);                                                                                                                      
-                    break;                                                                                                                                            
+                    KillThreshold = 15;
+                    AlienTypes = 2;
+                    NoOfAliensFiring = 0;
+                    AlienDamage = 0;
+                    Waves = 2;
+                    AlienFiringThreshold = -1;
+                    AlienBulletDamage = 5;
+                    AlienScoreValue = 10;
+                    AlienStrength = 1;
+                    ShieldStrengthPerAlien = 1;
+                    AlienBulletsDestroyable = true;
+                    AlienFirePowerUpThreshold = -1;
+                    ShieldPowerUpValue = 2;
+
+                    PopulateAliens(levelNumber);
+                    break;
+                case 3:
+                    NoOfAliensAtStart = 20;
+                    NoOfAliens = NoOfAliensAtStart;
+                    KillThreshold = 15;
+                    AlienTypes = 2;
+                    NoOfAliensFiring = 0;
+                    AlienDamage = 0;
+                    Waves = 2;
+                    AlienFiringThreshold = 50;
+                    AlienBulletDamage = 5;
+                    AlienScoreValue = 10;
+                    AlienStrength = 3;
+                    ShieldStrengthPerAlien = 1;
+                    AlienBulletsDestroyable = true;
+                    AlienFirePowerUpThreshold = -1;
+                    ShieldPowerUpValue = 2;
+
+                    PopulateAliens(levelNumber);
+                    break;
                 case 4:                                                                                                                                               
                     NoOfAliensAtStart = 18;
                     NoOfAliens = NoOfAliensAtStart; // Initialize with the starting number of aliens
@@ -134,21 +147,16 @@ PopulateAliens(levelNumber);
                         Aliens.Add(alien);
                     }
                     break;
-                // case 3:                                                                                                                                               
-                // case 4:                                                                                                                                               
-                // case 5:                                                                                                                                               
-                // case 6:                                                                                                                                               
-                // case 7:                                                                                                                                               
-                    // x = 50; // Initial position                                                                                                                   
-                    // for (int i = 1; i <= NoOfAliensAtStart; i++)                                                                                                      
-                    // {                                                                                                                                                 
-                    //     var alien = new Alien1(x, 300, 1, _screenWidth,                                                                                               
-                    //     _screenHeight, AlienImages[0]);                                                                                                                                  
-                    //     Aliens.Add(alien);                                                                                                                            
-                    //     x += 50;   
-                    //     if (x > 1000) x = 50;
-                    // }                                                                                                                                                 
-                    // break;  
+                case 3:
+                    int centerX = _screenWidth / 2;
+                    int centerY = _screenHeight / 3;
+                    for (int i = 0; i < NoOfAliensAtStart; i++)
+                    {
+                        double angle = 2 * Math.PI * i / NoOfAliensAtStart;
+                        var alien = new Alien3(centerX, centerY, 1, _screenWidth, _screenHeight, AlienImages[0], this.AlienStrength, this.AlienScoreValue, this.AlienBulletsDestroyable, this.ShieldStrengthPerAlien, angle);
+                        Aliens.Add(alien);
+                    }
+                    break;
             }
         }
 

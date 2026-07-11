@@ -41,6 +41,7 @@ namespace DZ_Game
         private Texture2D _pixelTexture;
         private Texture2D _alienBullet1;
         private Texture2D _powerUp1;
+        private Texture2D _sixEyesAlien;
         private SoundEffect _firingSound;
         private SoundEffect _explodeSound;
         private SoundEffect _hitHurtSound;
@@ -70,7 +71,7 @@ namespace DZ_Game
             _movingObjects = new List<IMovingObject>();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            _gameLevel = 1;
+            _gameLevel = 3;
             _gameState = GameState.TitleScreen;
         }
 
@@ -105,6 +106,7 @@ namespace DZ_Game
             _alien2 = Content.Load<Texture2D>("alien-2");
             _alien3 = Content.Load<Texture2D>("alien-3");
             _alien4 = Content.Load<Texture2D>("alien-4");
+            _sixEyesAlien = Content.Load<Texture2D>("six-eyes");
             _alienBullet1 = Content.Load<Texture2D>("alienBullet");
             _powerUp1 = Content.Load<Texture2D>("power-up1");
             _gamefont14 = Content.Load<SpriteFont>("GameFont1-14");
@@ -404,6 +406,8 @@ namespace DZ_Game
                     alienImages.Add(_alien4);
                     break;
                 case 3:
+                    alienImages.Add(_sixEyesAlien);
+                    break;
                 case 4:
                 case 5:
                 case 6:
