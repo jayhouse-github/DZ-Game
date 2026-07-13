@@ -146,6 +146,18 @@
 /processorParam:Quality=Best
 /build:laserShoot.wav
 
+#begin levelComplete.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:levelComplete.wav
+
+#begin levelStart.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:levelStart.wav
+
 #begin pixel_shatter.bmp
 /importer:TextureImporter
 /processor:TextureProcessor

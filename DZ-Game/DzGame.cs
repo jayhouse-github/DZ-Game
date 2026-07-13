@@ -46,6 +46,8 @@ namespace DZ_Game
         private SoundEffect _explodeSound;
         private SoundEffect _hitHurtSound;
         private SoundEffect _powerUpSound;
+        private SoundEffect _levelStartSound;
+        private SoundEffect _levelCompleteSound;
         private SpriteFont _gamefont14;
         private List<IMovingObject> _movingObjects;
         private Player _player;
@@ -71,7 +73,7 @@ namespace DZ_Game
             _movingObjects = new List<IMovingObject>();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            _gameLevel = 3;
+            _gameLevel = 1;
             _gameState = GameState.TitleScreen;
         }
 
@@ -102,6 +104,8 @@ namespace DZ_Game
             _explodeSound = Content.Load<SoundEffect>("explosion");
             _hitHurtSound = Content.Load<SoundEffect>("hitHurt");
             _powerUpSound = Content.Load<SoundEffect>("powerUp");
+            _levelStartSound = Content.Load<SoundEffect>("levelStart");
+            _levelCompleteSound = Content.Load<SoundEffect>("levelComplete");
             _alien1 = Content.Load<Texture2D>("alien-1");
             _alien2 = Content.Load<Texture2D>("alien-2");
             _alien3 = Content.Load<Texture2D>("alien-3");
@@ -293,11 +297,12 @@ namespace DZ_Game
                     {
                         gameLevelInfo.ResetAliens();
                         _movingObjects.AddRange(gameLevelInfo.Aliens);
-                        _powerUpSound.Play();
+                        _levelStartSound.Play();
                     }
                     else if (gameLevelInfo.Waves == 0)
                     {
                         // All waves complete - transition to level complete screen
+                        _levelCompleteSound.Play();
                         _gameState = GameState.LevelComplete;
                         _levelCompleteTimer = 0;
                         // Clear all remaining aliens, bullets, and power-ups from the screen
@@ -567,7 +572,8 @@ namespace DZ_Game
             gameLevelInfo = GetGameLevel(_gameLevel);
             _movingObjects.AddRange(gameLevelInfo.Aliens);
 
-            _powerUpSound.Play();
+            //_levelStartSound.Play();
+            _levelCompleteSound.Play();
         }
 
         private void ResetLevel()
@@ -576,7 +582,7 @@ namespace DZ_Game
             gameLevelInfo = GetGameLevel(_gameLevel);
             _movingObjects.AddRange(gameLevelInfo.Aliens);
 
-            _powerUpSound.Play();
+            _levelStartSound.Play();
         }
 
         private void ResetLevelAndStartNext()
@@ -591,7 +597,7 @@ namespace DZ_Game
             // Reset player for new level (keep current stats)
             _player.ShieldStrength = 10;
 
-            _powerUpSound.Play();
+            _levelStartSound.Play();
         }
 
         private void StartPlayerDeath()
