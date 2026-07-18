@@ -73,7 +73,7 @@ namespace DZ_Game
             _movingObjects = new List<IMovingObject>();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            _gameLevel = 1;
+            _gameLevel = 6;
             _gameState = GameState.TitleScreen;
         }
 
@@ -414,15 +414,24 @@ namespace DZ_Game
                     alienImages.Add(_sixEyesAlien);
                     break;
                 case 4:
+                    alienImages.Add(_alien2);
+                    break;
                 case 5:
+                    alienImages.Add(_alien1);
+                    break;
                 case 6:
+                    alienImages.Add(_alien3);
+                    alienImages.Add(_sixEyesAlien);
+                    break;
                 case 7:
                     alienImages.Add(_alien3);
                     break;
                 
             }
 
-            return new GameLevel(gameLevel, ScreenWidth, ScreenHeight, alienImages);
+            return new GameLevel(gameLevel, ScreenWidth, ScreenHeight, alienImages,
+                getPlayerX: () => _player?.PositionX ?? ScreenWidth / 2,
+                getPlayerY: () => _player?.PositionY ?? ScreenHeight / 2);
         }
 
         private void CheckForCollisions(GameTime gameTime)

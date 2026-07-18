@@ -30,14 +30,19 @@ namespace DZGame.GameObjects
         public int ShieldPowerUpValue { get; set; }
         public ICollection<IMovingObject> Aliens { get; set; }
         private IList<Texture2D> AlienImages { get; set; }
+        private Func<int> _getPlayerX;
+        private Func<int> _getPlayerY;
 
-        public GameLevel(int levelNumber, int screenWidth, int screenHeight, IList<Texture2D> aliens)
+        public GameLevel(int levelNumber, int screenWidth, int screenHeight, IList<Texture2D> aliens,
+            Func<int> getPlayerX = null, Func<int> getPlayerY = null)
         {
             _screenWidth = screenWidth;
             _screenHeight = screenHeight;
             Aliens = new List<IMovingObject>();
             AlienImages = aliens;
             CurrentLevel = levelNumber;
+            _getPlayerX = getPlayerX;
+            _getPlayerY = getPlayerY;
             InitialiseLevel(levelNumber);
         }
 
@@ -98,23 +103,50 @@ namespace DZGame.GameObjects
 
                     PopulateAliens(levelNumber);
                     break;
-                case 4:                                                                                                                                               
+                case 4:
+                    NoOfAliensAtStart = 15;
+                    NoOfAliens = NoOfAliensAtStart;
+                    Waves = 3;
+                    AlienFiringThreshold = 40;
+                    AlienBulletDamage = 4;
+                    AlienScoreValue = 20;
+                    AlienStrength = 2;
+                    ShieldStrengthPerAlien = 2;
+                    AlienBulletsDestroyable = false;
+                    AlienFirePowerUpThreshold = -1;
+                    ShieldPowerUpValue = 0;
+
+                    PopulateAliens(levelNumber);
+                    break;                                                                                                                                            
+                case 5:
+                    NoOfAliensAtStart = 20;
+                    NoOfAliens = NoOfAliensAtStart;
+                    Waves = 4;
+                    AlienFiringThreshold = -1;
+                    AlienBulletDamage = 0;
+                    AlienScoreValue = 15;
+                    AlienStrength = 2;
+                    ShieldStrengthPerAlien = 1;
+                    AlienBulletsDestroyable = false;
+                    AlienFirePowerUpThreshold = -1;
+                    ShieldPowerUpValue = 0;
+
+                    PopulateAliens(levelNumber);
+                    break;                                                                                                                                            
+                case 6:
                     NoOfAliensAtStart = 18;
-                    NoOfAliens = NoOfAliensAtStart; // Initialize with the starting number of aliens
-                    Waves = 4;                                                                                                                                        
-                    PopulateAliens(levelNumber);                                                                                                                      
-                    break;                                                                                                                                            
-                case 5:                                                                                                                                               
-                    NoOfAliensAtStart = 16;
-                    NoOfAliens = NoOfAliensAtStart; // Initialize with the starting number of aliens
-                    Waves = 4;                                                                                                                                        
-                    PopulateAliens(levelNumber);                                                                                                                      
-                    break;                                                                                                                                            
-                case 6:                                                                                                                                               
-                    NoOfAliensAtStart = 25; 
-                    NoOfAliens = NoOfAliensAtStart; // Initialize with the starting number of aliens
-                    Waves = 5;                                                                                                                                        
-                    PopulateAliens(levelNumber);                                                                                                                   
+                    NoOfAliens = NoOfAliensAtStart;
+                    Waves = 3;
+                    AlienFiringThreshold = -1;
+                    AlienBulletDamage = 0;
+                    AlienScoreValue = 15;
+                    AlienStrength = 3;
+                    ShieldStrengthPerAlien = 1;
+                    AlienBulletsDestroyable = false;
+                    AlienFirePowerUpThreshold = -1;
+                    ShieldPowerUpValue = 0;
+
+                    PopulateAliens(levelNumber);
                     break;                                                                                                                                        
                 case 7:                                                                                                                                             
                     NoOfAliensAtStart = 30; 
@@ -155,6 +187,76 @@ namespace DZGame.GameObjects
                         double angle = 2 * Math.PI * i / NoOfAliensAtStart;
                         var alien = new Alien3(centerX, centerY, 1, _screenWidth, _screenHeight, AlienImages[0], this.AlienStrength, this.AlienScoreValue, this.AlienBulletsDestroyable, this.ShieldStrengthPerAlien, angle);
                         Aliens.Add(alien);
+                    }
+                    break;
+                case 5:
+                    var rand5 = new Random(77);
+                    for (int i = 0; i < NoOfAliensAtStart; i++)
+                    {
+                        // Spread centres across the upper portion of the screen
+                        int spawnX5 = 80 + rand5.Next(_screenWidth - 160);
+                        int spawnY5 = 60 + rand5.Next((int)(_screenHeight * 0.45));
+                        // Phase delta drives the curve shape - spread them across the full range so
+                        // every alien traces a visually distinct Lissajous path
+                        double phaseDelta = (2.0 * Math.PI * i) / NoOfAliensAtStart + rand5.NextDouble() * 0.8;
+                        double amplX = 70 + rand5.NextDouble() * 80;   // 70..150 px
+                        double amplY = 40 + rand5.NextDouble() * 50;   // 40..90 px
+                        double speed = 2.8 + rand5.NextDouble() * 1.4; // 2.8..4.2 rad/s — fast but not crazy
+                        double driftAngle = rand5.NextDouble() * Math.PI * 2;
+                        double driftSpeed = 18 + rand5.NextDouble() * 22; // 18..40 px/s drift
+                        var alien5 = new Alien5(spawnX5, spawnY5, 1, _screenWidth, _screenHeight, AlienImages[0],
+                            this.AlienStrength, this.AlienScoreValue, this.AlienBulletsDestroyable,
+                            this.ShieldStrengthPerAlien, phaseDelta, amplX, amplY, speed, driftAngle, driftSpeed);
+                        Aliens.Add(alien5);
+                    }
+                    break;
+                case 6:
+                    var rand6 = new Random(99);
+                    for (int i = 0; i < NoOfAliensAtStart; i++)
+                    {
+                        // Spread orbit centres across upper 30% of screen
+                        int cx6 = 80 + rand6.Next(_screenWidth - 160);
+                        int cy6 = 55 + rand6.Next((int)(_screenHeight * 0.25));
+                        double orbitRX = 50 + rand6.NextDouble() * 60;   // 50–110 px
+                        double orbitRY = 25 + rand6.NextDouble() * 35;   // 25–60 px
+                        // Alternate CW/CCW and vary speed for each alien
+                        double orbitSpeed = (3.0 + rand6.NextDouble() * 1.5) * (i % 2 == 0 ? 1 : -1);
+                        double initAngle = rand6.NextDouble() * Math.PI * 2;
+                        // Stagger initial roam durations so swoops don't all fire at once
+                        double roamDuration = 0.5 + rand6.NextDouble() * 3.5;
+                        // Alternate between the two alien images for visual variety
+                        var img6 = AlienImages[i % AlienImages.Count];
+                        var alien6 = new Alien6(cx6, cy6, 1, _screenWidth, _screenHeight, img6,
+                            this.AlienStrength, this.AlienScoreValue, this.AlienBulletsDestroyable,
+                            this.ShieldStrengthPerAlien, orbitRX, orbitRY, orbitSpeed,
+                            initAngle, roamDuration, _getPlayerX, i * 17 + 99);
+                        Aliens.Add(alien6);
+                    }
+                    break;
+                case 4:
+                    var rand4 = new Random(42);
+                    // Spread aliens across the top half in loose clusters
+                    int cols = 5;
+                    int rows = 3;
+                    int cellW = (_screenWidth - 120) / cols;
+                    int cellH = (_screenHeight / 2 - 80) / rows;
+                    int a4idx = 0;
+                    for (int row = 0; row < rows && a4idx < NoOfAliensAtStart; row++)
+                    {
+                        for (int col = 0; col < cols && a4idx < NoOfAliensAtStart; col++)
+                        {
+                            int spawnX = 60 + col * cellW + rand4.Next(cellW / 4);
+                            int spawnY = 60 + row * cellH + rand4.Next(cellH / 4);
+                            double phase = rand4.NextDouble() * Math.PI * 2;
+                            double scaleX = 80 + rand4.NextDouble() * 80;  // 80..160 px
+                            double scaleY = 35 + rand4.NextDouble() * 40;  // 35..75 px
+                            double driftSpeed = 6 + rand4.NextDouble() * 10; // 6..16 px/s
+                            var alien4 = new Alien4(spawnX, spawnY, 1, _screenWidth, _screenHeight, AlienImages[0],
+                                this.AlienStrength, this.AlienScoreValue, this.AlienBulletsDestroyable,
+                                this.ShieldStrengthPerAlien, phase, scaleX, scaleY, driftSpeed);
+                            Aliens.Add(alien4);
+                            a4idx++;
+                        }
                     }
                     break;
             }
