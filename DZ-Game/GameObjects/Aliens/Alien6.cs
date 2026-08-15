@@ -112,6 +112,8 @@ namespace DZGame.GameObjects
 
                 case SwoopState.Recovering:
                     PositionY += (int)(RecoverVY * dt);
+                    // Drift X back toward orbit centre so there's no position snap on re-entry
+                    PositionX = (int)Math.Clamp(PositionX + (_orbitCX - PositionX) * Math.Min(1.0, dt * 5.0), 35, ScreenWidth - 35);
 
                     // Once clear back into the upper roaming band, re-anchor orbit and resume
                     if (PositionY <= _orbitCY + (int)_orbitRadiusY + 10)
