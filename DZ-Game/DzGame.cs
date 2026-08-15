@@ -73,7 +73,7 @@ namespace DZ_Game
             _movingObjects = new List<IMovingObject>();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            _gameLevel = 6;
+            _gameLevel = 8;
             _gameState = GameState.TitleScreen;
         }
 
@@ -260,6 +260,21 @@ namespace DZ_Game
                     }
 
 
+                // Alien self-firing (e.g. Alien9 dive bombers set WantsToFire during their dive)
+                var selfFiringAliens = _movingObjects
+                    .Where(o => o.MoveType == MovingObjectType.Alien && o.Active)
+                    .Cast<Alien>()
+                    .Where(a => a.WantsToFire)
+                    .ToList();
+                foreach (var a in selfFiringAliens)
+                {
+                    a.WantsToFire = false;
+                    _movingObjects.Add(new AlienBullet(
+                        a.PositionX + a.Image.Width / 2, a.PositionY + a.Image.Height / 2,
+                        1, ScreenWidth, ScreenHeight, _alienBullet1,
+                        a.BulletsDestroyable, gameLevelInfo.AlienBulletDamage));
+                }
+
                 //Check for collisions
                 CheckForCollisions(gameTime);
 
@@ -426,7 +441,11 @@ namespace DZ_Game
                 case 7:
                     alienImages.Add(_alien3);
                     break;
-                
+                case 8:
+                    alienImages.Add(_alien2);   // Alien7 — sine-wave sweepers
+                    alienImages.Add(_alien4);   // Alien8 — diagonal bouncers
+                    alienImages.Add(_alien1);   // Alien9 — dive bombers
+                    break;
             }
 
             return new GameLevel(gameLevel, ScreenWidth, ScreenHeight, alienImages,

@@ -148,12 +148,28 @@ namespace DZGame.GameObjects
 
                     PopulateAliens(levelNumber);
                     break;                                                                                                                                        
-                case 7:                                                                                                                                             
-                    NoOfAliensAtStart = 30; 
+                case 7:
+                    NoOfAliensAtStart = 30;
                     NoOfAliens = NoOfAliensAtStart; // Initialize with the starting number of aliens
-                    Waves = 5;                                                                                                                                        
-                    PopulateAliens(levelNumber);                                                                                                                      
-                    break;  
+                    Waves = 5;
+                    PopulateAliens(levelNumber);
+                    break;
+                case 8:
+                    // 6 Alien7 sine-wave sweepers + 6 Alien8 diagonal bouncers (tough, 5 shields each)
+                    // + 6 Alien9 dive bombers (1-hit kill, fires undestroyable bullets while diving)
+                    NoOfAliensAtStart = 18;
+                    NoOfAliens = NoOfAliensAtStart;
+                    Waves = 3;
+                    AlienFiringThreshold = -1;     // divers handle their own firing via WantsToFire
+                    AlienBulletDamage = 4;
+                    AlienScoreValue = 20;          // default; divers override to 30 in PopulateAliens
+                    AlienStrength = 2;
+                    ShieldStrengthPerAlien = 5;    // roamers; divers override to 1 in PopulateAliens
+                    AlienBulletsDestroyable = false;
+                    AlienFirePowerUpThreshold = -1;
+                    ShieldPowerUpValue = 0;
+                    PopulateAliens(levelNumber);
+                    break;
             }
         }
 
@@ -259,6 +275,51 @@ namespace DZGame.GameObjects
                         }
                     }
                     break;
+                case 8:
+                {
+                    var rnd8 = new Random(13);
+
+                    // --- Alien7: sine-wave sweepers (alien-2.png = AlienImages[0]) ---
+                    double[] a7BaseY = { 70, 100, 130, 80, 110, 90 };
+                    for (int i = 0; i < 6; i++)
+                    {
+                        int spawnX = 80 + i * ((_screenWidth - 160) / 5);
+                        double velX = (i % 2 == 0 ? 1 : -1) * (150 + rnd8.NextDouble() * 40);
+                        double amplitude = 45 + rnd8.NextDouble() * 30;   // 45–75 px
+                        double frequency = 1.6 + rnd8.NextDouble() * 0.8; // 1.6–2.4 rad/s
+                        double phase = (2.0 * Math.PI * i) / 6;
+                        Aliens.Add(new Alien7(spawnX, (int)a7BaseY[i], 1, _screenWidth, _screenHeight,
+                            AlienImages[0], AlienStrength, AlienScoreValue, false, 3,
+                            velX, amplitude, frequency, phase));
+                    }
+
+                    // --- Alien8: diagonal bouncers (alien-4.png = AlienImages[1]) ---
+                    double[] angles = { 35, 55, 130, 150, 210, 310 };
+                    for (int i = 0; i < 6; i++)
+                    {
+                        int spawnX = 60 + rnd8.Next(_screenWidth - 120);
+                        int spawnY = 50 + rnd8.Next((int)(_screenHeight * 0.35));
+                        double speed = 160 + rnd8.NextDouble() * 40;  // 160–200 px/s
+                        double rad = angles[i] * Math.PI / 180.0;
+                        double velX8 = speed * Math.Cos(rad);
+                        double velY8 = speed * Math.Sin(rad) * 0.55;
+                        Aliens.Add(new Alien8(spawnX, spawnY, 1, _screenWidth, _screenHeight,
+                            AlienImages[1], AlienStrength, AlienScoreValue, false, 3,
+                            velX8, velY8));
+                    }
+
+                    // --- Alien9: dive bombers (alien-1.png = AlienImages[2]) ---
+                    for (int i = 0; i < 6; i++)
+                    {
+                        int spawnX = 80 + i * ((_screenWidth - 160) / 5);
+                        double roamVX = (i % 2 == 0 ? 1 : -1) * (45 + rnd8.NextDouble() * 20);
+                        double roamDuration = 1.0 + i * 0.6 + rnd8.NextDouble() * 0.5;
+                        Aliens.Add(new Alien9(spawnX, 80, 1, _screenWidth, _screenHeight,
+                            AlienImages[2], AlienStrength, 30, false, 1,
+                            roamVX, roamDuration, _getPlayerX, i * 31 + 7));
+                    }
+                    break;
+                }
             }
         }
 

@@ -13,6 +13,7 @@ namespace DZGame.GameObjects
         public int ScoreValue { get; protected set; }
         public bool BulletsDestroyable { get; set; }
         public int ExplodeFrame { get; set; }
+        public bool WantsToFire { get; set; }
 
         protected Alien(int x, int y, int z, int screenWidth, int screenHeight, Texture2D image, int strength,
             int scoreValue, bool bulletsDestroyable, int shieldStrength)
