@@ -293,19 +293,19 @@ namespace DZGame.GameObjects
                             velX, amplitude, frequency, phase));
                     }
 
-                    // --- Alien8: diagonal bouncers (alien-4.png = AlienImages[1]) ---
+                    // --- Alien8: fast erratic free-movers (alien-4.png = AlienImages[1]) ---
                     double[] angles = { 35, 55, 130, 150, 210, 310 };
                     for (int i = 0; i < 6; i++)
                     {
                         int spawnX = 60 + rnd8.Next(_screenWidth - 120);
                         int spawnY = 50 + rnd8.Next((int)(_screenHeight * 0.35));
-                        double speed = 160 + rnd8.NextDouble() * 40;  // 160–200 px/s
+                        double speed = 300 + rnd8.NextDouble() * 150;  // 300–450 px/s
                         double rad = angles[i] * Math.PI / 180.0;
                         double velX8 = speed * Math.Cos(rad);
-                        double velY8 = speed * Math.Sin(rad) * 0.55;
+                        double velY8 = speed * Math.Sin(rad);
                         Aliens.Add(new Alien8(spawnX, spawnY, 1, _screenWidth, _screenHeight,
                             AlienImages[1], AlienStrength, AlienScoreValue, false, 3,
-                            velX8, velY8));
+                            velX8, velY8, i * 17 + 53));
                     }
 
                     // --- Alien9: dive bombers (alien-1.png = AlienImages[2]) ---
