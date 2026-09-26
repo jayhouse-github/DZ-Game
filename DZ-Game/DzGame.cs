@@ -73,7 +73,7 @@ namespace DZ_Game
             _movingObjects = new List<IMovingObject>();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            _gameLevel = 8;
+            _gameLevel = 7;
             _gameState = GameState.TitleScreen;
         }
 
@@ -440,6 +440,7 @@ namespace DZ_Game
                     break;
                 case 7:
                     alienImages.Add(_alien3);
+                    alienImages.Add(_sixEyesAlien);
                     break;
                 case 8:
                     alienImages.Add(_alien2);   // Alien7 — sine-wave sweepers

@@ -149,9 +149,17 @@ namespace DZGame.GameObjects
                     PopulateAliens(levelNumber);
                     break;                                                                                                                                        
                 case 7:
-                    NoOfAliensAtStart = 30;
-                    NoOfAliens = NoOfAliensAtStart; // Initialize with the starting number of aliens
-                    Waves = 5;
+                    NoOfAliensAtStart = 18;
+                    NoOfAliens = NoOfAliensAtStart;
+                    Waves = 3;
+                    AlienFiringThreshold = -1;
+                    AlienBulletDamage = 3;
+                    AlienScoreValue = 30;
+                    AlienStrength = 3;
+                    ShieldStrengthPerAlien = 3;
+                    AlienBulletsDestroyable = true;
+                    AlienFirePowerUpThreshold = -1;
+                    ShieldPowerUpValue = 0;
                     PopulateAliens(levelNumber);
                     break;
                 case 8:
@@ -249,6 +257,43 @@ namespace DZGame.GameObjects
                         Aliens.Add(alien6);
                     }
                     break;
+                case 7:
+                {
+                    var rand7 = new Random(707);
+                    int halfCount = NoOfAliensAtStart / 2;
+
+                    for (int i = 0; i < halfCount; i++)
+                    {
+                        int spawnX = 80 + i * ((_screenWidth - 160) / Math.Max(1, halfCount - 1));
+                        int spawnY = 75 + rand7.Next((int)(_screenHeight * 0.18));
+                        double orbitRadiusX = 45 + rand7.NextDouble() * 35;
+                        double orbitRadiusY = 25 + rand7.NextDouble() * 25;
+                        double orbitSpeed = (2.6 + rand7.NextDouble() * 1.2) * (i % 2 == 0 ? 1 : -1);
+                        double angle = rand7.NextDouble() * Math.PI * 2;
+                        double roamDuration = 1.2 + rand7.NextDouble() * 1.2;
+
+                        Aliens.Add(new Alien10(spawnX, spawnY, 1, _screenWidth, _screenHeight,
+                            AlienImages[0], AlienStrength, AlienScoreValue, AlienBulletsDestroyable,
+                            3, orbitRadiusX, orbitRadiusY, orbitSpeed, angle, roamDuration,
+                            _getPlayerX, i * 37 + 701));
+                    }
+
+                    for (int i = 0; i < halfCount; i++)
+                    {
+                        int spawnX = 80 + i * ((_screenWidth - 160) / Math.Max(1, halfCount - 1));
+                        int spawnY = 110 + rand7.Next((int)(_screenHeight * 0.2));
+                        double horizontalSpeed = 120 + rand7.NextDouble() * 50;
+                        double amplitude = 35 + rand7.NextDouble() * 25;
+                        double frequency = 1.8 + rand7.NextDouble() * 0.8;
+                        double phase = (2.0 * Math.PI * i) / halfCount;
+                        double fireDelay = rand7.NextDouble() * 2.2;
+
+                        Aliens.Add(new Alien11(spawnX, spawnY, 1, _screenWidth, _screenHeight,
+                            AlienImages[1], AlienStrength, AlienScoreValue, AlienBulletsDestroyable,
+                            3, horizontalSpeed, amplitude, frequency, 2.6, phase, fireDelay, _getPlayerX));
+                    }
+                    break;
+                }
                 case 4:
                     var rand4 = new Random(42);
                     // Spread aliens across the top half in loose clusters
