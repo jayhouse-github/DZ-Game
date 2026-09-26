@@ -73,7 +73,7 @@ namespace DZ_Game
             _movingObjects = new List<IMovingObject>();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            _gameLevel = 7;
+            _gameLevel = 9;
             _gameState = GameState.TitleScreen;
         }
 
@@ -446,6 +446,10 @@ namespace DZ_Game
                     alienImages.Add(_alien2);   // Alien7 — sine-wave sweepers
                     alienImages.Add(_alien4);   // Alien8 — diagonal bouncers
                     alienImages.Add(_alien1);   // Alien9 — dive bombers
+                    break;
+                case 9:
+                    alienImages.Add(_alien2);
+                    alienImages.Add(_alien4);
                     break;
             }
 

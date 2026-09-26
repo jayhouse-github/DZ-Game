@@ -178,6 +178,20 @@ namespace DZGame.GameObjects
                     ShieldPowerUpValue = 0;
                     PopulateAliens(levelNumber);
                     break;
+                case 9:
+                    NoOfAliensAtStart = 18;
+                    NoOfAliens = NoOfAliensAtStart;
+                    Waves = 3;
+                    AlienFiringThreshold = -1;
+                    AlienBulletDamage = 3;
+                    AlienScoreValue = 20;
+                    AlienStrength = 3;
+                    ShieldStrengthPerAlien = 3;
+                    AlienBulletsDestroyable = true;
+                    AlienFirePowerUpThreshold = -1;
+                    ShieldPowerUpValue = 0;
+                    PopulateAliens(levelNumber);
+                    break;
             }
         }
 
@@ -362,6 +376,32 @@ namespace DZGame.GameObjects
                         Aliens.Add(new Alien9(spawnX, 80, 1, _screenWidth, _screenHeight,
                             AlienImages[2], AlienStrength, 30, false, 1,
                             roamVX, roamDuration, _getPlayerX, i * 31 + 7));
+                    }
+                    break;
+                }
+                case 9:
+                {
+                    const int formationRows = 3;
+                    const int formationColumns = 6;
+
+                    for (int row = 0; row < formationRows; row++)
+                    {
+                        for (int column = 0; column < formationColumns; column++)
+                        {
+                            int firstShooterColumn = (row * 2 + 1) % formationColumns;
+                            int secondShooterColumn = (firstShooterColumn + formationColumns / 2) % formationColumns;
+                            bool isVolleyShooter = column == firstShooterColumn || column == secondShooterColumn;
+                            var image = row % 2 == 0 ? AlienImages[0] : AlienImages[1];
+                            int initialX = _screenWidth / 2 + (column - (formationColumns - 1) / 2) * 78;
+                            int initialY = 75 + row * 52;
+                            double fireDelay = 0.4 + row * 0.5
+                                + (column == secondShooterColumn ? 0.65 : 0);
+
+                            Aliens.Add(new Alien12(initialX, initialY, 1, _screenWidth, _screenHeight,
+                                image, AlienStrength, AlienScoreValue, AlienBulletsDestroyable,
+                                ShieldStrengthPerAlien, row, column, formationRows, formationColumns,
+                                isVolleyShooter, 3.4, fireDelay));
+                        }
                     }
                     break;
                 }
