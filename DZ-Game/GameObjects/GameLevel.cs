@@ -192,6 +192,22 @@ namespace DZGame.GameObjects
                     ShieldPowerUpValue = 0;
                     PopulateAliens(levelNumber);
                     break;
+                case 10:
+                    // Spirograph: two counter-rotating rings around a moving hub; aliens sling off
+                    // at a tangent, fire once, then return to their slot
+                    NoOfAliensAtStart = 18;
+                    NoOfAliens = NoOfAliensAtStart;
+                    Waves = 3;
+                    AlienFiringThreshold = -1;     // slung aliens handle their own firing via WantsToFire
+                    AlienBulletDamage = 3;
+                    AlienScoreValue = 25;
+                    AlienStrength = 2;
+                    ShieldStrengthPerAlien = 2;
+                    AlienBulletsDestroyable = true;
+                    AlienFirePowerUpThreshold = -1;
+                    ShieldPowerUpValue = 0;
+                    PopulateAliens(levelNumber);
+                    break;
             }
         }
 
@@ -402,6 +418,30 @@ namespace DZGame.GameObjects
                                 ShieldStrengthPerAlien, row, column, formationRows, formationColumns,
                                 isVolleyShooter, 3.4, fireDelay));
                         }
+                    }
+                    break;
+                }
+                case 10:
+                {
+                    var rand10 = new Random(1010);
+                    const int outerCount = 12;
+                    const int innerCount = 6;
+
+                    // Outer ring spins clockwise, inner ring spins anticlockwise
+                    for (int i = 0; i < outerCount + innerCount; i++)
+                    {
+                        bool isOuter = i < outerCount;
+                        int ringIndex = isOuter ? i : i - outerCount;
+                        int ringCount = isOuter ? outerCount : innerCount;
+                        double ringRadius = isOuter ? 150 : 80;
+                        double ringSpeed = isOuter ? 0.9 : -1.6;
+                        double slotAngle = 2.0 * Math.PI * ringIndex / ringCount;
+                        double slingDelay = 1.5 + rand10.NextDouble() * 6.5;
+
+                        Aliens.Add(new Alien13(_screenWidth / 2, 230, 1, _screenWidth, _screenHeight,
+                            AlienImages[0], AlienStrength, AlienScoreValue, AlienBulletsDestroyable,
+                            ShieldStrengthPerAlien, ringRadius, ringSpeed, slotAngle, slingDelay,
+                            i * 29 + 1001));
                     }
                     break;
                 }

@@ -73,7 +73,7 @@ namespace DZ_Game
             _movingObjects = new List<IMovingObject>();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            _gameLevel = 9;
+            _gameLevel = 10;
             _gameState = GameState.TitleScreen;
         }
 
@@ -450,6 +450,9 @@ namespace DZ_Game
                 case 9:
                     alienImages.Add(_alien2);
                     alienImages.Add(_alien4);
+                    break;
+                case 10:
+                    alienImages.Add(_alien1);   // Alien13 — spirograph rings / sling attackers
                     break;
             }
 
