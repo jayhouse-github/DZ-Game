@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using DZGame.Interfaces;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace DZGame.GameObjects
@@ -202,6 +203,22 @@ namespace DZGame.GameObjects
                     AlienBulletDamage = 3;
                     AlienScoreValue = 25;
                     AlienStrength = 2;
+                    ShieldStrengthPerAlien = 2;
+                    AlienBulletsDestroyable = true;
+                    AlienFirePowerUpThreshold = -1;
+                    ShieldPowerUpValue = 0;
+                    PopulateAliens(levelNumber);
+                    break;
+                case 11:
+                    // Circuit racers: two chains race nose-to-tail round hard-cornered tracks
+                    // (square-wave battlements + bow-tie), firing as they turn into gun-port corners
+                    NoOfAliensAtStart = 18;
+                    NoOfAliens = NoOfAliensAtStart;
+                    Waves = 3;
+                    AlienFiringThreshold = -1;     // racers handle their own firing via WantsToFire
+                    AlienBulletDamage = 3;
+                    AlienScoreValue = 25;
+                    AlienStrength = 3;             // ramming hurts - the strafing lane runs at ship height
                     ShieldStrengthPerAlien = 2;
                     AlienBulletsDestroyable = true;
                     AlienFirePowerUpThreshold = -1;
@@ -445,7 +462,79 @@ namespace DZGame.GameObjects
                     }
                     break;
                 }
+                case 11:
+                {
+                    // Track A: square-wave battlements whose teeth plunge into the player's zone, then a
+                    // low strafing run back across the bottom, skimming just above the ship's lowest
+                    // position so the player can duck under it (clockwise)
+                    const int trackALeft = 60;
+                    const int toothWidth = 120;
+                    const float battlementTop = 60;
+                    const float battlementBottom = 470;
+                    const float returnLane = 570;
+                    var trackA = new List<Vector2> { new Vector2(trackALeft, battlementTop) };
+                    var gunPortsA = new List<int>();
+                    float toothX = trackALeft;
+                    for (int tooth = 0; tooth < 3; tooth++)
+                    {
+                        toothX += toothWidth;
+                        trackA.Add(new Vector2(toothX, battlementTop));
+                        trackA.Add(new Vector2(toothX, battlementBottom));
+                        gunPortsA.Add(trackA.Count - 1);   // bottom of each tooth
+                        toothX += toothWidth;
+                        trackA.Add(new Vector2(toothX, battlementBottom));
+                        trackA.Add(new Vector2(toothX, battlementTop));
+                    }
+                    toothX += toothWidth;
+                    trackA.Add(new Vector2(toothX, battlementTop));
+                    trackA.Add(new Vector2(toothX, returnLane));
+                    trackA.Add(new Vector2(trackALeft, returnLane));
+
+                    // Track B: bow-tie whose diagonals cross (top runs left, bottom runs left); the whole
+                    // shape slides sideways to sit over the player
+                    const int bowTieHalfWidth = 230;
+                    var trackB = new[]
+                    {
+                        new Vector2(_screenWidth / 2 + bowTieHalfWidth, 130),
+                        new Vector2(_screenWidth / 2 - bowTieHalfWidth, 130),
+                        new Vector2(_screenWidth / 2 + bowTieHalfWidth, 400),
+                        new Vector2(_screenWidth / 2 - bowTieHalfWidth, 400)
+                    };
+                    var gunPortsB = new[] { 1, 2 };    // diagonal dive and bottom edge
+                    double maxFollowOffset = _screenWidth / 2 - bowTieHalfWidth - 60;
+
+                    var waypointsA = trackA.ToArray();
+                    var portsA = gunPortsA.ToArray();
+                    double lengthA = TrackLength(waypointsA);
+                    double lengthB = TrackLength(trackB);
+                    const int countA = 10;
+                    const int countB = 8;
+
+                    for (int i = 0; i < countA; i++)
+                    {
+                        Aliens.Add(new Alien14(0, 0, 1, _screenWidth, _screenHeight,
+                            AlienImages[0], AlienStrength, AlienScoreValue, AlienBulletsDestroyable,
+                            ShieldStrengthPerAlien, waypointsA, 560, lengthA * i / countA, portsA, 2.0));
+                    }
+
+                    for (int i = 0; i < countB; i++)
+                    {
+                        Aliens.Add(new Alien14(0, 0, 1, _screenWidth, _screenHeight,
+                            AlienImages[1], AlienStrength, AlienScoreValue, AlienBulletsDestroyable,
+                            ShieldStrengthPerAlien, trackB, 620, lengthB * i / countB, gunPortsB, 1.4,
+                            _getPlayerX, 160, maxFollowOffset));
+                    }
+                    break;
+                }
             }
+        }
+
+        private static double TrackLength(Vector2[] waypoints)
+        {
+            double length = 0;
+            for (int i = 0; i < waypoints.Length; i++)
+                length += Vector2.Distance(waypoints[i], waypoints[(i + 1) % waypoints.Length]);
+            return length;
         }
 
         public void RemoveAlien()

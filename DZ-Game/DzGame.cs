@@ -73,7 +73,7 @@ namespace DZ_Game
             _movingObjects = new List<IMovingObject>();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            _gameLevel = 10;
+            _gameLevel = 11;
             _gameState = GameState.TitleScreen;
         }
 
@@ -453,6 +453,10 @@ namespace DZ_Game
                     break;
                 case 10:
                     alienImages.Add(_alien1);   // Alien13 — spirograph rings / sling attackers
+                    break;
+                case 11:
+                    alienImages.Add(_alien2);   // Alien14 — square-wave battlement racers
+                    alienImages.Add(_alien3);   // Alien14 — bow-tie racers
                     break;
             }
 
